@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#23B7F5">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/logo"/>
+        <ImageView
+            android:id="@+id/searchbar_view"
+            android:layout_centerInParent="true"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/searchbar"
+            />
+        <EditText
+            android:id="@+id/seachbar_edittext"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="130dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="搜索职位"
+            android:maxLines="1"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:textColorHint="#cccccc"/>
+        <ImageView
+            android:id="@+id/cancel_image"
+            android:layout_centerVertical="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/cancel_image"
+            android:textColor="#ffffff"
+            android:layout_marginRight="20dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/trade_category_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:background="@drawable/search_page_selector"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:src="@drawable/trade_category"
+            android:layout_width="100dp"
+            android:layout_height="30dp" />
+         <TextView
+             android:id="@+id/trade_category_view"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/choose_trade_category"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text=">"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/position_category_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:background="@drawable/search_page_selector"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:src="@drawable/position_category"
+                android:layout_width="100dp"
+                android:layout_height="30dp" />
+            <TextView
+                android:id="@+id/position_category_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/choose_position_category"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text=">"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/working_city_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:background="@drawable/search_page_selector"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:src="@drawable/working_city"
+                android:layout_width="100dp"
+                android:layout_height="30dp" />
+            <TextView
+                android:id="@+id/working_city_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text=">"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/salary_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:background="@drawable/search_page_selector"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:src="@drawable/salary"
+                android:layout_width="100dp"
+                android:layout_height="30dp" />
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/go_button"
+                android:id="@+id/salary_view"
+                android:textSize="20dp"
+                android:text="1000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/go_button"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text=">"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <Button
+            android:id="@+id/search_button"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:text="搜  索"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:background="@drawable/searchbtn"/>
+    </RelativeLayout>
+
+</LinearLayout>

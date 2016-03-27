@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#23B7F5">
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/logo"/>
+    <ImageView
+        android:id="@+id/searchbar_view"
+        android:layout_centerInParent="true"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/searchbar"
+        />
+    <Button
+        android:id="@+id/msg_btn"
+        android:layout_centerVertical="true"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/message"
+        android:layout_marginRight="20dp"/>
+</RelativeLayout>
+</LinearLayout>
