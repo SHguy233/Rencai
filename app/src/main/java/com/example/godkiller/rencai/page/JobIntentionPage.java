@@ -6,21 +6,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
+import com.example.godkiller.rencai.city.CityListOfIntention;
 
 /**
  * Created by GodKiller on 2016/3/9.
  */
 public class JobIntentionPage extends BaseActivity implements View.OnClickListener{
     private LinearLayout salaryLayout;
+    private LinearLayout workPlaceLayout;
+    private TextView workPlaceView;
     private TextView salaryView;
 
     @Override
@@ -32,6 +31,10 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
         salaryView = (TextView) findViewById(R.id.salary_intention_view);
         salaryLayout  = (LinearLayout) findViewById(R.id.salary_intention_layout);
         salaryLayout.setOnClickListener(this);
+
+        workPlaceView = (TextView) findViewById(R.id.working_place_view);
+        workPlaceLayout = (LinearLayout) findViewById(R.id.working_place_layout);
+        workPlaceLayout.setOnClickListener(this);
     }
 
     @Override
@@ -50,11 +53,29 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
                 });
                 builder.show();
                 break;
+            case R.id.working_place_layout:
+                final Intent intent = new Intent(JobIntentionPage.this, CityListOfIntention.class);
+                startActivityForResult(intent, 0);
+                break;
             default:
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode){
+            case RESULT_OK:
+                Bundle b = data.getExtras();
+                String city = b.getString("city");
+                updateWorkPlace(city);
+                break;
+            default:
+                break;
+        }
+
+    }
+    private void updateWorkPlace(String city) { workPlaceView.setText(city);}
     private void updateSalary (String salary) {
         salaryView.setText(salary);
     }

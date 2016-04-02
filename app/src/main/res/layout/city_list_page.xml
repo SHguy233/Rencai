@@ -2,15 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:orientation="vertical" >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#23B7F5">
 
         <Button
-            android:id="@+id/back_button_tc"
+            android:id="@+id/back_button_cl"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
@@ -21,24 +20,31 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/trade_category_title" />
+            android:src="@drawable/working_place_pic" />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/trade_layout"
+        android:id="@+id/city_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
 
         <ListView
-            android:id="@+id/trade_list"
+            android:id="@+id/city_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:cacheColorHint="#00000000"
             android:background="#ffffff"
             android:scrollbars="none" />
 
+        <com.example.godkiller.rencai.city.MyLetterListView
+            android:id="@+id/cityLetterListView"
+            android:layout_width="30dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:background="#8066ccff"
+            />
     </RelativeLayout>
 
 </LinearLayout>

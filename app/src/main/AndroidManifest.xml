@@ -23,9 +23,11 @@
         <activity android:name=".page.TradeCategoryPage"></activity>
         <activity android:name=".page.PositionCategoryPage"></activity>
         <activity android:name=".page.WorkingCityPage"></activity>
-        <activity android:name=".page.SalaryPage"></activity>
         <activity android:name=".page.PersonalInfoPage"></activity>
         <activity android:name=".page.JobIntentionPage"></activity>
+        <activity android:name=".city.CityListOfIntention"></activity>
+        <activity android:name=".city.CityListOfSearch"></activity>
+        <activity android:name=".trade.TradeCategoryOfSearch"></activity>
     </application>
 
 </manifest>

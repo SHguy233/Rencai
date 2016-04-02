@@ -27,4 +27,5 @@ public class BaseActivity extends Activity{
         Intent intent = new Intent(packageContext, cls);
         startActivity(intent);
     }
+
 }

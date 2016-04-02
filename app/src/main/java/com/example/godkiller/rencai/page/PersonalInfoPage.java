@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,14 +28,14 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
     private LinearLayout genderLayout;
     private LinearLayout birthLayout;
     private LinearLayout workingLayout;
-    private LinearLayout workingTimeLayout;
-    private LinearLayout livingCityLayout;
-    private LinearLayout domicilePlaceLayout;
+    private LinearLayout remoteAcceptLayout;
     private LinearLayout phoneLayout;
     private TextView birthView;
     private TextView genderView;
     private TextView workingView;
+    private TextView remoteAcceptView;
     private TextView phoneView;
+    private Button backBtn;
 
     private int birthDay;
     private int birthMonth;
@@ -47,20 +48,25 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.personal_info_page);
 
+        backBtn = (Button) findViewById(R.id.back_button_pi);
         nameEditText = (EditText) findViewById(R.id.name_view);
         genderLayout = (LinearLayout) findViewById(R.id.gender_layout);
         birthLayout = (LinearLayout) findViewById(R.id.birth_layout);
         workingLayout = (LinearLayout) findViewById(R.id.working_exp_layout);
+        remoteAcceptLayout = (LinearLayout) findViewById(R.id.accept_remote_layout);
         phoneLayout = (LinearLayout) findViewById(R.id.phone_layout);
         birthView = (TextView) findViewById(R.id.birth_view);
         genderView = (TextView) findViewById(R.id.gender_view);
         workingView = (TextView) findViewById(R.id.working_exp_time_view);
+        remoteAcceptView = (TextView) findViewById(R.id.accept_remote_view);
         phoneView = (TextView) findViewById(R.id.phone_view);
         phoneNumEditText = new EditText(this);
 
+        backBtn.setOnClickListener(this);
         genderLayout.setOnClickListener(this);
         birthLayout.setOnClickListener(this);
         workingLayout.setOnClickListener(this);
+        remoteAcceptLayout.setOnClickListener(this);
         phoneLayout.setOnClickListener(this);
         initDateLayout();
 
@@ -123,6 +129,19 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
                 });
                 workBuilder.show();
                 break;
+            case R.id.accept_remote_layout:
+                AlertDialog.Builder remoteBuilder = new AlertDialog.Builder(PersonalInfoPage.this);
+                remoteBuilder.setTitle("接受异地工作");
+                final String[] accept = {"是", "否"};
+                remoteBuilder.setSingleChoiceItems(accept, 1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateRemote(accept[which]);
+                        dialog.dismiss();
+                    }
+                });
+                remoteBuilder.show();
+                break;
             case R.id.phone_layout:
                 AlertDialog.Builder phoneBuilder = new AlertDialog.Builder(PersonalInfoPage.this)
                         .setTitle("联系电话")
@@ -136,18 +155,20 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
                         });
                 phoneBuilder.show();
                 break;
+            case R.id.back_button_pi:
+                PersonalInfoPage.this.finish();
+                break;
             default:
                 break;
         }
     }
+    private void updateRemote(String accept) {remoteAcceptView.setText(accept); }
     private void updateGender(String gender) {
         genderView.setText(gender);
     }
     private void updateExperience(String experience){
         workingView.setText(experience);
     }
-    private  void updatePhone(String phone) {
-        phoneView.setText(phone);
-    }
+    private  void updatePhone(String phone) { phoneView.setText(phone); }
 
 }

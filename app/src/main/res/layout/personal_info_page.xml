@@ -97,7 +97,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:text=">"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -181,7 +181,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/living_city_layout"
+        android:id="@+id/accept_remote_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -192,20 +192,23 @@
             android:background="@drawable/search_page_selector">
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="现居城市"
+                android:text="是否接受异地工作"
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/living_city_view"
+                android:textSize="20dp"
+                android:layout_toLeftOf="@+id/accept_remote_btn"
+                android:layout_centerVertical="true"
+                android:id="@+id/accept_remote_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/living_city_btn"
+                android:id="@+id/accept_remote_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -216,41 +219,6 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/domicile_place_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/search_page_selector">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:text="户口所在地"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/domicile_place_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/domicile_place_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:text=">"
-                android:textSize="20sp" />
-        </RelativeLayout>
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/phone_layout"
