@@ -1,10 +1,5 @@
 package com.example.godkiller.rencai.city;
 
-/**
- * ��������ʵ����
- * @author sy
- *
- */
 public class CityModel
 {
 	private String CityName;

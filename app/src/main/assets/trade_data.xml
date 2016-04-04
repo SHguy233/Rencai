@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <trade name="销售|客服|市场">
+        <category name="销售业务">
+            <position name="销售代表"></position>
+            <position name="客户代表"></position>
+            <position name="电话销售"></position>
+            <position name="网络/在线销售"></position>
+            <position name="团购业务员"></position>
+            <position name="业务拓展专员/助理"></position>
+        </category>
+        <category name="销售管理">
+            <position name="销售总监"></position>
+            <position name="销售经理/主管"></position>
+            <position name="客户总监/主管"></position>
+            <position name="客户经理"></position>
+            <position name="业务拓展经理/主管"></position>
+            <position name="团购经理/主管"></position>
+        </category>
+        <category name="客服/售前/售后技术支持">
+            <position name="售前/售后管理"></position>
+            <position name="售前/售后工程师"></position>
+            <position name="客户关系/投诉协调"></position>
+            <position name="咨询热线/呼叫中心"></position>
+        </category>
+        <category name="市场">
+            <position name="市场总监"></position>
+            <position name="市场经理"></position>
+            <position name="市场专员/助理"></position>
+            <position name="产品经理/主管"></position>
+            <position name="品牌经理/主管"></position>
+            <position name="企划经理/主管"></position>
+            <position name="活动执行"></position>
+            <position name="活动策划"></position>
+            <position name="促销员"></position>
+            <position name="网站推广"></position>
+        </category>
+        <category name="公关/媒介">
+            <position name="公关总监"></position>
+            <position name="公关经理/主管"></position>
+            <position name="公关专员/助理"></position>
+            <position name="媒介经理/主管"></position>
+            <position name="媒介策划/管理"></position>
+            <position name="政府事务管理"></position>
+        </category>
+        <category name="广告/会展">
+            <position name="广告创意/设计总监"></position>
+            <position name="广告设计经理/主管"></position>
+            <position name="广告文案策划"></position>
+            <position name="广告美术指导"></position>
+            <position name="广告制作执行"></position>
+            <position name="会展策划/设计"></position>
+            <position name="会务经理/主管"></position>
+        </category>
+    </trade>
+    <trade name="财务|人力资源|行政">
+        <category name="财务/审计/税务">
+            <position name="首席财务官"></position>
+            <position name="财务总监"></position>
+            <position name="财务经理/主管"></position>
+            <position name="财务顾问"></position>
+            <position name="会计师"></position>
+            <position name="出纳员"></position>
+            <position name="税务经理/主管"></position>
+        </category>
+        <category name="人力资源">
+            <position name="人力资源总监"></position>
+            <position name="人力资源经理/主管"></position>
+            <position name="培训经理/主管"></position>
+            <position name="培训专员/助理"></position>
+            <position name="招聘经理/主管"></position>
+            <position name="招聘专员/助理"></position>
+            <position name="企业培训师/讲师"></position>
+        </category>
+        <category name="行政/后勤/文秘">
+            <position name="行政总监"></position>
+            <position name="行政经理/主管"></position>
+            <position name="助理/秘书/文员"></position>
+            <position name="前台/总机/接待"></position>
+            <position name="文档/资料管理"></position>
+            <position name="电脑操作/打字/录入员"></position>
+            <position name="后勤人员"></position>
+        </category>
+    </trade>
+    <trade name="项目|质量|高级管理">
+        <category name="项目管理/协调">
+            <position name="房地产配套工程师"></position>
+            <position name="项目总监"></position>
+            <position name="项目经理/主管"></position>
+            <position name="证券/投资项目管理"></position>
+            <position name="保险项目经理/主管"></position>
+            <position name="生产项目/主管"></position>
+            <position name="咨询项目管理"></position>
+        </category>
+        <category name="高级管理">
+            <position name="CEO/总裁/总经理"></position>
+            <position name="首席运营官COO"></position>
+            <position name="首席技术官CTO"></position>
+            <position name="分公司/代表处负责人"></position>
+            <position name="部门/事业部管理"></position>
+            <position name="行长/副行长"></position>
+            <position name="校长/副校长"></position>
+        </category>
+    </trade>
+    <trade name="IT|互联网|通信">
+        <category name="软件/互联网开发/系统集成">
+            <position name="软件工程师"></position>
+            <position name="需求工程师"></position>
+            <position name="系统架构设计师"></position>
+            <position name="数据库开发工程师"></position>
+            <position name="ERP技术/开发应用"></position>
+            <position name="WEB前段开发"></position>
+            <position name="网页设计/制作/美工"></position>
+            <position name="游戏策划"></position>
+        </category>
+        <category name="硬件开发">
+            <position name="硬件工程师"></position>
+            <position name="嵌入式硬件开发"></position>
+        </category>
+        <category name="互联网产品/运营管理">
+            <position name="电子商务经理/主管"></position>
+            <position name="网络运营管理"></position>
+            <position name="网站编辑"></position>
+            <position name="SEO/SEM"></position>
+        </category>
+        <category name="IT测试/配置管理">
+            <position name="系统测试"></position>
+            <position name="硬件测试"></position>
+            <position name="配置管理工程师"></position>
+            <position name="软件测试"></position>
+        </category>
+        <category name="IT运维/技术支持">
+            <position name="系统工程师"></position>
+            <position name="技术支持工程师"></position>
+            <position name="网络工程师"></position>
+            <position name="计算机硬件维护工程师"></position>
+        </category>
+        <category name="硬件开发">
+            <position name="硬件工程师"></position>
+            <position name="嵌入式硬件开发"></position>
+        </category>
+    </trade>
+    <trade name="房产/建筑/物业管理">
+        <category name="房地产开发/经纪/中介">
+            <position name="房地产评估"></position>
+            <position name="房地产中介/交易"></position>
+            <position name="房地产项目开发报建"></position>
+        </category>
+        <category name="土木/建筑/装修/市政工程">
+            <position name="建筑工程师"></position>
+            <position name="建筑设计师"></position>
+            <position name="土木/结构设计师"></position>
+            <position name="建筑制图"></position>
+        </category>
+        <category name="物业管理">
+            <position name="物业经理/主管"></position>
+            <position name="物业维修"></position>
+            <position name="物业顾问"></position>
+            <position name="物业招商管理"></position>
+        </category>
+    </trade>
+    <trade name="金融">
+        <category name="银行">
+            <position name="大堂经理"></position>
+            <position name="综合业务经理/主管"></position>
+            <position name="银行会计/柜员"></position>
+            <position name="外汇交易"></position>
+            <position name="清算人员"></position>
+            <position name="风险控制"></position>
+        </category>
+        <category name="证券/期货/投资管理/服务">
+            <position name="投资/理财服务"></position>
+            <position name="证券分析/金融研究"></position>
+            <position name="资产评估"></position>
+        </category>
+        <category name="保险">
+            <position name="核保理赔"></position>
+            <position name="汽车定损/车险理赔"></position>
+            <position name="保险精算师"></position>
+            <position name="储备经理人"></position>
+        </category>
+        <category name="信托/担保/拍卖/典当">
+            <position name="拍卖师"></position>
+            <position name="典当业务"></position>
+            <position name="珠宝/收藏品鉴定"></position>
+        </category>
+    </trade>
+    <trade name="生产|制造">
+        <category name="电子/电气/仪器仪表">
+            <position name="自动化工程师"></position>
+            <position name="电气工程师"></position>
+            <position name="安防系统工程师"></position>
+            <position name="空调工程/设计"></position>
+            <position name="家用/数码产品研发"></position>
+        </category>
+        <category name="汽车制造">
+            <position name="动力系统工程师"></position>
+            <position name="电子工程师"></position>
+            <position name="机械工程师"></position>
+        </category>
+        <category name="汽车销售与服务">
+            <position name="汽车维修/保养"></position>
+            <position name="汽车装饰美容"></position>
+            <position name="二手车评估师"></position>
+            <position name="4S店管理"></position>
+        </category>
+        <category name="生物/制药/医疗器械">
+            <position name="生物工程/生物制药"></position>
+            <position name="临床数据分析员"></position>
+            <position name="医药化学分析"></position>
+        </category>
+        <category name="服装/纺织/皮革设计/生产">
+            <position name="裁床"></position>
+            <position name="样衣工"></position>
+            <position name="工艺师"></position>
+            <position name="服装/纺织品设计"></position>
+        </category>
+        <category name="化工">
+            <position name="化学操作"></position>
+            <position name="塑料工程师"></position>
+        </category>
+    </trade>
+    <trade name="传媒|印刷|艺术|设计">
+        <category name="影视/媒体/出版/印刷">
+            <position name="导演/编导"></position>
+            <position name="艺术指导"></position>
+            <position name="摄影师"></position>
+            <position name="化妆师"></position>
+            <position name="主持人"></position>
+            <position name="演员/模特"></position>
+            <position name="配音员"></position>
+            <position name="音效师"></position>
+            <position name="后期制作"></position>
+            <position name="作家/编剧"></position>
+            <position name="排版设计"></position>
+            <position name="文案策划"></position>
+        </category>
+        <category name="艺术/设计">
+            <position name="原画师"></position>
+            <position name="CAD设计/制图"></position>
+            <position name="平面设计"></position>
+            <position name="Flash设计/开发"></position>
+            <position name="玩具设计"></position>
+        </category>
+    </trade>
+    <trade name="咨询|法律|教育|翻译">
+        <category name="教育/培训">
+            <position name="幼教"></position>
+            <position name="家教"></position>
+            <position name="小学教师"></position>
+            <position name="初中教师"></position>
+            <position name="高中教师"></position>
+            <position name="大学教师"></position>
+        </category>
+        <category name="咨询/顾问/调研/数据分析">
+            <position name="专业顾问"></position>
+            <position name="数据分析师"></position>
+            <position name="调研员"></position>
+        </category>
+        <category name="律师/法务/合规">
+            <position name="律师"></position>
+            <position name="知识产权/专利顾问"></position>
+            <position name="企业律师/合规管理"></position>
+            <position name="合同管理"></position>
+        </category>
+        <category name="翻译">
+            <position name="英语翻译"></position>
+            <position name="法语翻译"></position>
+            <position name="日语翻译"></position>
+            <position name="德语翻译"></position>
+            <position name="俄语翻译"></position>
+            <position name="意大利语翻译"></position>
+            <position name="西班牙语翻译"></position>
+        </category>
+    </trade>
+    <trade name="服务业">
+        <category name="酒店/娱乐管理/服务">
+            <position name="店长"></position>
+            <position name="酒店管理"></position>
+            <position name="收银员"></position>
+            <position name="促销员"></position>
+            <position name="迎宾/礼仪"></position>
+        </category>
+        <category name="旅游/度假/出入境服务">
+            <position name="旅游顾问"></position>
+            <position name="导游"></position>
+            <position name="签证业务办理"></position>
+        </category>
+        <category name="烹饪/料理/食品研发">
+            <position name="厨师/面点师"></position>
+            <position name="食品加工/处理"></position>
+            <position name="调酒师/茶艺师"></position>
+            <position name="营养师"></position>
+        </category>
+        <category name="保健/美容美发/健身">
+            <position name="发型师"></position>
+            <position name="化妆师"></position>
+            <position name="按摩/足疗"></position>
+            <position name="健身教练"></position>
+            <position name="救生员"></position>
+        </category>
+        <category name="医院/医疗/护理">
+            <position name="综合们正"></position>
+            <position name="外科医生"></position>
+            <position name="内科医生"></position>
+            <position name="兽医"></position>
+            <position name="护士"></position>
+            <position name="针灸/推拿"></position>
+        </category>
+        <category name="社区/居民/家政服务">
+            <position name="保安"></position>
+            <position name="家政人员"></position>
+            <position name="宠物护理和美容"></position>
+            <position name="搬运工"></position>
+        </category>
+    </trade>
+    <trade name="能源|环保|农业|科研">
+        <category name="能源/矿产/地质勘察">
+            <position name="石油/天然气"></position>
+            <position name="水利/水电工程师"></position>
+            <position name="地质勘查/选矿/采矿"></position>
+        </category>
+        <category name="农/林/牧/渔业">
+            <position name="园艺师"></position>
+            <position name="畜牧师"></position>
+            <position name="饲养员"></position>
+        </category>
+        <category name="公务员/事业单位/科研机构">
+            <position name="公务员/事业单位人员"></position>
+            <position name="科研人员"></position>
+        </category>
+    </trade>
+</resources>

@@ -28,6 +28,9 @@
         <activity android:name=".city.CityListOfIntention"></activity>
         <activity android:name=".city.CityListOfSearch"></activity>
         <activity android:name=".trade.TradeCategoryOfSearch"></activity>
+        <activity android:name=".trade.TradeCategoryOfIntention"></activity>
+        <activity android:name=".position.PositionPageOfSearch"></activity>
+        <activity android:name=".position.PositionPageOfIntention"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,6 @@
 package com.example.godkiller.rencai.page;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +15,7 @@ import android.widget.TextView;
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.city.CityListOfSearch;
+import com.example.godkiller.rencai.position.PositionPageOfSearch;
 import com.example.godkiller.rencai.trade.TradeCategoryOfSearch;
 
 /**
@@ -32,6 +31,8 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
     private TextView tradeCategoryView;
     private TextView workingCityView;
     private TextView salaryView;
+    private TextView positionCategoryView;
+
 
 
     @Override
@@ -44,8 +45,10 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
         searchbarText = (EditText) findViewById(R.id.seachbar_edittext);
         cancelView = (ImageView) findViewById(R.id.cancel_image);
         salaryView = (TextView) findViewById(R.id.salary_view);
+        positionCategoryView = (TextView) findViewById(R.id.position_category_view);
         workingCityView = (TextView) findViewById(R.id.working_city_view);
         tradeCategoryView = (TextView) findViewById(R.id.trade_category_view);
+
         tradeCategoryLayout = (LinearLayout) findViewById(R.id.trade_category_layout);
         positionCategoryLayout = (LinearLayout) findViewById(R.id.position_category_layout);
         workingCityLayout = (LinearLayout) findViewById(R.id.working_city_layout);
@@ -71,7 +74,8 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
                 startActivityForResult(tradeIntent, 0);
                 break;
             case R.id.position_category_layout:
-                jumpIntent(this, PositionCategoryPage.class);
+                Intent positionIntent = new Intent(SearchPage.this, PositionPageOfSearch.class);
+                startActivityForResult(positionIntent, 0);
                 break;
             case R.id.working_city_layout:
                 Intent cityIntent = new Intent(SearchPage.this,CityListOfSearch.class);
@@ -120,6 +124,12 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
                 String trade = tradeBundle.getString("trade");
                 updateTrade(trade);
                 break;
+            case PositionPageOfSearch.POSITION_RESULT_OK:
+                Bundle positionBundle = data.getExtras();
+                String position = positionBundle.getString("position");
+                updatePosition(position);
+                break;
+
             default:
                 break;
 
@@ -131,5 +141,6 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
         salaryView.setText(salary);
     }
     private void updateTrade(String trade) { tradeCategoryView.setText(trade);}
+    private void updatePosition(String position) { positionCategoryView.setText(position);}
 
 }

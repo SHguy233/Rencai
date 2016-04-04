@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.city.CityListOfIntention;
+import com.example.godkiller.rencai.trade.TradeCategoryOfIntention;
+import com.example.godkiller.rencai.position.PositionPageOfIntention;
 
 /**
  * Created by GodKiller on 2016/3/9.
@@ -19,8 +22,13 @@ import com.example.godkiller.rencai.city.CityListOfIntention;
 public class JobIntentionPage extends BaseActivity implements View.OnClickListener{
     private LinearLayout salaryLayout;
     private LinearLayout workPlaceLayout;
+    private LinearLayout tradeLayout;
+    private LinearLayout positionLayout;
     private TextView workPlaceView;
     private TextView salaryView;
+    private TextView tradeView;
+    private TextView positionView;
+    private Button backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,17 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
         workPlaceView = (TextView) findViewById(R.id.working_place_view);
         workPlaceLayout = (LinearLayout) findViewById(R.id.working_place_layout);
         workPlaceLayout.setOnClickListener(this);
+
+        tradeView = (TextView) findViewById(R.id.trade_category_view_ji);
+        tradeLayout = (LinearLayout) findViewById(R.id.trade_category_layout_ji);
+        tradeLayout.setOnClickListener(this);
+
+        positionView = (TextView) findViewById(R.id.job_category_view);
+        positionLayout = (LinearLayout) findViewById(R.id.job_category_layout);
+        positionLayout.setOnClickListener(this);
+
+        backBtn = (Button) findViewById(R.id.back_button_ji);
+        backBtn.setOnClickListener(this);
     }
 
     @Override
@@ -54,8 +73,19 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
                 builder.show();
                 break;
             case R.id.working_place_layout:
-                final Intent intent = new Intent(JobIntentionPage.this, CityListOfIntention.class);
-                startActivityForResult(intent, 0);
+                Intent cityIntent = new Intent(JobIntentionPage.this, CityListOfIntention.class);
+                startActivityForResult(cityIntent, 0);
+                break;
+            case R.id.trade_category_layout_ji:
+                Intent tradeIntent = new Intent(JobIntentionPage.this, TradeCategoryOfIntention.class);
+                startActivityForResult(tradeIntent, 0);
+                break;
+            case R.id.job_category_layout:
+                Intent positionIntent = new Intent(JobIntentionPage.this, PositionPageOfIntention.class);
+                startActivityForResult(positionIntent, 0);
+                break;
+            case R.id.back_button_ji:
+                finish();
                 break;
             default:
                 break;
@@ -66,17 +96,34 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode){
             case RESULT_OK:
-                Bundle b = data.getExtras();
-                String city = b.getString("city");
+                Bundle cityBundle = data.getExtras();
+                String city = cityBundle.getString("city");
                 updateWorkPlace(city);
+                break;
+            case TradeCategoryOfIntention.TRADE_RESULT_OK:
+                Bundle tradeBundle = data.getExtras();
+                String trade = tradeBundle.getString("trade");
+                updateTrade(trade);
+                break;
+            case PositionPageOfIntention.POSITION_RESULT_OK:;
+                Bundle positionBundle = data.getExtras();
+                String position = positionBundle.getString("position");
+                updatePosition(position);
                 break;
             default:
                 break;
         }
 
     }
+
+    private void updatePosition(String position) {
+        positionView.setText(position);
+    }
+
     private void updateWorkPlace(String city) { workPlaceView.setText(city);}
     private void updateSalary (String salary) {
         salaryView.setText(salary);
     }
+    private void updateTrade (String trade) { tradeView.setText(trade);};
+
 }

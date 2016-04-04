@@ -18,8 +18,7 @@ public class TradeCategoryDBManager
 	private final int BUFFER_SIZE = 400000;
 	private static final String PACKAGE_NAME = "com.example.godkiller.rencai";
 	public static final String TRADE_DB_NAME = "trade_category_name.db";
-	//public static final String TRADE_DB_PATH = "/data/data/com.example.godkiller.rencai/databases/";
-	public static final String DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME ; // ���·��
+	public static final String DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME ;
 	private Context mContext;
 	private SQLiteDatabase database;
 

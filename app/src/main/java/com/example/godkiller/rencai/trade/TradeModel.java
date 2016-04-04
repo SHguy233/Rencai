@@ -1,10 +1,5 @@
 package com.example.godkiller.rencai.trade;
 
-/**
- * ��������ʵ����
- * @author sy
- *
- */
 public class TradeModel
 {
 	private String TradeName;
