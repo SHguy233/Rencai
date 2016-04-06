@@ -1,6 +1,7 @@
 package com.example.godkiller.rencai.page;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -15,8 +16,10 @@ import java.util.TimerTask;
  * Created by GodKiller on 2016/3/5.
  */
 public class WelcomePage extends BaseActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.welcome_page);
@@ -25,10 +28,22 @@ public class WelcomePage extends BaseActivity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-             startActivity(intent);
+                loginEvent();
             }
         };
         timer.schedule(task, 1000 * 2);
 
+    }
+
+    public void loginEvent() {
+        final Intent hasLogined = new Intent(this, MainPage.class);
+        final Intent hasnotLogined = new Intent(this, LoginPage.class);
+        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+        if (username != null) {
+            startActivity(hasLogined);
+        } else {
+            startActivity(hasnotLogined);
+        }
     }
 }

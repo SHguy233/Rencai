@@ -17,7 +17,7 @@
             android:src="@drawable/user"
             />
         <EditText
-            android:id="@+id/account_text"
+            android:id="@+id/account_login"
             android:hint="请输入账户"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -38,7 +38,7 @@
             android:layout_marginLeft="40dp"
             android:src="@drawable/password"/>
         <EditText
-            android:id="@+id/password_text"
+            android:id="@+id/password_login"
             android:hint="请输入密码"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -48,32 +48,33 @@
     </LinearLayout>
 
     <RadioGroup
-        android:id="@+id/requester_group"
+        android:id="@+id/identity_group_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="40dp">
 
         <RadioButton
+            android:checked="true"
             android:layout_marginLeft="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="求职者"
-            android:id="@+id/jobhunter" />
+            android:id="@+id/seeker_login" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:text="HR"
-            android:id="@+id/hr" />
+            android:id="@+id/hr_login" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:text="管理员"
-            android:id="@+id/administrator" />
+            android:id="@+id/admin_login" />
 
 
     </RadioGroup>

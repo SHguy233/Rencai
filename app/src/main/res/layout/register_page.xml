@@ -17,7 +17,7 @@
             android:src="@drawable/user"
             />
         <EditText
-            android:id="@+id/account_text2"
+            android:id="@+id/account_reg"
             android:hint="请输入账户"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -38,7 +38,7 @@
             android:layout_marginLeft="40dp"
             android:src="@drawable/password"/>
         <EditText
-            android:id="@+id/password_text2"
+            android:id="@+id/password_reg"
             android:hint="请输入密码"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <RadioGroup
-        android:id="@+id/requester_group2"
+        android:id="@+id/identity_group_reg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -59,19 +59,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="求职者"
-            android:id="@+id/jobhunter" />
+            android:id="@+id/jobhunter_reg" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:text="HR"
-            android:id="@+id/hr" />
+            android:id="@+id/hr_reg" />
 
     </RadioGroup>
 
     <Button
-        android:id="@+id/save_button"
+        android:id="@+id/save_button_reg"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

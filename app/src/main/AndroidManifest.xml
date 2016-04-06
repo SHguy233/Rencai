@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.godkiller.rencai" >
-
+    <uses-sdk android:minSdkVersion="8"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +12,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -21,7 +20,6 @@
         <activity android:name=".page.MainPage"></activity>
         <activity android:name=".page.SearchPage"></activity>
         <activity android:name=".page.TradeCategoryPage"></activity>
-        <activity android:name=".page.PositionCategoryPage"></activity>
         <activity android:name=".page.WorkingCityPage"></activity>
         <activity android:name=".page.PersonalInfoPage"></activity>
         <activity android:name=".page.JobIntentionPage"></activity>
@@ -31,6 +29,8 @@
         <activity android:name=".trade.TradeCategoryOfIntention"></activity>
         <activity android:name=".position.PositionPageOfSearch"></activity>
         <activity android:name=".position.PositionPageOfIntention"></activity>
+        <activity android:name=".page.PasswordModifyPage"></activity>
+        <activity android:name=".page.SettingsPage"></activity>
     </application>
 
 </manifest>

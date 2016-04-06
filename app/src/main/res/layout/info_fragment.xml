@@ -23,6 +23,7 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:background="@drawable/search_page_selector"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -34,12 +35,13 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/send_record" />
 
-            <ImageView
-                android:layout_width="130dp"
-                android:layout_height="50dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/record_pic"
-                android:src="@drawable/my_send_record" />
+                android:text="我的投递记录"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/send_record_button"
@@ -54,6 +56,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="@drawable/search_page_selector"
         android:id="@+id/position_invitation_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -71,13 +74,13 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/position_invitation" />
 
-            <ImageView
-                android:layout_width="130dp"
-                android:layout_height="50dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/invitation_pic"
-                android:src="@drawable/my_invitation" />
-
+                android:text="我的职位邀请"
+                android:textSize="20dp" />
             <TextView
                 android:id="@+id/positon_invitation_button"
                 android:layout_width="wrap_content"
@@ -91,6 +94,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="@drawable/search_page_selector"
         android:id="@+id/collection_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -108,12 +112,13 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/collection" />
 
-            <ImageView
-                android:layout_width="90dp"
-                android:layout_height="50dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/collection_pic"
-                android:src="@drawable/my_collection" />
+                android:text="我的收藏"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/collection_button"
@@ -128,6 +133,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="@drawable/search_page_selector"
         android:id="@+id/follow_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -145,12 +151,13 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/follow" />
 
-            <ImageView
-                android:layout_width="90dp"
-                android:layout_height="50dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/follow_pic"
-                android:src="@drawable/my_follow" />
+                android:text="我的关注"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/collection"
@@ -165,6 +172,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="@drawable/search_page_selector"
         android:id="@+id/setttings_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -182,12 +190,13 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/setttings" />
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/settings_pic"
-                android:src="@drawable/settings" />
+                android:text="设置"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/settings_button"
