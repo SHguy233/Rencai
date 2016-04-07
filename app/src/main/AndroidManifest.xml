@@ -31,6 +31,11 @@
         <activity android:name=".position.PositionPageOfIntention"></activity>
         <activity android:name=".page.PasswordModifyPage"></activity>
         <activity android:name=".page.SettingsPage"></activity>
+        <activity android:name=".page.EduBgdEditPage"></activity>
+        <activity android:name=".page.EduBgdPage"></activity>
+        <activity android:name=".page.ProjectExpPage"></activity>
+        <activity android:name=".page.SelfAssessmentPage"></activity>
+        <activity android:name=".page.WorkingExpPage"></activity>
     </application>
 
 </manifest>

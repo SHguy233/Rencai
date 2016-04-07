@@ -69,13 +69,6 @@ public class PasswordModifyPage extends BaseActivity implements View.OnClickList
         newPassword = newPwText.getText().toString();
 
         if (password.equals(oldPassword)) {
-//            SQLiteDatabase db = databaseHelper.getWritableDatabase();
-//            ContentValues values = new ContentValues();
-//            values.put("password", newPassword);
-//            db.update("user", values, "id=?", new String[]{"1"});
-//            String sql = "update user set password ='0624' where id=1";
-//            db.execSQL(sql);
-//            db.close();
             UserService userService = new UserService(this);
             userService.modifyPw(username, newPassword);
             Toast.makeText(PasswordModifyPage.this, "修改成功！", Toast.LENGTH_SHORT).show();

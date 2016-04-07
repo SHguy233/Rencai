@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#23B7F5">
+
+        <Button
+            android:id="@+id/back_button_sa"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/back" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/job_intention_pic" />
+
+        <Button
+            android:id="@+id/save_btn_sa"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/save" />
+    </RelativeLayout>
+
+   <EditText
+       android:id="@+id/self_assessment_text"
+       android:hint="建议做一个简短评价，描述您的职业优势。"
+       android:layout_width="match_parent"
+       android:layout_height="250dp" />
+
+</LinearLayout>

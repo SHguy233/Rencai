@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:id="@+id/enroll_item_view"
+        android:text="enroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/symbol"
+        android:layout_toRightOf="@+id/enroll_item_view"
+        android:text=" - "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/graduate_item_view"
+        android:text="graduate"
+        android:layout_toRightOf="@id/symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="15dp"
+        android:layout_marginLeft="10dp"
+        android:text="College"
+        android:layout_below="@+id/enroll_item_view"
+        android:id="@+id/college_item_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/college_item_view"
+        android:text="degree"
+        android:id="@+id/degree_item_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@+id/college_item_view"
+        android:id="@+id/symbol2"
+        android:text=" | "
+        android:layout_toRightOf="@+id/degree_item_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@+id/college_item_view"
+        android:layout_toRightOf="@+id/symbol2"
+        android:text="SE"
+        android:id="@+id/major_item_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

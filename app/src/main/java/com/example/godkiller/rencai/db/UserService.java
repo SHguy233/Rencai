@@ -27,6 +27,7 @@ public class UserService {
         return false;
     }
 
+
     public boolean register(User user) {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         String sql = "insert into user(username,password,identity) values(?,?,?)";

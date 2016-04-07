@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#23B7F5">
+        <Button
+            android:id="@+id/back_button_project_exp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/back" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/project_exp_pic" />
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <Button
+            android:id="@+id/add_project_exp_btn"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:text="+添加项目经验"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:background="@drawable/searchbtn"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/project_exp_lv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></ListView>
+</LinearLayout>
