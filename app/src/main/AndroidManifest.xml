@@ -36,6 +36,8 @@
         <activity android:name=".page.ProjectExpPage"></activity>
         <activity android:name=".page.SelfAssessmentPage"></activity>
         <activity android:name=".page.WorkingExpPage"></activity>
+        <activity android:name=".page.WorkExpEditPage"></activity>
+        <activity android:name=".page.JobDescPage"></activity>
     </application>
 
 </manifest>

@@ -39,9 +39,10 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
     private Button addEduBgdBtn;
     private ListView eduBgdLv;
     private Button backBtn;
-    private List<EduBgd> eduBgdList;
     private int index;
     private SimpleAdapter eduAdapter;
+    private List<Map<String, Object>> dataList;
+    private String username;
 
 
     @Override
@@ -49,42 +50,31 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.edu_background_page);
-//        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-//        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-//        String sql =  "select * from edubgd";
-//        Cursor cursor = db.rawQuery(sql, null);
-//        cursor.moveToNext();
-//        String college = cursor.getString(cursor.getColumnIndex("enroll"));
-//        cursor.close();
-//        db.close();
-        //Toast.makeText(EduBgdPage.this, college, Toast.LENGTH_SHORT).show();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
+
         addEduBgdBtn = (Button) findViewById(R.id.add_edu_bgd_btn);
         backBtn = (Button) findViewById(R.id.back_button_edu_bgd);
         eduBgdLv = (ListView) findViewById(R.id.edu_bgd_lv);
         backBtn.setOnClickListener(this);
         addEduBgdBtn.setOnClickListener(this);
-        List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("enroll", "2012");
-        map.put("graduate", "2013");
-        map.put("college", "NJUST");
-        map.put("major", "SE");
-        map.put("degree", "bachelor");
-        mapList.add(map);
+
         setAdapter(this);
-
-
+        //ListView长按删除
         eduBgdLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                index = position + 1;
+                index = position;
                 deleteDialog();
                 return false;
             }
         });
     }
+
     private void setAdapter(Context context) {
-        eduAdapter = new SimpleAdapter(context, getData(), R.layout.edu_bgd_item, new String[]{"enroll", "graduate", "college", "degree", "major"},
+        dataList = getData();
+        eduAdapter = new SimpleAdapter(context, dataList, R.layout.edu_bgd_item, new String[]{"enroll", "graduate", "college", "degree", "major"},
                 new int[]{R.id.enroll_item_view, R.id.graduate_item_view, R.id.college_item_view, R.id.degree_item_view, R.id.major_item_view});
         eduBgdLv.setAdapter(eduAdapter);
     }
@@ -96,8 +86,20 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SQLiteDatabase db = new DatabaseHelper(EduBgdPage.this).getReadableDatabase();
-                String[] id = {String.valueOf(3)};
-                db.delete("edubgd", "id=?", id);
+                String enroll = dataList.get(index).get("enroll").toString();
+                String graduate = dataList.get(index).get("graduate").toString();
+                String sql =  "select * from edubgd where username='" + username + "'";
+                //查询表中所有符合条件的数据
+                Cursor cursor = db.rawQuery(sql, null);
+                while (cursor.moveToNext()) {
+                    String mEnroll = cursor.getString(cursor.getColumnIndex("enroll"));
+                    String mGraduate = cursor.getString(cursor.getColumnIndex("graduate"));
+                    //若入学时间和毕业时间均符合，删除该行数据
+                    if (enroll.equals(mEnroll) && graduate.equals(mGraduate)) {
+                        //cursor.getInt(0)为符合条件的ID
+                        db.execSQL("delete from edubgd where id=" + Integer.toString(cursor.getInt(0)));
+                    }
+                }
                 setAdapter(EduBgdPage.this);
             }
         });
@@ -127,8 +129,6 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
 
     private List<Map<String, Object>> getData() {
         List<Map<String, Object>> eduList = new ArrayList<Map<String, Object>>();
-        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "");
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         String sql =  "select * from edubgd where username='" + username + "'";

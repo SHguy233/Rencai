@@ -60,7 +60,7 @@ public class ResumeFragment extends Fragment implements View.OnClickListener{
             case R.id.edu_bgd_layout:
                 jumpIntent(getActivity(), EduBgdPage.class);
                 break;
-            case R.id.working_city_layout:
+            case R.id.working_exp_layout:
                 jumpIntent(getActivity(), WorkingExpPage.class);
                 break;
             default:
