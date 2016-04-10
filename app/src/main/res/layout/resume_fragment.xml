@@ -15,6 +15,10 @@
             />
     </RelativeLayout>
 
+    <ListView
+        android:id="@+id/personal_info_lv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></ListView>
     <LinearLayout
         android:id="@+id/personal_info_layout"
         android:layout_width="match_parent"
@@ -166,7 +170,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/self_assessment_layout"
+        android:id="@+id/resume_preview_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -176,15 +180,15 @@
             android:layout_height="match_parent">
             <ImageView
                 android:layout_centerVertical="true"
-                android:src="@drawable/self_assessment"
+                android:src="@drawable/resume_preview_pic"
                 android:layout_width="100dp"
                 android:layout_height="30dp" />
             <TextView
-                android:id="@+id/self_assessment_view"
+                android:id="@+id/resume_preview_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/self_assessment_btn"
+                android:id="@+id/reume_preview_btn"
                 android:layout_marginRight="20dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"

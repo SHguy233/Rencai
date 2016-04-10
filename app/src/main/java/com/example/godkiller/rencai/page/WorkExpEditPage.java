@@ -1,8 +1,6 @@
 package com.example.godkiller.rencai.page;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,8 +15,6 @@ import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
-import com.example.godkiller.rencai.db.EduBgd;
-import com.example.godkiller.rencai.db.EdubgdService;
 import com.example.godkiller.rencai.db.WorkExp;
 import com.example.godkiller.rencai.db.WorkExpService;
 
@@ -155,7 +151,7 @@ public class WorkExpEditPage extends BaseActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
-            case JobDescPage.DESC_RESULT_OK:
+            case JobDescPage.JOB_DESC_RESULT_OK:
                 Bundle jobDescBundle = data.getExtras();
                 jobDesc = jobDescBundle.getString("desc");
                 updateJobDesc(jobDesc);

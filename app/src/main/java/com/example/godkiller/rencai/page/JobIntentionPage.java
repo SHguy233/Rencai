@@ -3,16 +3,24 @@ package com.example.godkiller.rencai.page;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.AvoidXfermode;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.city.CityListOfIntention;
+import com.example.godkiller.rencai.db.DatabaseHelper;
+import com.example.godkiller.rencai.db.JobIntent;
+import com.example.godkiller.rencai.db.JobIntentService;
 import com.example.godkiller.rencai.trade.TradeCategoryOfIntention;
 import com.example.godkiller.rencai.position.PositionPageOfIntention;
 
@@ -29,6 +37,8 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
     private TextView tradeView;
     private TextView positionView;
     private Button backBtn;
+    private Button saveBtn;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +64,12 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
 
         backBtn = (Button) findViewById(R.id.back_button_ji);
         backBtn.setOnClickListener(this);
+
+        saveBtn = (Button) findViewById(R.id.save_btn_ji);
+        saveBtn.setOnClickListener(this);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
     }
 
     @Override
@@ -87,9 +103,47 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
             case R.id.back_button_ji:
                 finish();
                 break;
+            case R.id.save_btn_ji:
+                saveEvent();
             default:
                 break;
         }
+    }
+
+    private void saveEvent() {
+        JobIntent jobIntent = new JobIntent();
+        jobIntent.setUsername(username);
+        jobIntent.setWorkPlace(workPlaceView.getText().toString());
+        jobIntent.setTradeCategory(tradeView.getText().toString());
+        jobIntent.setPositionCategory(positionView.getText().toString());
+        jobIntent.setSalary(salaryView.getText().toString());
+        JobIntentService service = new JobIntentService(this);
+        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
+        String sql =  "select * from personalinfo where username='" + username + "'";
+        if (exits("personalinfo")) {
+            Cursor cursor = db.rawQuery(sql, null);
+            if (cursor.getCount() == 0){
+                service.save(jobIntent);
+                Toast.makeText(JobIntentionPage.this, "保存成功", Toast.LENGTH_SHORT).show();
+            } else {
+                service.update(jobIntent);
+                Toast.makeText(JobIntentionPage.this, "修改成功", Toast.LENGTH_SHORT).show();
+            }
+        }
+        finish();
+
+    }
+
+    public boolean exits(String table){
+        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
+        boolean exits = false;
+        String sql = "select * from sqlite_master where name="+"'"+table+"'";
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if(cursor.getCount()!=0){
+            exits = true;
+        }
+        return exits;
     }
 
     @Override

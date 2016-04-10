@@ -3,6 +3,10 @@ package com.example.godkiller.rencai.page;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,9 +15,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
+import com.example.godkiller.rencai.db.DatabaseHelper;
+import com.example.godkiller.rencai.db.PersonalInfo;
+import com.example.godkiller.rencai.db.PersonalInfoService;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +31,7 @@ import java.util.Locale;
  * Created by GodKiller on 2016/3/7.
  */
 public class PersonalInfoPage extends BaseActivity implements View.OnClickListener{
-    private EditText nameEditText;
+    private EditText nameText;
     private EditText phoneNumEditText;
     private LinearLayout genderLayout;
     private LinearLayout birthLayout;
@@ -35,6 +43,7 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
     private TextView workingView;
     private TextView remoteAcceptView;
     private TextView phoneView;
+    private Button saveBtn;
     private Button backBtn;
 
     private int birthDay;
@@ -49,7 +58,8 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.personal_info_page);
 
         backBtn = (Button) findViewById(R.id.back_button_pi);
-        nameEditText = (EditText) findViewById(R.id.name_view);
+        saveBtn = (Button) findViewById(R.id.save_btn_pi);
+        nameText = (EditText) findViewById(R.id.name_view);
         genderLayout = (LinearLayout) findViewById(R.id.gender_layout);
         birthLayout = (LinearLayout) findViewById(R.id.birth_layout);
         workingLayout = (LinearLayout) findViewById(R.id.working_exp_layout);
@@ -63,6 +73,7 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
         phoneNumEditText = new EditText(this);
 
         backBtn.setOnClickListener(this);
+        saveBtn.setOnClickListener(this);
         genderLayout.setOnClickListener(this);
         birthLayout.setOnClickListener(this);
         workingLayout.setOnClickListener(this);
@@ -158,10 +169,42 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
             case R.id.back_button_pi:
                 PersonalInfoPage.this.finish();
                 break;
+            case R.id.save_btn_pi:
+                saveEvent();
+                break;
             default:
                 break;
         }
     }
+
+    private void saveEvent() {
+        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+        PersonalInfo personalInfo = new PersonalInfo();
+        personalInfo.setUsername(username);
+        personalInfo.setName(nameText.getText().toString());
+        personalInfo.setGender(genderView.getText().toString());
+        personalInfo.setBirth(birthView.getText().toString());
+        personalInfo.setWorkExpTime(workingView.getText().toString());
+        personalInfo.setAcceptRemote(remoteAcceptView.getText().toString());
+        personalInfo.setPhone(phoneView.getText().toString());
+        PersonalInfoService service = new PersonalInfoService(this);
+        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
+        String sql =  "select * from personalinfo where username='" + username + "'";
+        if (exits("personalinfo")) {
+            Cursor cursor = db.rawQuery(sql, null);
+            if (cursor.getCount() == 0){
+                service.save(personalInfo);
+                Toast.makeText(PersonalInfoPage.this, "保存成功", Toast.LENGTH_SHORT).show();
+            } else {
+                service.update(personalInfo);
+                Toast.makeText(PersonalInfoPage.this, "修改成功", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        finish();
+    }
+
     private void updateRemote(String accept) {remoteAcceptView.setText(accept); }
     private void updateGender(String gender) {
         genderView.setText(gender);
@@ -171,4 +214,15 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
     }
     private  void updatePhone(String phone) { phoneView.setText(phone); }
 
+    public boolean exits(String table){
+        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
+        boolean exits = false;
+        String sql = "select * from sqlite_master where name="+"'"+table+"'";
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if(cursor.getCount()!=0){
+            exits = true;
+        }
+        return exits;
+    }
 }

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <ImageView
+        android:id="@+id/square1"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="#66ccff"
+        android:layout_width="90dp"
+        android:layout_height="25dp" />
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_alignTop="@+id/square1"
+        android:layout_alignLeft="@+id/square1"
+        android:id="@+id/person_info_bgd"
+        android:background="@drawable/presonal_info_bgd"
+        android:layout_width="80dp"
+        android:layout_height="18dp" />
+    <ImageView
+        android:id="@+id/splitline1"
+        android:layout_below="@+id/square1"
+        android:background="#66ccff"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <TextView
+        android:id="@+id/name_text_pre"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/splitline1"
+        android:text="姓名:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/gender_text_pre"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/name_text_pre"
+        android:text="性别："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/birth_text_view"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/gender_text_pre"
+        android:text="出生日期："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/workexp_text_view"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/birth_text_view"
+        android:text="工作经验："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/remote_text_pre"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/workexp_text_view"
+        android:text="接受异地工作："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/phone_text_pre"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/remote_text_pre"
+        android:text="联系方式："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="160dp"
+        android:id="@+id/name_view_pre"
+        android:layout_below="@+id/splitline1"
+        android:text="姓名"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/gender_view_pre"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/name_view_pre"
+        android:text="性别"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/birth_view_pre"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/gender_view_pre"
+        android:text="日期"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/workexp_view_pre"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/birth_view_pre"
+        android:text="经验"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/remote_view_pre"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/workexp_view_pre"
+        android:text="是"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/phone_view_pre"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/remote_view_pre"
+        android:text="110"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

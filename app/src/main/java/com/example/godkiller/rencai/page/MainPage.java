@@ -47,6 +47,7 @@ public class MainPage extends FragmentActivity{
         initView();
     }
 
+
     /**
      * 初始化组件
      */
