@@ -173,7 +173,6 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
     private void updatePosition(String position) {
         positionView.setText(position);
     }
-
     private void updateWorkPlace(String city) { workPlaceView.setText(city);}
     private void updateSalary (String salary) {
         salaryView.setText(salary);

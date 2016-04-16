@@ -63,7 +63,6 @@ public class PasswordModifyPage extends BaseActivity implements View.OnClickList
     private void passwordModify() {
         SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
-        Toast.makeText(PasswordModifyPage.this, username, Toast.LENGTH_SHORT).show();
         password = sharedPreferences.getString("password", "");
 
         oldPassword = oldPwText.getText().toString();

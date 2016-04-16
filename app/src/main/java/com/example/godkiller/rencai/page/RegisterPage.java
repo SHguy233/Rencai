@@ -1,6 +1,8 @@
 package com.example.godkiller.rencai.page;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
+import com.example.godkiller.rencai.db.DatabaseHelper;
 import com.example.godkiller.rencai.db.User;
 import com.example.godkiller.rencai.db.UserService;
 
@@ -72,18 +75,27 @@ public class RegisterPage extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         registerAccount();
-        Toast.makeText(RegisterPage.this, "注册成功", Toast.LENGTH_SHORT).show();
+
     }
 
     public void registerAccount() {
         username = usernameText.getText().toString();
         password = passwordText.getText().toString();
-        UserService userService = new UserService(this);
-        User user = new User();
-        user.setIdentity(identity);
-        user.setPassword(password);
-        user.setUsername(username);
-        userService.register(user);
-        //Toast.makeText(RegisterPage.this, "注册成功", Toast.LENGTH_SHORT).show();
+        DatabaseHelper helper = new DatabaseHelper(this);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String sql =  "select * from user where username='" + username + "'";
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() == 0){
+            UserService userService = new UserService(this);
+            User user = new User();
+            user.setIdentity(identity);
+            user.setPassword(password);
+            user.setUsername(username);
+            userService.register(user);
+            Toast.makeText(RegisterPage.this, "注册成功", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(RegisterPage.this, "用户名已存在！", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

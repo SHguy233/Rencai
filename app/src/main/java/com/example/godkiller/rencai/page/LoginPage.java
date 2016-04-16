@@ -33,6 +33,7 @@ public class LoginPage extends BaseActivity {
     private String password;
     private String identity;
     private boolean loginSucc;
+    private Intent loginIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class LoginPage extends BaseActivity {
 
         identity = "seeker";
         final Intent registerIntent = new Intent(this, RegisterPage.class);
-        final Intent loginIntent = new Intent(this, MainPage.class);
+        final Intent loginIntent = new Intent(this, SeekerMainPage.class);
         accountText = (EditText) findViewById(R.id.account_login);
         passwordText = (EditText) findViewById(R.id.password_login);
         identityGroup = (RadioGroup) findViewById(R.id.identity_group_login);
@@ -108,8 +109,15 @@ public class LoginPage extends BaseActivity {
             editor.putString("username", account);
             editor.putString("password", password);
             editor.commit();
-            Intent intent = new Intent(LoginPage.this, MainPage.class);
-            startActivity(intent);
+            if(identity.equals("seeker")) {
+                loginIntent = new Intent(LoginPage.this, SeekerMainPage.class);
+            } else if (identity.equals("hr"))
+            {
+                loginIntent = new Intent(LoginPage.this, HRMainPage.class);
+            } else {
+                loginIntent = new Intent(LoginPage.this, AdminMainPage.class);
+            }
+            startActivity(loginIntent);
         } else {
             Toast.makeText(LoginPage.this, "用户名或密码错误！", Toast.LENGTH_SHORT).show();
         }

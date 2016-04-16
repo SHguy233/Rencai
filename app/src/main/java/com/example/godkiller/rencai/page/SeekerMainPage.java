@@ -21,7 +21,7 @@ import com.example.godkiller.rencai.fragment.ResumeFragment;
 /**
  * Created by GodKiller on 2016/3/6.
  */
-public class MainPage extends FragmentActivity{
+public class SeekerMainPage extends FragmentActivity{
 
     //定义FragmentTabHost对象
     private FragmentTabHost mTabHost;

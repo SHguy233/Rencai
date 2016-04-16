@@ -7,7 +7,6 @@ import android.view.Window;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
-import com.example.godkiller.rencai.page.LoginPage;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,14 +35,19 @@ public class WelcomePage extends BaseActivity {
     }
 
     public void loginEvent() {
-        final Intent hasLogined = new Intent(this, MainPage.class);
-        final Intent hasnotLogined = new Intent(this, LoginPage.class);
+        Intent loginIntent = null;
         SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "");
         if (username != null) {
-            startActivity(hasLogined);
+            if(username.equals("seeker")){
+                loginIntent = new Intent(this, SeekerMainPage.class);
+
+            } else if(username.equals("hr")){
+                loginIntent = new Intent(this, HRMainPage.class);
+            }
         } else {
-            startActivity(hasnotLogined);
+            loginIntent = new Intent(this, LoginPage.class);
         }
+        startActivity(loginIntent);
     }
 }

@@ -17,7 +17,7 @@
         </activity>
         <activity android:name=".page.LoginPage"></activity>
         <activity android:name=".page.RegisterPage"></activity>
-        <activity android:name=".page.MainPage"></activity>
+        <activity android:name=".page.SeekerMainPage"></activity>
         <activity android:name=".page.SearchPage"></activity>
         <activity android:name=".page.TradeCategoryPage"></activity>
         <activity android:name=".page.WorkingCityPage"></activity>
@@ -40,6 +40,18 @@
         <activity android:name=".page.JobDescPage"></activity>
         <activity android:name=".page.ProjectDescPage"></activity>
         <activity android:name=".page.ProjectExpEditPage"></activity>
+        <activity android:name=".page.HRMainPage"></activity>
+        <activity android:name=".page.AdminMainPage"></activity>
+        <activity android:name=".page.MyPositionPage"></activity>
+        <activity android:name=".page.AddPositionPage"></activity>
+        <activity android:name=".city.CityListOfDemand"></activity>
+        <activity android:name=".position.PositionPageOfDemand"></activity>
+        <activity android:name=".page.MyAccountPage"></activity>
+        <activity android:name=".page.BusinessDescPage"></activity>
+        <activity android:name=".page.CompanyInfoEditPage"></activity>
+        <activity android:name=".page.CompanyInfoPage"></activity>
+        <activity android:name=".trade.TradeCategoryOfCompany"></activity>
+        <activity android:name=".page.DemandDescPage"></activity>
     </application>
 
 </manifest>
