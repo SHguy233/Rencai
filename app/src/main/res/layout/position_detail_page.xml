@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#23B7F5">
+
+        <Button
+            android:id="@+id/back_button_position_detail"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/back" />
+
+        <Button
+            android:textSize="18dp"
+            android:id="@+id/position_detail_btn"
+            android:textColor="@drawable/text_button_selector"
+            android:text="职位详情"
+            android:background="@drawable/position_info_selector"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/back_button_position_detail"
+            android:layout_marginLeft="60dp" />
+        <Button
+            android:textSize="18dp"
+            android:id="@+id/company_detail_btn"
+            android:textColor="@drawable/text_button_selector"
+            android:text="公司信息"
+            android:background="@drawable/position_info_selector"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/position_detail_btn"
+            />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_below="@+id/title_layout"
+        android:id="@+id/detail_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
+
+
+
+
+
+
+</RelativeLayout>

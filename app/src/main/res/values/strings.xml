@@ -9,5 +9,8 @@
     <drawable name="tab_text_selected">#ff6501</drawable>
     <drawable name="searchpage_normal">#00000000</drawable>
     <drawable name="searchpage_pressed">#cccccc</drawable>
-
+    <drawable name="info_normal">#23B7F5</drawable>
+    <drawable name="info_pressed">#ffffff</drawable>
+    <drawable name="text_normal">#ffffff</drawable>
+    <drawable name="text_pressed">#23B7F5</drawable>
 </resources>

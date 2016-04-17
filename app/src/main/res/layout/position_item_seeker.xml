@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/img_position"
+        android:src="@drawable/position_img"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+   <TextView
+       android:gravity="center_vertical"
+       android:layout_toRightOf="@+id/img_position"
+       android:ellipsize="end"
+       android:singleLine="true"
+       android:layout_marginTop="10dp"
+       android:textSize="20dp"
+       android:text="职位"
+       android:id="@+id/position_item_position_seeker"
+       android:layout_width="200dp"
+       android:layout_height="30dp" />
+
+    <ImageView
+        android:layout_below="@+id/position_item_position_seeker"
+        android:layout_toLeftOf="@+id/salary_item_position_seeker"
+        android:src="@drawable/img_salary"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:id="@+id/salary_item_position_seeker"
+        android:text="薪酬"
+        android:textSize="20dp"
+        android:textColor="#ff0099"
+        android:layout_below="@id/position_item_position_seeker"
+        android:layout_alignParentRight="true"
+        android:layout_width="100dp"
+        android:layout_height="25dp" />
+
+    <ImageView
+        android:id="@+id/img_company"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/position_item_position_seeker"
+        android:src="@drawable/company_img"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <TextView
+        android:gravity="center_vertical"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_toRightOf="@+id/img_company"
+        android:textSize="16dp"
+        android:text="公司"
+        android:layout_below="@+id/position_item_position_seeker"
+        android:id="@+id/company_item_position_seeker"
+        android:layout_width="200dp"
+        android:layout_height="30dp" />
+    
+    <ImageView
+        android:layout_marginLeft="10dp"
+        android:id="@+id/gps_view"
+        android:layout_below="@id/company_item_position_seeker"
+        android:src="@drawable/gps"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:id="@+id/work_city_item_position_seeker"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:layout_below="@id/company_item_position_seeker"
+        android:layout_toRightOf="@+id/gps_view"
+        android:text="城市"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/degree_view_pic"
+        android:layout_toRightOf="@id/work_city_item_position_seeker"
+        android:src="@drawable/degree_pic"
+        android:layout_below="@id/company_item_position_seeker"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:id="@+id/degree_item_position_seeker"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:layout_below="@id/company_item_position_seeker"
+        android:layout_toRightOf="@+id/degree_view_pic"
+        android:text="学历"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/num_view"
+        android:layout_toRightOf="@+id/degree_item_position_seeker"
+        android:layout_below="@id/company_item_position_seeker"
+        android:src="@drawable/num_pic"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:id="@+id/num_item_position_seeker"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:layout_below="@id/company_item_position_seeker"
+        android:layout_toRightOf="@+id/num_view"
+        android:text="人数"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

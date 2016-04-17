@@ -52,6 +52,7 @@
         <activity android:name=".page.CompanyInfoPage"></activity>
         <activity android:name=".trade.TradeCategoryOfCompany"></activity>
         <activity android:name=".page.DemandDescPage"></activity>
+        <activity android:name=".page.PositionDetailPage"></activity>
     </application>
 
 </manifest>

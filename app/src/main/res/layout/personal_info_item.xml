@@ -4,6 +4,8 @@
     android:layout_height="wrap_content" >
 
     <TextView
+        android:textColor="#66ccff"
+        android:layout_marginTop="10dp"
         android:textSize="15dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/name_item_view"

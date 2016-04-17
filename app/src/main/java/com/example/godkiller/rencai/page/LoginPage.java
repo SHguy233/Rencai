@@ -43,7 +43,6 @@ public class LoginPage extends BaseActivity {
 
         identity = "seeker";
         final Intent registerIntent = new Intent(this, RegisterPage.class);
-        final Intent loginIntent = new Intent(this, SeekerMainPage.class);
         accountText = (EditText) findViewById(R.id.account_login);
         passwordText = (EditText) findViewById(R.id.password_login);
         identityGroup = (RadioGroup) findViewById(R.id.identity_group_login);
@@ -108,6 +107,7 @@ public class LoginPage extends BaseActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("username", account);
             editor.putString("password", password);
+            editor.putString("identity",identity);
             editor.commit();
             if(identity.equals("seeker")) {
                 loginIntent = new Intent(LoginPage.this, SeekerMainPage.class);
