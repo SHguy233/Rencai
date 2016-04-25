@@ -12,13 +12,47 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#23B7F5">
-
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/logo" />
             <ImageView
                 android:layout_centerInParent="true"
                 android:src="@drawable/main_page_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp" />
         </RelativeLayout>
+
+        <TextView
+            android:gravity="center"
+            android:textSize="25dp"
+            android:layout_marginTop="50dp"
+            android:text="发布中职位1个"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+        <TextView
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:text="待审核职位0个"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+        <TextView
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:text="收到简历0份"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+        <TextView
+            android:layout_marginTop="200dp"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:text="未读消息0条"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
     </FrameLayout>
 
     <ListView

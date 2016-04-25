@@ -8,13 +8,13 @@ public class JobIntent {
     private String workPlace;
     private String tradeCategory;
     private String positionCategory;
-    private String salary;
+    private int salary;
 
     public String getUsername() {
         return username;
     }
 
-    public String getSalary() {
+    public int getSalary() {
         return salary;
     }
 
@@ -42,7 +42,7 @@ public class JobIntent {
         this.positionCategory = positionCategory;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(int salary) {
         this.salary = salary;
     }
 

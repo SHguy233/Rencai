@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,11 +28,14 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
     private LinearLayout tradeCategoryLayout;
     private LinearLayout positionCategoryLayout;
     private LinearLayout workingCityLayout;
-    private LinearLayout salaryLayout;
     private TextView tradeCategoryView;
     private TextView workingCityView;
-    private TextView salaryView;
+    private EditText salaryText;
     private TextView positionCategoryView;
+    private Button searchBtn;
+    private String position;
+    private String trade;
+    private String city;
 
 
 
@@ -44,7 +48,7 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
 
         searchbarText = (EditText) findViewById(R.id.seachbar_edittext);
         cancelView = (ImageView) findViewById(R.id.cancel_image);
-        salaryView = (TextView) findViewById(R.id.salary_view);
+        salaryText = (EditText) findViewById(R.id.salary_text);
         positionCategoryView = (TextView) findViewById(R.id.position_category_view);
         workingCityView = (TextView) findViewById(R.id.working_city_view);
         tradeCategoryView = (TextView) findViewById(R.id.trade_category_view);
@@ -52,13 +56,14 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
         tradeCategoryLayout = (LinearLayout) findViewById(R.id.trade_category_layout);
         positionCategoryLayout = (LinearLayout) findViewById(R.id.position_category_layout);
         workingCityLayout = (LinearLayout) findViewById(R.id.working_city_layout);
-        salaryLayout = (LinearLayout) findViewById(R.id.salary_layout);
+
+        searchBtn = (Button) findViewById(R.id.search_button);
+        searchBtn.setOnClickListener(this);
 
         cancelView.setOnClickListener(this);
         tradeCategoryLayout.setOnClickListener(this);
         positionCategoryLayout.setOnClickListener(this);
         workingCityLayout.setOnClickListener(this);
-        salaryLayout.setOnClickListener(this);
 
 
     }
@@ -81,22 +86,14 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
                 Intent cityIntent = new Intent(SearchPage.this,CityListOfSearch.class);
                 startActivityForResult(cityIntent, 0);
                 break;
-            case R.id.salary_layout:
-                final AlertDialog.Builder builder = new AlertDialog.Builder(SearchPage.this);
-                final String[] salaries = {"0-2000元/月", "2001-4000元/月", "4001-6000元/月", "6001-8000元/月", "8001-10000元/月",
-                        "10001-15000元/月", "15001-25000元/月", "25000元/月以上"};
-                builder.setItems(salaries, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updateSalary(salaries[which]);
-                        dialog.dismiss();
-                    }
-                });
-                builder.show();
-                break;
-            default:
+            case R.id.search_button:
+                searchEvent();
                 break;
         }
+    }
+
+    private void searchEvent() {
+        tradeCategoryView.getText();
     }
 
     @Override
@@ -137,9 +134,6 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
     }
 
     private void updateCity(String city) { workingCityView.setText(city);}
-    private void updateSalary(String salary) {
-        salaryView.setText(salary);
-    }
     private void updateTrade(String trade) { tradeCategoryView.setText(trade);}
     private void updatePosition(String position) { positionCategoryView.setText(position);}
 

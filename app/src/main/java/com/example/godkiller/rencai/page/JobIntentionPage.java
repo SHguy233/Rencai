@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +29,11 @@ import com.example.godkiller.rencai.position.PositionPageOfIntention;
  * Created by GodKiller on 2016/3/9.
  */
 public class JobIntentionPage extends BaseActivity implements View.OnClickListener{
-    private LinearLayout salaryLayout;
     private LinearLayout workPlaceLayout;
     private LinearLayout tradeLayout;
     private LinearLayout positionLayout;
     private TextView workPlaceView;
-    private TextView salaryView;
+    private EditText salaryText;
     private TextView tradeView;
     private TextView positionView;
     private Button backBtn;
@@ -46,9 +46,7 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.job_intention_page);
 
-        salaryView = (TextView) findViewById(R.id.salary_intention_view);
-        salaryLayout  = (LinearLayout) findViewById(R.id.salary_intention_layout);
-        salaryLayout.setOnClickListener(this);
+        salaryText = (EditText) findViewById(R.id.salary_intention_text);
 
         workPlaceView = (TextView) findViewById(R.id.working_place_view);
         workPlaceLayout = (LinearLayout) findViewById(R.id.working_place_layout);
@@ -75,19 +73,6 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.salary_intention_layout:
-                final AlertDialog.Builder builder = new AlertDialog.Builder(JobIntentionPage.this);
-                final String[] salaries = {"0-2000元/月", "2001-4000元/月", "4001-6000元/月", "6001-8000元/月", "8001-10000元/月",
-                        "10001-15000元/月", "15001-25000元/月", "25000元/月以上"};
-                builder.setItems(salaries, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updateSalary(salaries[which]);
-                        dialog.dismiss();
-                    }
-                });
-                builder.show();
-                break;
             case R.id.working_place_layout:
                 Intent cityIntent = new Intent(JobIntentionPage.this, CityListOfIntention.class);
                 startActivityForResult(cityIntent, 0);
@@ -116,11 +101,11 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
         jobIntent.setWorkPlace(workPlaceView.getText().toString());
         jobIntent.setTradeCategory(tradeView.getText().toString());
         jobIntent.setPositionCategory(positionView.getText().toString());
-        jobIntent.setSalary(salaryView.getText().toString());
+        jobIntent.setSalary(Integer.parseInt(salaryText.getText().toString()));
         JobIntentService service = new JobIntentService(this);
         SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
-        String sql =  "select * from personalinfo where username='" + username + "'";
-        if (exits("personalinfo")) {
+        String sql =  "select * from jobintention where username='" + username + "'";
+        if (exits("jobintention")) {
             Cursor cursor = db.rawQuery(sql, null);
             if (cursor.getCount() == 0){
                 service.save(jobIntent);
@@ -174,9 +159,6 @@ public class JobIntentionPage extends BaseActivity implements View.OnClickListen
         positionView.setText(position);
     }
     private void updateWorkPlace(String city) { workPlaceView.setText(city);}
-    private void updateSalary (String salary) {
-        salaryView.setText(salary);
-    }
     private void updateTrade (String trade) { tradeView.setText(trade);};
 
 }

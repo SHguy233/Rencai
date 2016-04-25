@@ -155,22 +155,15 @@
                 android:src="@drawable/salary"
                 android:layout_width="100dp"
                 android:layout_height="30dp" />
-            <TextView
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/go_button"
-                android:id="@+id/salary_view"
-                android:textSize="17dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/go_button"
-                android:layout_marginRight="20dp"
-                android:layout_centerVertical="true"
+            <EditText
+                android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
-                android:text=">"
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/salary_text"
+                android:textSize="17dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content" />
+
         </RelativeLayout>
     </LinearLayout>
 

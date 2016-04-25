@@ -1,24 +1,34 @@
 package com.example.godkiller.rencai.page;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.db.DatabaseHelper;
+import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.db.ProjectExp;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,10 +42,19 @@ public class ProjectExpPage extends BaseActivity implements View.OnClickListener
     private Button addProExpBtn;
     private ListView proExpLv;
     private Button backBtn;
-    private int index;
     private SimpleAdapter proExpAdapter;
     private List<Map<String, Object>> dataList;
     private String username;
+    private ProgressDialog dialog;
+    JSONParser jsonParser = new JSONParser();
+    private static  String url_view = "http://10.0.3.2:63342/htdocs/db/poj_exp_view.php";
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_INFO = "info";
+    private static final String TAG_PROJECT = "project";
+    private static final String TAG_START = "start";
+    private static final String TAG_FINISH = "finish";
+    private static final String TAG_DESC = "desc";
+    private static final String TAG_ID = "id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,94 +69,15 @@ public class ProjectExpPage extends BaseActivity implements View.OnClickListener
         backBtn = (Button) findViewById(R.id.back_button_project_exp);
         backBtn.setOnClickListener(this);
         addProExpBtn.setOnClickListener(this);
-
-        setAdapter(this);
-        proExpLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                index = position;
-                deleteDialog();
-                return false;
+        proExpLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String cid = ((TextView) view.findViewById(R.id.id_no_poj_exp)).getText().toString();
+                Intent intent = new Intent(getApplicationContext(), ProjectExpEditPage.class);
+                intent.putExtra("id", cid);
+                startActivityForResult(intent, 200);
             }
         });
-    }
-
-    private void deleteDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ProjectExpPage.this);
-        builder.setMessage("确定删除？");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SQLiteDatabase db = new DatabaseHelper(ProjectExpPage.this).getReadableDatabase();
-                String start = dataList.get(index).get("start").toString();
-                String finish = dataList.get(index).get("finish").toString();
-                String sql = "select * from projectexp where username='" + username + "'";
-                //查询表中所有符合条件的数据
-                Cursor cursor = db.rawQuery(sql, null);
-                while (cursor.moveToNext()) {
-                    String mStart = cursor.getString(cursor.getColumnIndex("start"));
-                    String mFinish = cursor.getString(cursor.getColumnIndex("finish"));
-                    //若入学时间和毕业时间均符合，删除该行数据
-                    if (start.equals(mStart) && finish.equals(mFinish)) {
-                        //cursor.getInt(0)为符合条件的ID
-                        db.execSQL("delete from projectexp where id=" + Integer.toString(cursor.getInt(0)));
-                    }
-                }
-                setAdapter(ProjectExpPage.this);
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.create().show();
-    }
-
-    private void setAdapter(Context context) {
-        dataList = getData();
-        proExpAdapter = new SimpleAdapter(context, dataList, R.layout.project_exp_item, new String[]{"start", "finish", "project", "desc"},
-                new int[]{R.id.start_item_view, R.id.finish_item_view, R.id.project_item_view,R.id.pro_desc_item_view});
-        proExpLv.setAdapter(proExpAdapter);
-    }
-
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> expList = new ArrayList<Map<String, Object>>();
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        String sql =  "select * from projectexp where username='" + username + "'";
-        if (exits("projectexp"))
-        {
-            Cursor cursor = db.rawQuery(sql, null);
-
-            while (cursor.moveToNext()) {
-                String project = cursor.getString(cursor.getColumnIndex("project"));
-                String start = cursor.getString(cursor.getColumnIndex("start"));
-                String finish = cursor.getString(cursor.getColumnIndex("finish"));
-                String desc = cursor.getString(cursor.getColumnIndex("desc"));
-
-                Map<String, Object> expMap = new HashMap<String, Object>();
-                expMap.put("start", start);
-                expMap.put("finish", finish);
-                expMap.put("project", project);
-                expMap.put("desc", desc);
-                expList.add(expMap);
-            }
-        }
-        return expList;
-    }
-
-    public boolean exits(String table){
-        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
-        boolean exits = false;
-        String sql = "select * from sqlite_master where name="+"'"+table+"'";
-        Cursor cursor = db.rawQuery(sql, null);
-
-        if(cursor.getCount()!=0){
-            exits = true;
-        }
-        return exits;
+        new LoadPojExp().execute();
     }
 
     @Override
@@ -147,12 +87,70 @@ public class ProjectExpPage extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.add_project_exp_btn:
-                Intent intent = new Intent(ProjectExpPage.this, ProjectExpEditPage.class);
-                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), ProjectExpAddPage.class);
+                startActivityForResult(intent, 200);
                 break;
             default:
                 break;
         }
     }
 
+    class LoadPojExp extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(ProjectExpPage.this);
+            dialog.setMessage("loading...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+            pairs.add(new BasicNameValuePair("username", username));
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_view, "GET", pairs);
+            dataList = new ArrayList<Map<String, Object>>();
+
+            try{
+                int success = jsonObject.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    JSONArray eduObj = jsonObject.getJSONArray(TAG_INFO);
+                    for (int i = 0; i<eduObj.length(); i++) {
+                        JSONObject info = eduObj.getJSONObject(i);
+                        Map<String, Object> infoMap = new HashMap<String, Object>();
+                        infoMap.put("id", info.getString(TAG_ID));
+                        infoMap.put("project", info.getString(TAG_PROJECT));
+                        infoMap.put("start", info.getString(TAG_START));
+                        infoMap.put("finish", info.getString(TAG_FINISH));
+                        infoMap.put("desc", info.getString(TAG_DESC));
+                        dataList.add(infoMap);
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return "success";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            proExpAdapter = new SimpleAdapter(getApplicationContext(), dataList, R.layout.project_exp_item, new String[]{"start", "finish", "project", "desc","id"},
+                    new int[]{R.id.start_item_view, R.id.finish_item_view, R.id.project_item_view,R.id.pro_desc_item_view, R.id.id_no_poj_exp});
+            proExpLv.setAdapter(proExpAdapter);
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 200) {
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        }
+    }
 }

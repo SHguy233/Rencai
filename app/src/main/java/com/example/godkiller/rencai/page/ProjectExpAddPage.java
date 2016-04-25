@@ -20,9 +20,6 @@ import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.db.ProjectExp;
-import com.example.godkiller.rencai.db.ProjectExpService;
-import com.example.godkiller.rencai.db.WorkExp;
-import com.example.godkiller.rencai.db.WorkExpService;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -39,10 +36,9 @@ import java.util.Locale;
 /**
  * Created by GodKiller on 2016/4/5.
  */
-public class ProjectExpEditPage extends BaseActivity implements View.OnClickListener{
+public class ProjectExpAddPage extends BaseActivity implements View.OnClickListener{
     private Button backBtn;
     private Button saveBtn;
-    private Button deleteBtn;
     private EditText projectText;
     private LinearLayout startTimeLayout;
     private LinearLayout finishTimeLayout;
@@ -52,17 +48,13 @@ public class ProjectExpEditPage extends BaseActivity implements View.OnClickList
     private TextView proDescView;
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
-    private static  String url_details = "http://10.0.3.2:63342/htdocs/db/poj_exp_details.php";
-    private static  String url_update = "http://10.0.3.2:63342/htdocs/db/poj_exp_update.php";
-    private static  String url_delete = "http://10.0.3.2:63342/htdocs/db/poj_exp_delete.php";
+    private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/poj_exp_add.php";
     private static final String TAG_SUCCESS = "success";
     private String username;
     private String project;
     private String start;
     private String finish;
     private String desc;
-    private String id;
-    private JSONObject pojObj;
 
 
 
@@ -79,34 +71,27 @@ public class ProjectExpEditPage extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.project_exp_edit_page);
+        setContentView(R.layout.project_exp_add_page);
 
         SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
 
-        Intent intent = getIntent();
-        id = intent.getStringExtra("id");
-        Toast.makeText(ProjectExpEditPage.this, id, Toast.LENGTH_SHORT).show();
-
-        backBtn = (Button) findViewById(R.id.back_button_project_exp_edit);
-        saveBtn = (Button) findViewById(R.id.save_btn_pe);
-        deleteBtn = (Button) findViewById(R.id.delete_button_poj_edit);
-        projectText = (EditText) findViewById(R.id.project_name_view);
-        startTimeLayout = (LinearLayout) findViewById(R.id.start_time_layout);
-        finishTimeLayout = (LinearLayout) findViewById(R.id.finish_time_layout);
-        proDescLayout = (LinearLayout) findViewById(R.id.project_desc_layout);
-        startView = (TextView) findViewById(R.id.start_time_view);
-        finishView = (TextView) findViewById(R.id.finish_time_view);
-        proDescView = (TextView) findViewById(R.id.project_desc_view);
+        backBtn = (Button) findViewById(R.id.back_button_project_add);
+        saveBtn = (Button) findViewById(R.id.save_btn_pa);
+        projectText = (EditText) findViewById(R.id.project_name_view_pa);
+        startTimeLayout = (LinearLayout) findViewById(R.id.start_time_layout_pa);
+        finishTimeLayout = (LinearLayout) findViewById(R.id.finish_time_layout_pa);
+        proDescLayout = (LinearLayout) findViewById(R.id.project_desc_layout_pa);
+        startView = (TextView) findViewById(R.id.start_time_view_pa);
+        finishView = (TextView) findViewById(R.id.finish_time_view_pa);
+        proDescView = (TextView) findViewById(R.id.project_desc_view_pa);
         initDateLayout();
 
         backBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
-        deleteBtn.setOnClickListener(this);
         startTimeLayout.setOnClickListener(this);
         finishTimeLayout.setOnClickListener(this);
         proDescLayout.setOnClickListener(this);
-        new GetPojTask().execute();
 
     }
     private void initDateLayout() {
@@ -159,29 +144,26 @@ public class ProjectExpEditPage extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.delete_button_poj_edit:
-                new DeletePojTask().execute();
-                break;
-            case R.id.back_button_project_exp_edit:
+            case R.id.back_button_project_add:
                 finish();
                 break;
-            case R.id.save_btn_pe:
+            case R.id.save_btn_pa:
                 project = projectText.getText().toString();
                 start = startView.getText().toString();
                 finish = finishView.getText().toString();
                 desc = proDescView.getText().toString();
-                new SavePojTask().execute();
+                new EditPojTask().execute();
                 break;
-            case R.id.start_time_layout:
-                DatePickerDialog startDatePickerDialog = new DatePickerDialog(ProjectExpEditPage.this, startDateListener, startYear, startMonth, startDay);
+            case R.id.start_time_layout_pa:
+                DatePickerDialog startDatePickerDialog = new DatePickerDialog(ProjectExpAddPage.this, startDateListener, startYear, startMonth, startDay);
                 startDatePickerDialog.show();
                 break;
-            case R.id.finish_time_layout:
-                DatePickerDialog finishDatePickerDialog = new DatePickerDialog(ProjectExpEditPage.this, finishDateListener, finishYear, finishMonth, finishDay);
+            case R.id.finish_time_layout_pa:
+                DatePickerDialog finishDatePickerDialog = new DatePickerDialog(ProjectExpAddPage.this, finishDateListener, finishYear, finishMonth, finishDay);
                 finishDatePickerDialog.show();
                 break;
-            case R.id.project_desc_layout:
-                Intent intent = new Intent(ProjectExpEditPage.this, ProjectDescPage.class);
+            case R.id.project_desc_layout_pa:
+                Intent intent = new Intent(ProjectExpAddPage.this, ProjectDescPage.class);
                 startActivityForResult(intent, 0);
                 break;
             default:
@@ -207,59 +189,12 @@ public class ProjectExpEditPage extends BaseActivity implements View.OnClickList
         proDescView.setText(proDesc);
     }
 
-    class GetPojTask extends AsyncTask<String, String, String> {
+    class EditPojTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(ProjectExpEditPage.this);
-            dialog.setMessage("saving...");
-            dialog.setIndeterminate(false);
-            dialog.setCancelable(true);
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-                pairs.add(new BasicNameValuePair("id", id));
-                JSONObject jsonObject = jsonParser.makeHttpRequest(url_details, "GET", pairs);
-                JSONArray pojAry = jsonObject.getJSONArray("info");
-                pojObj = pojAry.getJSONObject(0);
-                Log.d("pojobj", pojObj.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        projectText.setText(pojObj.getString("project"));
-                        startView.setText(pojObj.getString("start"));
-                        finishView.setText(pojObj.getString("finish"));
-                        proDescView.setText(pojObj.getString("desc"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            dialog.dismiss();
-        }
-
-    }
-
-    class SavePojTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(ProjectExpEditPage.this);
+            dialog = new ProgressDialog(ProjectExpAddPage.this);
             dialog.setMessage("saving...");
             dialog.setIndeterminate(false);
             dialog.setCancelable(true);
@@ -269,15 +204,13 @@ public class ProjectExpEditPage extends BaseActivity implements View.OnClickList
         @Override
         protected String doInBackground(String... params) {
             List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-            pairs.add(new BasicNameValuePair("id", id));
             pairs.add(new BasicNameValuePair("username", username));
             pairs.add(new BasicNameValuePair("project", project));
             pairs.add(new BasicNameValuePair("start", start));
             pairs.add(new BasicNameValuePair("finish", finish));
             pairs.add(new BasicNameValuePair("desc", desc));
 
-            JSONObject jsonObject = jsonParser.makeHttpRequest(url_update, "POST", pairs);
-
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_insert, "POST", pairs);
             try{
                 int success = jsonObject.getInt(TAG_SUCCESS);
                 if (success == 1) {
@@ -288,54 +221,17 @@ public class ProjectExpEditPage extends BaseActivity implements View.OnClickList
             }catch (Exception e){
                 e.printStackTrace();
             }
-            return null;
+            return "success";
         }
 
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            Toast.makeText(ProjectExpEditPage.this, "保存成功！", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    class DeletePojTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(ProjectExpEditPage.this);
-            dialog.setMessage("deleting...");
-            dialog.setIndeterminate(false);
-            dialog.setCancelable(true);
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-            pairs.add(new BasicNameValuePair("id",id));
-            JSONObject jsonObject = jsonParser.makeHttpRequest(url_delete, "POST", pairs);
-            try{
-                int success = jsonObject.getInt(TAG_SUCCESS);
-                if (success == 1) {
-                    Intent intent =getIntent();
-                    setResult(200, intent);
-                    finish();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
+            if (s.equals("success")) {
+                Toast.makeText(ProjectExpAddPage.this, "保存成功！", Toast.LENGTH_SHORT).show();
             }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            dialog.dismiss();
-            Toast.makeText(ProjectExpEditPage.this, "删除成功！", Toast.LENGTH_SHORT).show();
         }
 
     }
-
 
 }

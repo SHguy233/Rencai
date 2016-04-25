@@ -45,7 +45,6 @@ public class HRMainPage extends Activity {
         initSlidingMenu();
         SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
-        Toast.makeText(HRMainPage.this,username, Toast.LENGTH_SHORT).show();
         if (username == null) {
             Toast.makeText(HRMainPage.this, "身份已过期，请重新登录！", Toast.LENGTH_SHORT).show();
         }

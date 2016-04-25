@@ -179,4 +179,19 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <Button
+            android:id="@+id/delete_button_poj_edit"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:text="删  除"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:background="@drawable/searchbtn"/>
+    </RelativeLayout>
+
 </LinearLayout>

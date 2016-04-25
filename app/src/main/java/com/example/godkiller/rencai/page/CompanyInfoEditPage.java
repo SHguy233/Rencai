@@ -1,11 +1,13 @@
 package com.example.godkiller.rencai.page;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -22,8 +24,16 @@ import com.example.godkiller.rencai.db.CompanyInfoService;
 import com.example.godkiller.rencai.db.DatabaseHelper;
 import com.example.godkiller.rencai.db.EduBgd;
 import com.example.godkiller.rencai.db.EdubgdService;
+import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.trade.TradeCategoryOfCompany;
 import com.example.godkiller.rencai.trade.TradeCategoryOfIntention;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GodKiller on 2016/4/5.
@@ -43,7 +53,17 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
     private TextView addressView;
     private TextView businessView;
     private String address;
+    private String username;
+    private String company;
+    private String trade;
+    private String nature;
+    private String scale;
     private String busDesc;
+    private ProgressDialog dialog;
+    JSONParser jsonParser = new JSONParser();
+    private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/company_info_edit.php";
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_MESSAGE = "message";
 
 
     @Override
@@ -51,6 +71,9 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.company_info_edit_page);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
 
         backBtn = (Button) findViewById(R.id.back_button_company_info_edit);
         saveBtn = (Button) findViewById(R.id.save_btn_ci);
@@ -82,7 +105,12 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.save_btn_ci:
-                saveEvent();
+                company = companyText.getText().toString();
+                trade = tradeView.getText().toString();
+                nature = natureView.getText().toString();
+                scale = scaleText.getText().toString();
+                address = addressView.getText().toString();
+                new EditTask().execute();
                 break;
             case R.id.trade_category_layout_ci:
                 Intent tradeIntent = new Intent(CompanyInfoEditPage.this, TradeCategoryOfCompany.class);
@@ -126,36 +154,6 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
     }
 
 
-
-    public void saveEvent() {
-        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "");
-        CompanyInfo info = new CompanyInfo();
-        info.setUsername(username);
-        info.setCompany(companyText.getText().toString());
-        info.setTrade(tradeView.getText().toString());
-        info.setNature(natureView.getText().toString());
-        info.setScale(scaleText.getText().toString());
-        info.setAddress(addressView.getText().toString());
-        info.setBusiness(busDesc);
-        CompanyInfoService service = new CompanyInfoService(this);
-        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
-        String sql =  "select * from companyinfo where username='" + username + "'";
-        if (exits("companyinfo")) {
-            Cursor cursor = db.rawQuery(sql, null);
-            if (cursor.getCount() == 0){
-                service.save(info);
-                Toast.makeText(CompanyInfoEditPage.this, "保存成功", Toast.LENGTH_SHORT).show();
-            } else {
-                service.update(info);
-                Toast.makeText(CompanyInfoEditPage.this, "修改成功", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            service.save(info);
-            Toast.makeText(CompanyInfoEditPage.this, "保存成功", Toast.LENGTH_SHORT).show();
-        }
-
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
@@ -172,16 +170,59 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public boolean exits(String table){
-        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
-        boolean exits = false;
-        String sql = "select * from sqlite_master where name="+"'"+table+"'";
-        Cursor cursor = db.rawQuery(sql, null);
 
-        if(cursor.getCount()!=0){
-            exits = true;
+    class EditTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(CompanyInfoEditPage.this);
+            dialog.setMessage("logining...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
         }
-        return exits;
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+            pairs.add(new BasicNameValuePair("username", username));
+            pairs.add(new BasicNameValuePair("company", company));
+            pairs.add(new BasicNameValuePair("trade", trade));
+            pairs.add(new BasicNameValuePair("nature", nature));
+            pairs.add(new BasicNameValuePair("scale", scale));
+            pairs.add(new BasicNameValuePair("address", address));
+            pairs.add(new BasicNameValuePair("business", busDesc));
+
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_insert, "POST", pairs);
+            //Log.d("insert user", jsonObject.toString());
+            try{
+                int success = jsonObject.getInt(TAG_SUCCESS);
+                String message = jsonObject.getString(TAG_MESSAGE);
+                if (success == 1) {
+                    if (message.equals("update")) {
+                        return "update";
+                    } else if (message.equals("save")){
+                        return "save";
+                    }
+                        finish();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return "success";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            if (s.equals("update")) {
+                Toast.makeText(CompanyInfoEditPage.this, "修改成功！",Toast.LENGTH_SHORT).show();
+            } else if (s.equals("save")) {
+                Toast.makeText(CompanyInfoEditPage.this, "保存成功！",Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     private void updateAddress(String address) {

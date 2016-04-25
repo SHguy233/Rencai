@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.godkiller.rencai" >
     <uses-sdk android:minSdkVersion="8"/>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -31,6 +32,7 @@
         <activity android:name=".position.PositionPageOfIntention"></activity>
         <activity android:name=".page.PasswordModifyPage"></activity>
         <activity android:name=".page.SettingsPage"></activity>
+        <activity android:name=".page.EduBgdAddPage"></activity>
         <activity android:name=".page.EduBgdEditPage"></activity>
         <activity android:name=".page.EduBgdPage"></activity>
         <activity android:name=".page.ProjectExpPage"></activity>
@@ -40,6 +42,7 @@
         <activity android:name=".page.JobDescPage"></activity>
         <activity android:name=".page.ProjectDescPage"></activity>
         <activity android:name=".page.ProjectExpEditPage"></activity>
+        <activity android:name=".page.ProjectExpAddPage"></activity>
         <activity android:name=".page.HRMainPage"></activity>
         <activity android:name=".page.AdminMainPage"></activity>
         <activity android:name=".page.MyPositionPage"></activity>
@@ -53,6 +56,7 @@
         <activity android:name=".trade.TradeCategoryOfCompany"></activity>
         <activity android:name=".page.DemandDescPage"></activity>
         <activity android:name=".page.PositionDetailPage"></activity>
+
     </application>
 
 </manifest>

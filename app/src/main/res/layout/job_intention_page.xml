@@ -170,23 +170,15 @@
                 android:text="期望薪金"
                 android:textSize="20dp" />
 
-            <TextView
-                android:layout_toLeftOf="@+id/salary_intention_btn"
+            <EditText
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
                 android:textSize="20dp"
                 android:layout_centerVertical="true"
-                android:id="@+id/salary_intention_view"
-                android:layout_width="wrap_content"
+                android:id="@+id/salary_intention_text"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/salary_intention_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:text=">"
-                android:textSize="20sp" />
         </RelativeLayout>
     </LinearLayout>
 

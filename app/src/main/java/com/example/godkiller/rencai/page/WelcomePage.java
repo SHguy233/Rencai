@@ -40,7 +40,7 @@ public class WelcomePage extends BaseActivity {
     }
 
     public void loginEvent() {
-        Intent loginIntent = null;
+        Intent loginIntent = new Intent(this, LoginPage.class);
 
         if (username != null && identity != null) {
             if(identity.equals("seeker")){

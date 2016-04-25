@@ -1,36 +1,32 @@
 package com.example.godkiller.rencai.page;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
-import com.example.godkiller.rencai.db.DatabaseHelper;
-import com.example.godkiller.rencai.db.EduBgd;
-import com.example.godkiller.rencai.db.EdubgdService;
+import com.example.godkiller.rencai.db.JSONParser;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by GodKiller on 2016/4/5.
@@ -39,10 +35,21 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
     private Button addEduBgdBtn;
     private ListView eduBgdLv;
     private Button backBtn;
-    private int index;
     private SimpleAdapter eduAdapter;
     private List<Map<String, Object>> dataList;
     private String username;
+    private ProgressDialog dialog;
+    JSONParser jsonParser = new JSONParser();
+    private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/edu_bgd_view.php";
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_INFO = "info";
+    private static final String TAG_COLLEGE = "college";
+    private static final String TAG_ENROLL = "enroll";
+    private static final String TAG_GRADUATE = "graduate";
+    private static final String TAG_MAJOR = "major";
+    private static final String TAG_DEGREE = "degree";
+    private static final String TAG_ID = "id";
+
 
 
     @Override
@@ -59,58 +66,19 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
         eduBgdLv = (ListView) findViewById(R.id.edu_bgd_lv);
         backBtn.setOnClickListener(this);
         addEduBgdBtn.setOnClickListener(this);
-
-        setAdapter(this);
-        //ListView长按删除
-        eduBgdLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        eduBgdLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                index = position;
-                deleteDialog();
-                return false;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String cid = ((TextView)view.findViewById(R.id.id_no_edu_bgd)).getText().toString();
+                Intent intent = new Intent(getApplicationContext(), EduBgdEditPage.class);
+                intent.putExtra("id", cid);
+                startActivityForResult(intent, 100);
             }
         });
+        new LoadEduBgd().execute();
+
     }
 
-    private void setAdapter(Context context) {
-        dataList = getData();
-        eduAdapter = new SimpleAdapter(context, dataList, R.layout.edu_bgd_item, new String[]{"enroll", "graduate", "college", "degree", "major"},
-                new int[]{R.id.enroll_item_view, R.id.graduate_item_view, R.id.college_item_view, R.id.degree_item_view, R.id.major_item_view});
-        eduBgdLv.setAdapter(eduAdapter);
-    }
-
-    private void deleteDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(EduBgdPage.this);
-        builder.setMessage("确定删除？");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SQLiteDatabase db = new DatabaseHelper(EduBgdPage.this).getReadableDatabase();
-                String enroll = dataList.get(index).get("enroll").toString();
-                String graduate = dataList.get(index).get("graduate").toString();
-                String sql =  "select * from edubgd where username='" + username + "'";
-                //查询表中所有符合条件的数据
-                Cursor cursor = db.rawQuery(sql, null);
-                while (cursor.moveToNext()) {
-                    String mEnroll = cursor.getString(cursor.getColumnIndex("enroll"));
-                    String mGraduate = cursor.getString(cursor.getColumnIndex("graduate"));
-                    //若入学时间和毕业时间均符合，删除该行数据
-                    if (enroll.equals(mEnroll) && graduate.equals(mGraduate)) {
-                        //cursor.getInt(0)为符合条件的ID
-                        db.execSQL("delete from edubgd where id=" + Integer.toString(cursor.getInt(0)));
-                    }
-                }
-                setAdapter(EduBgdPage.this);
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.create().show();
-    }
 
     @Override
     public void onClick(View v) {
@@ -119,35 +87,71 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
                 finish();
                 break;
             case R.id.add_edu_bgd_btn:
-                Intent intent = new Intent(EduBgdPage.this, EduBgdEditPage.class);
-                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), EduBgdAddPage.class);
+                startActivityForResult(intent, 100);
                 break;
             default:
                 break;
         }
     }
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> eduList = new ArrayList<Map<String, Object>>();
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        String sql =  "select * from edubgd where username='" + username + "'";
-        Cursor cursor = db.rawQuery(sql, null);
-
-        while(cursor.moveToNext()) {
-            String college = cursor.getString(cursor.getColumnIndex("college"));
-            String enroll = cursor.getString(cursor.getColumnIndex("enroll"));
-            String graduate = cursor.getString(cursor.getColumnIndex("graduate"));
-            String major = cursor.getString(cursor.getColumnIndex("major"));
-            String degree =cursor.getString(cursor.getColumnIndex("degree"));
-            Map<String, Object> eduMap = new HashMap<String, Object>();
-            eduMap.put("enroll", enroll);
-            eduMap.put("graduate", graduate);
-            eduMap.put("college", college);
-            eduMap.put("major", major);
-            eduMap.put("degree", degree);
-            eduList.add(eduMap);
+    class LoadEduBgd extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(EduBgdPage.this);
+            dialog.setMessage("loading...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
         }
-        return eduList;
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+            pairs.add(new BasicNameValuePair("username", username));
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_insert, "GET", pairs);
+            dataList = new ArrayList<Map<String, Object>>();
+
+            try{
+                int success = jsonObject.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    JSONArray eduObj = jsonObject.getJSONArray(TAG_INFO);
+                    for (int i = 0; i<eduObj.length(); i++) {
+                        JSONObject info = eduObj.getJSONObject(i);
+                        Map<String, Object> infoMap = new HashMap<String, Object>();
+                        infoMap.put("id", info.getString(TAG_ID));
+                        infoMap.put("college", info.getString(TAG_COLLEGE));
+                        infoMap.put("enroll", info.getString(TAG_ENROLL));
+                        infoMap.put("graduate", info.getString(TAG_GRADUATE));
+                        infoMap.put("major", info.getString(TAG_MAJOR));
+                        infoMap.put("degree", info.getString(TAG_DEGREE));
+                        dataList.add(infoMap);
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return "success";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            eduAdapter = new SimpleAdapter(getApplicationContext(), dataList, R.layout.edu_bgd_item, new String[]{"enroll", "graduate", "college", "degree", "major","id"},
+                    new int[]{R.id.enroll_item_view, R.id.graduate_item_view, R.id.college_item_view, R.id.degree_item_view, R.id.major_item_view, R.id.id_no_edu_bgd});
+            eduBgdLv.setAdapter(eduAdapter);
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 100) {
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        }
     }
 }

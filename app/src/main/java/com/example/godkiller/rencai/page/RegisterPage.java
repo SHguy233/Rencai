@@ -1,9 +1,12 @@
 package com.example.godkiller.rencai.page;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,8 +19,16 @@ import android.widget.Toast;
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.db.DatabaseHelper;
+import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.db.User;
 import com.example.godkiller.rencai.db.UserService;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GodKiller on 2016/3/6.
@@ -32,7 +43,11 @@ public class RegisterPage extends BaseActivity implements View.OnClickListener{
     private String identity;
     private String username;
     private String password;
-
+    private ProgressDialog dialog;
+    JSONParser jsonParser = new JSONParser();
+    private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/register.php";
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_MESSAGE = "message";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,28 +89,63 @@ public class RegisterPage extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        registerAccount();
+        username = usernameText.getText().toString();
+        password = passwordText.getText().toString();
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(RegisterPage.this, "用户名或密码不能为空！", Toast.LENGTH_SHORT).show();
+        }
+        new RegisterTask().execute();
 
     }
 
-    public void registerAccount() {
-        username = usernameText.getText().toString();
-        password = passwordText.getText().toString();
-        DatabaseHelper helper = new DatabaseHelper(this);
-        SQLiteDatabase db = helper.getReadableDatabase();
-        String sql =  "select * from user where username='" + username + "'";
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.getCount() == 0){
-            UserService userService = new UserService(this);
-            User user = new User();
-            user.setIdentity(identity);
-            user.setPassword(password);
-            user.setUsername(username);
-            userService.register(user);
-            Toast.makeText(RegisterPage.this, "注册成功", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(RegisterPage.this, "用户名已存在！", Toast.LENGTH_SHORT).show();
+    class RegisterTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(RegisterPage.this);
+            dialog.setMessage("logining...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+            pairs.add(new BasicNameValuePair("username", username));
+            pairs.add(new BasicNameValuePair("password", password));
+            pairs.add(new BasicNameValuePair("identity", identity));
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_insert, "POST", pairs);
+            //Log.d("insert user", jsonObject.toString());
+            try{
+                int success = jsonObject.getInt(TAG_SUCCESS);
+                String message = jsonObject.getString(TAG_MESSAGE);
+                if (success == 1) {
+                    Intent intent = new Intent(getApplicationContext(), LoginPage.class);
+                    startActivity(intent);
+                    finish();
+                } else if (success == 0){
+                    if (message.equals("existed")){
+                        return "existed";
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return "success";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            if (s.equals("existed")) {
+                Toast.makeText(RegisterPage.this, "用户名已存在！",Toast.LENGTH_SHORT).show();
+            } else if (s.equals("success")) {
+                Toast.makeText(RegisterPage.this, "注册成功！",Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
+
 }

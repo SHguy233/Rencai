@@ -24,8 +24,6 @@ import com.example.godkiller.rencai.db.JSONParser;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -37,10 +35,9 @@ import java.util.Locale;
 /**
  * Created by GodKiller on 2016/4/5.
  */
-public class EduBgdEditPage extends BaseActivity implements View.OnClickListener{
+public class EduBgdAddPage extends BaseActivity implements View.OnClickListener{
     private Button backBtn;
     private Button saveBtn;
-    private Button deleteBtn;
     private EditText collegeText;
     private EditText majorText;
     private LinearLayout enrollTimeLayout;
@@ -52,9 +49,7 @@ public class EduBgdEditPage extends BaseActivity implements View.OnClickListener
     private TextView degreeView;
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
-    private static  String url_details = "http://10.0.3.2:63342/htdocs/db/edu_bgd_details.php";
-    private static  String url_update = "http://10.0.3.2:63342/htdocs/db/edu_bgd_update.php";
-    private static  String url_delete = "http://10.0.3.2:63342/htdocs/db/edu_bgd_delete.php";
+    private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/edu_bgd_add.php";
     private static final String TAG_SUCCESS = "success";
     private String username;
     private String college;
@@ -62,8 +57,6 @@ public class EduBgdEditPage extends BaseActivity implements View.OnClickListener
     private String graduate;
     private String major;
     private String degree;
-    private String id;
-    private JSONObject eduObj;
 
 
 
@@ -79,36 +72,30 @@ public class EduBgdEditPage extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.edu_background_edit_page);
+        setContentView(R.layout.edu_background_add_page);
 
         SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
 
-        Intent intent = getIntent();
-        id = intent.getStringExtra("id");
-
-        backBtn = (Button) findViewById(R.id.back_button_edu_bgd_edit);
-        saveBtn = (Button) findViewById(R.id.save_btn_eb);
-        deleteBtn = (Button) findViewById(R.id.delete_button_edu_edit);
-        collegeText = (EditText) findViewById(R.id.college_name_view);
-        majorText = (EditText) findViewById(R.id.major_name_text);
-        enrollTimeLayout = (LinearLayout) findViewById(R.id.enroll_time_layout);
-        graduateTimeLayout = (LinearLayout) findViewById(R.id.graduate_time_layout);
-        majorNameLayout = (LinearLayout) findViewById(R.id.major_name_layout);
-        degreeLayout = (LinearLayout) findViewById(R.id.degree_layout);
-        enrollView = (TextView) findViewById(R.id.enroll_time_view);
-        graduateView = (TextView) findViewById(R.id.graduate_time_view);
-        degreeView = (TextView) findViewById(R.id.degree_view);
+        backBtn = (Button) findViewById(R.id.back_button_ea);
+        saveBtn = (Button) findViewById(R.id.save_btn_ea);
+        collegeText = (EditText) findViewById(R.id.college_name_view_ea);
+        majorText = (EditText) findViewById(R.id.major_name_text_ea);
+        enrollTimeLayout = (LinearLayout) findViewById(R.id.enroll_time_layout_ea);
+        graduateTimeLayout = (LinearLayout) findViewById(R.id.graduate_time_layout_ea);
+        majorNameLayout = (LinearLayout) findViewById(R.id.major_name_layout_ea);
+        degreeLayout = (LinearLayout) findViewById(R.id.degree_layout_ea);
+        enrollView = (TextView) findViewById(R.id.enroll_time_view_ea);
+        graduateView = (TextView) findViewById(R.id.graduate_time_view_ea);
+        degreeView = (TextView) findViewById(R.id.degree_view_ea);
         initDateLayout();
 
         backBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
-        deleteBtn.setOnClickListener(this);
         enrollTimeLayout.setOnClickListener(this);
         graduateTimeLayout.setOnClickListener(this);
         majorNameLayout.setOnClickListener(this);
         degreeLayout.setOnClickListener(this);
-        new GetEduTask().execute();
     }
     private void initDateLayout() {
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
@@ -160,30 +147,27 @@ public class EduBgdEditPage extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.delete_button_edu_edit:
-                new DeleteBgdTask().execute();
-                break;
-            case R.id.back_button_edu_bgd_edit:
+            case R.id.back_button_ea:
                 finish();
                 break;
-            case R.id.save_btn_eb:
+            case R.id.save_btn_ea:
                 college = collegeText.getText().toString();
                 enroll = enrollView.getText().toString();
                 graduate = graduateView.getText().toString();
                 major = majorText.getText().toString();
                 degree = degreeView.getText().toString();
-                new SaveEduTask().execute();
+                new EditTask().execute();
                 break;
-            case R.id.enroll_time_layout:
-                DatePickerDialog enrollDatePickerDialog = new DatePickerDialog(EduBgdEditPage.this, enrollDateListener, enrollYear, enrollMonth, enrollDay);
+            case R.id.enroll_time_layout_ea:
+                DatePickerDialog enrollDatePickerDialog = new DatePickerDialog(EduBgdAddPage.this, enrollDateListener, enrollYear, enrollMonth, enrollDay);
                 enrollDatePickerDialog.show();
                 break;
-            case R.id.graduate_time_layout:
-                DatePickerDialog graduateDatePickerDialog = new DatePickerDialog(EduBgdEditPage.this, graduateDateListener, graduateYear, graduateMonth, graduateDay);
+            case R.id.graduate_time_layout_ea:
+                DatePickerDialog graduateDatePickerDialog = new DatePickerDialog(EduBgdAddPage.this, graduateDateListener, graduateYear, graduateMonth, graduateDay);
                 graduateDatePickerDialog.show();
                 break;
-            case R.id.degree_layout:
-                AlertDialog.Builder degreeBuilder = new AlertDialog.Builder(EduBgdEditPage.this);
+            case R.id.degree_layout_ea:
+                AlertDialog.Builder degreeBuilder = new AlertDialog.Builder(EduBgdAddPage.this);
                 degreeBuilder.setTitle("学历/学位");
                 final String[] degree = {"初中", "中专", "高中", "大专", "本科", "硕士", "博士"};
                 degreeBuilder.setSingleChoiceItems(degree, 0, new DialogInterface.OnClickListener() {
@@ -202,59 +186,12 @@ public class EduBgdEditPage extends BaseActivity implements View.OnClickListener
         }
     }
 
-    class GetEduTask extends AsyncTask<String, String, String> {
+    class EditTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(EduBgdEditPage.this);
-            dialog.setMessage("saving...");
-            dialog.setIndeterminate(false);
-            dialog.setCancelable(true);
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-                pairs.add(new BasicNameValuePair("id", id));
-                JSONObject jsonObject = jsonParser.makeHttpRequest(url_details, "GET", pairs);
-                JSONArray eduAry = jsonObject.getJSONArray("info");
-                eduObj = eduAry.getJSONObject(0);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        collegeText.setText(eduObj.getString("college"));
-                        enrollView.setText(eduObj.getString("enroll"));
-                        graduateView.setText(eduObj.getString("graduate"));
-                        majorText.setText(eduObj.getString("major"));
-                        degreeView.setText(eduObj.getString("degree"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-            return null;
-        }
-        @Override
-        protected void onPostExecute(String s) {
-            dialog.dismiss();
-        }
-
-    }
-
-    class SaveEduTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(EduBgdEditPage.this);
+            dialog = new ProgressDialog(EduBgdAddPage.this);
             dialog.setMessage("saving...");
             dialog.setIndeterminate(false);
             dialog.setCancelable(true);
@@ -264,7 +201,6 @@ public class EduBgdEditPage extends BaseActivity implements View.OnClickListener
         @Override
         protected String doInBackground(String... params) {
             List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-            pairs.add(new BasicNameValuePair("id", id));
             pairs.add(new BasicNameValuePair("username", username));
             pairs.add(new BasicNameValuePair("college", college));
             pairs.add(new BasicNameValuePair("enroll", enroll));
@@ -272,9 +208,7 @@ public class EduBgdEditPage extends BaseActivity implements View.OnClickListener
             pairs.add(new BasicNameValuePair("major", major));
             pairs.add(new BasicNameValuePair("degree", degree));
 
-            JSONObject jsonObject = jsonParser.makeHttpRequest(url_update, "POST", pairs);
-            Log.d("edu bgd", jsonObject.toString());
-
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_insert, "POST", pairs);
             try{
                 int success = jsonObject.getInt(TAG_SUCCESS);
                 if (success == 1) {
@@ -285,55 +219,18 @@ public class EduBgdEditPage extends BaseActivity implements View.OnClickListener
             }catch (Exception e){
                 e.printStackTrace();
             }
-            return null;
+            return "success";
         }
 
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            Toast.makeText(EduBgdEditPage.this, "保存成功！", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    class DeleteBgdTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(EduBgdEditPage.this);
-            dialog.setMessage("deleting...");
-            dialog.setIndeterminate(false);
-            dialog.setCancelable(true);
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-            pairs.add(new BasicNameValuePair("id",id));
-            JSONObject jsonObject = jsonParser.makeHttpRequest(url_delete, "POST", pairs);
-            try{
-                int success = jsonObject.getInt(TAG_SUCCESS);
-                if (success == 1) {
-                    Intent intent =getIntent();
-                    setResult(100, intent);
-                    finish();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
+            if (s.equals("success")) {
+                Toast.makeText(EduBgdAddPage.this, "保存成功！", Toast.LENGTH_SHORT).show();
             }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            dialog.dismiss();
-            Toast.makeText(EduBgdEditPage.this, "删除成功！", Toast.LENGTH_SHORT).show();
         }
 
     }
-
     private void updateDegree(String degree) {
         degreeView.setText(degree);
     }
