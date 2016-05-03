@@ -1,21 +1,26 @@
 package com.example.godkiller.rencai.page;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
-import com.example.godkiller.rencai.db.DatabaseHelper;
+import com.example.godkiller.rencai.db.JSONParser;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +32,7 @@ import java.util.Map;
  */
 public class ResumePreviewPage extends BaseActivity implements View.OnClickListener{
     private Button backBtn;
+    private Button nextBtn;
     private ListView personInfoLv;
     private ListView workInfoLv;
     private ListView eduLv;
@@ -37,12 +43,18 @@ public class ResumePreviewPage extends BaseActivity implements View.OnClickListe
     private SimpleAdapter workAdapter;
     private SimpleAdapter projectAdapter;
     private SimpleAdapter intentionAdapter;
-    private List<Map<String, Object>> infoList;
+    private List<Map<String, Object>> personalList;
     private List<Map<String, Object>> eduList;
     private List<Map<String, Object>> workList;
     private List<Map<String, Object>> projectList;
     private List<Map<String, Object>> intentionList;
     private String username;
+    private String id;
+    private ProgressDialog dialog;
+    JSONParser jsonParser = new JSONParser();
+    private static String url_view = "http://10.0.3.2:63342/htdocs/db/seeker_resume_preview.php";
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_INFO = "info";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,26 +70,128 @@ public class ResumePreviewPage extends BaseActivity implements View.OnClickListe
 
         SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
+        final Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        Toast.makeText(ResumePreviewPage.this, id, Toast.LENGTH_SHORT).show();
+
 
         backBtn = (Button) findViewById(R.id.back_button_rp);
+        nextBtn = (Button) findViewById(R.id.next_btn);
         backBtn.setOnClickListener(this);
-        setInfoAdapter(this);
-        setIntentionAdapter(this);
-        setEduAdapter(this);
-        setWorkAdapter(this);
-        setProjectAdapter(this);
+        nextBtn.setOnClickListener(this);
+        new LoadDataTask().execute();
     }
 
-    private void setInfoAdapter(Context context) {
-        infoList = getInfoData();
-        infoAdapter = new SimpleAdapter(context, infoList, R.layout.personal_info_pre_item,
-                new String[]{"name", "gender", "birth", "workexptime", "acceptRemote", "phone"},
+    class LoadDataTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(ResumePreviewPage.this);
+            dialog.setMessage("loading...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+            pairs.add(new BasicNameValuePair("username", username));
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_view, "GET", pairs);
+            eduList = new ArrayList<Map<String, Object>>();
+            projectList = new ArrayList<Map<String, Object>>();
+            personalList = new ArrayList<Map<String, Object>>();
+            workList = new ArrayList<Map<String, Object>>();
+            intentionList = new ArrayList<Map<String, Object>>();
+
+            try {
+                int success = jsonObject.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    JSONArray eduArray = jsonObject.getJSONArray("eduInfo");
+                    for (int i = 0; i < eduArray.length(); i++) {
+                        JSONObject eduObj = eduArray.getJSONObject(i);
+                        Map<String, Object> eduInfoMap = new HashMap<String, Object>();
+                        eduInfoMap.put("id", eduObj.getString("id"));
+                        eduInfoMap.put("college", eduObj.getString("college"));
+                        eduInfoMap.put("enroll", eduObj.getString("enroll"));
+                        eduInfoMap.put("graduate", eduObj.getString("graduate"));
+                        eduInfoMap.put("major", eduObj.getString("major"));
+                        eduInfoMap.put("degree", eduObj.getString("degree"));
+                        eduList.add(eduInfoMap);
+                    }
+                    JSONArray personArray = jsonObject.getJSONArray("personalInfo");
+                    JSONObject personObj = personArray.getJSONObject(0);
+                    Map<String, Object> personInfoMap = new HashMap<String, Object>();
+                    personInfoMap.put("name", personObj.getString("name"));
+                    personInfoMap.put("gender", personObj.getString("gender"));
+                    personInfoMap.put("birth", personObj.getString("birth"));
+                    personInfoMap.put("workexptime", personObj.getString("workexptime"));
+                    personInfoMap.put("remote", personObj.getString("remote"));
+                    personInfoMap.put("phone", personObj.getString("phone"));
+                    personalList.add(personInfoMap);
+
+                    JSONArray projectArray = jsonObject.getJSONArray("projectInfo");
+                    for (int i=0; i<projectArray.length(); i++) {
+                        JSONObject pojObj = projectArray.getJSONObject(i);
+                        Map<String, Object> pojInfoMap = new HashMap<String, Object>();
+                        pojInfoMap.put("id", pojObj.getString("id"));
+                        pojInfoMap.put("project", pojObj.getString("project"));
+                        pojInfoMap.put("start", pojObj.getString("start"));
+                        pojInfoMap.put("finish", pojObj.getString("finish"));
+                        pojInfoMap.put("desc", pojObj.getString("desc"));
+                        projectList.add(pojInfoMap);
+                    }
+
+                    JSONArray workArray = jsonObject.getJSONArray("workInfo");
+                    for (int i=0; i<workArray.length(); i++) {
+                        JSONObject workObj = workArray.getJSONObject(i);
+                        Map<String, Object> workInfoMap = new HashMap<String, Object>();
+                        workInfoMap.put("id", workObj.getString("id"));
+                        workInfoMap.put("company", workObj.getString("company"));
+                        workInfoMap.put("entry", workObj.getString("entry"));
+                        workInfoMap.put("leave", workObj.getString("leave"));
+                        workInfoMap.put("trade", workObj.getString("trade"));
+                        workInfoMap.put("position", workObj.getString("position"));
+                        workInfoMap.put("desc", workObj.getString("desc"));
+                        workList.add(workInfoMap);
+                    }
+
+                    JSONArray intentionArray = jsonObject.getJSONArray("intentionInfo");
+                    JSONObject intentionObject = intentionArray.getJSONObject(0);
+                    Map<String, Object> intentionInfoMap = new HashMap<String, Object>();
+                    intentionInfoMap.put("city", intentionObject.getString("city"));
+                    intentionInfoMap.put("trade", intentionObject.getString("trade"));
+                    intentionInfoMap.put("position", intentionObject.getString("position"));
+                    intentionInfoMap.put("salary", intentionObject.getString("salary"));
+                    intentionList.add(intentionInfoMap);
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "success";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            setEduAdapter(ResumePreviewPage.this);
+            setPersonAdapter(ResumePreviewPage.this);
+            setWorkAdapter(ResumePreviewPage.this);
+            setProjectAdapter(ResumePreviewPage.this);
+            setIntentionAdapter(ResumePreviewPage.this);
+
+        }
+    }
+
+    private void setPersonAdapter(Context context) {
+        infoAdapter = new SimpleAdapter(context, personalList, R.layout.personal_info_pre_item,
+                new String[]{"name", "gender", "birth", "workexptime", "remote", "phone"},
                 new int[]{R.id.name_view_pre, R.id.gender_view_pre, R.id.birth_view_pre, R.id.workexp_view_pre,R.id.remote_view_pre, R.id.phone_view_pre});
         personInfoLv.setAdapter(infoAdapter);
     }
 
     private void setWorkAdapter(Context context) {
-        workList = getWorkData();
         workAdapter = new SimpleAdapter(context, workList, R.layout.work_exp_pre_item,
                 new String[]{"company", "trade", "position", "entry", "leave","desc"},
                 new int[]{R.id.company_view_pre, R.id.trade_view_pre, R.id.position_view_pre, R.id.entry_view_pre,R.id.leave_view_pre,R.id.work_desc_view_pre});
@@ -85,7 +199,6 @@ public class ResumePreviewPage extends BaseActivity implements View.OnClickListe
     }
 
     private void setEduAdapter(Context context) {
-        eduList = getEduData();
         eduAdapter = new SimpleAdapter(context, eduList, R.layout.edu_bgd_pre_item,
                 new String[]{"college", "major", "degree", "enroll", "graduate"},
                 new int[]{R.id.college_view_pre, R.id.major_view_pre, R.id.degree_view_pre, R.id.enroll_view_pre,R.id.graduate_view_pre});
@@ -93,7 +206,6 @@ public class ResumePreviewPage extends BaseActivity implements View.OnClickListe
     }
 
     private void setProjectAdapter(Context context) {
-        projectList = getProjectData();
         projectAdapter = new SimpleAdapter(context, projectList, R.layout.project_exp_pre_item,
                 new String[]{"project", "start", "finish", "desc"},
                 new int[]{R.id.project_view_pre, R.id.start_view_pre, R.id.finish_view_pre, R.id.project_desc_view_pre});
@@ -101,181 +213,23 @@ public class ResumePreviewPage extends BaseActivity implements View.OnClickListe
     }
 
     private void setIntentionAdapter(Context context) {
-        intentionList = getIntentionData();
         intentionAdapter = new SimpleAdapter(context, intentionList, R.layout.job_intention_pre_item,
-                new String[]{"workplace", "salary", "positioncategory", "tradecategory"},
+                new String[]{"city", "salary", "position", "trade"},
                 new int[]{R.id.workplace_view_pre, R.id.salary_view_pre, R.id.positioncategory_view_pre, R.id.tradecategory_view_pre});
         intentionLv.setAdapter(intentionAdapter);
     }
 
-    private List<Map<String, Object>> getInfoData() {
-        List<Map<String, Object>> infoList = new ArrayList<Map<String, Object>>();
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        String sql =  "select * from personalinfo where username='" + username + "'";
-        if (exits("personalinfo"))
-        {
-            Cursor cursor = db.rawQuery(sql, null);
-
-            while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                String gender = cursor.getString(cursor.getColumnIndex("gender"));
-                String birth = cursor.getString(cursor.getColumnIndex("birth"));
-                String remote = cursor.getString(cursor.getColumnIndex("acceptRemote"));
-                String workexp = cursor.getString(cursor.getColumnIndex("workexptime"));
-                String phone = cursor.getString(cursor.getColumnIndex("phone"));
-
-                Map<String, Object> infoMap = new HashMap<String, Object>();
-                infoMap.put("name", name);
-                infoMap.put("gender", gender);
-                infoMap.put("birth", birth);
-                infoMap.put("workexptime", workexp);
-                infoMap.put("acceptRemote", remote);
-                infoMap.put("phone", phone);
-                infoList.add(infoMap);
-
-            }
-        }
-        return infoList;
-
-    }
-
-    private List<Map<String, Object>> getEduData() {
-        List<Map<String, Object>> eduList = new ArrayList<Map<String, Object>>();
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        String sql =  "select * from edubgd where username='" + username + "'";
-        if (exits("edubgd"))
-        {
-            Cursor cursor = db.rawQuery(sql, null);
-
-            while (cursor.moveToNext()) {
-                String college = cursor.getString(cursor.getColumnIndex("college"));
-                String major = cursor.getString(cursor.getColumnIndex("major"));
-                String degree = cursor.getString(cursor.getColumnIndex("degree"));
-                String enroll = cursor.getString(cursor.getColumnIndex("enroll"));
-                String graduate = cursor.getString(cursor.getColumnIndex("graduate"));
-
-                Map<String, Object> eduMap = new HashMap<String, Object>();
-                eduMap.put("college", college);
-                eduMap.put("major", major);
-                eduMap.put("degree", degree);
-                eduMap.put("enroll", enroll);
-                eduMap.put("graduate", graduate);
-                eduList.add(eduMap);
-
-            }
-        }
-        return eduList;
-
-    }
-
-    private List<Map<String, Object>> getProjectData() {
-        List<Map<String, Object>> projectList = new ArrayList<Map<String, Object>>();
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        String sql =  "select * from projectexp where username='" + username + "'";
-        if (exits("projectexp"))
-        {
-            Cursor cursor = db.rawQuery(sql, null);
-
-            while (cursor.moveToNext()) {
-                String project = cursor.getString(cursor.getColumnIndex("project"));
-                String start = cursor.getString(cursor.getColumnIndex("start"));
-                String finish = cursor.getString(cursor.getColumnIndex("finish"));
-                String projectDesc = cursor.getString(cursor.getColumnIndex("desc"));
-
-                Map<String, Object> projectMap = new HashMap<String, Object>();
-                projectMap.put("project", project);
-                projectMap.put("start", start);
-                projectMap.put("finish", finish);
-                projectMap.put("desc", projectDesc);
-                projectList.add(projectMap);
-
-            }
-        }
-        return projectList;
-
-    }
-
-    private List<Map<String, Object>> getIntentionData() {
-        List<Map<String, Object>> intentionList = new ArrayList<Map<String, Object>>();
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        String sql =  "select * from jobintention where username='" + username + "'";
-        if (exits("jobintention"))
-        {
-            Cursor cursor = db.rawQuery(sql, null);
-
-            while (cursor.moveToNext()) {
-                String workplace = cursor.getString(cursor.getColumnIndex("workplace"));
-                String salary = cursor.getString(cursor.getColumnIndex("salary"));
-                String position = cursor.getString(cursor.getColumnIndex("positioncategory"));
-                String trade = cursor.getString(cursor.getColumnIndex("tradecategory"));
-
-                Map<String, Object> intentionMap = new HashMap<String, Object>();
-                intentionMap.put("workplace", workplace);
-                intentionMap.put("salary", salary);
-                intentionMap.put("positioncategory", position);
-                intentionMap.put("tradecategory", trade);
-                intentionList.add(intentionMap);
-
-            }
-        }
-        return intentionList;
-
-    }
-
-    private List<Map<String, Object>> getWorkData() {
-        List<Map<String, Object>> workList = new ArrayList<Map<String, Object>>();
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        String sql =  "select * from workexp where username='" + username + "'";
-        if (exits("workexp"))
-        {
-            Cursor cursor = db.rawQuery(sql, null);
-
-            while (cursor.moveToNext()) {
-                String company = cursor.getString(cursor.getColumnIndex("company"));
-                String trade = cursor.getString(cursor.getColumnIndex("trade"));
-                String position = cursor.getString(cursor.getColumnIndex("position"));
-                String entry = cursor.getString(cursor.getColumnIndex("entry"));
-                String leave = cursor.getString(cursor.getColumnIndex("leave"));
-                String workDesc = cursor.getString(cursor.getColumnIndex("desc"));
-
-                Map<String, Object> workMap = new HashMap<String, Object>();
-                workMap.put("company", company);
-                workMap.put("trade", trade);
-                workMap.put("position", position);
-                workMap.put("entry", entry);
-                workMap.put("leave", leave);
-                workMap.put("desc", workDesc);
-                workList.add(workMap);
-
-            }
-        }
-        return workList;
-
-    }
-
-
-    public boolean exits(String table){
-        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
-        boolean exits = false;
-        String sql = "select * from sqlite_master where name="+"'"+table+"'";
-        Cursor cursor = db.rawQuery(sql, null);
-
-        if(cursor.getCount()!=0){
-            exits = true;
-        }
-        return exits;
-    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_button_rp:
                 finish();
+                break;
+            case R.id.next_btn:
+                Intent intent = new Intent(ResumePreviewPage.this, SeekerConditionPage.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
                 break;
             default:
                 break;

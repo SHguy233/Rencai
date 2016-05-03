@@ -107,7 +107,6 @@ public class ProjectExpEditPage extends BaseActivity implements View.OnClickList
         finishTimeLayout.setOnClickListener(this);
         proDescLayout.setOnClickListener(this);
         new GetPojTask().execute();
-
     }
     private void initDateLayout() {
         Calendar calendar = Calendar.getInstance(Locale.CHINA);

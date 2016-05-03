@@ -33,6 +33,47 @@
             android:background="@drawable/message" />
 
     </RelativeLayout>
+    <RadioGroup
+        android:id="@+id/order_group"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <RadioButton
+            android:id="@+id/default_btn"
+            android:text="默认"
+            android:background="#ffffff"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:id="@+id/attention_btn"
+            android:text="关注"
+            android:background="#ffffff"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:id="@+id/popularity_btn"
+            android:text="人气"
+            android:background="#ffffff"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:id="@+id/demand_num_btn"
+            android:text="人数"
+            android:background="#ffffff"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:id="@+id/assessment_btn"
+            android:text="口碑"
+            android:background="#ffffff"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </RadioGroup>
 
     <RelativeLayout
         android:layout_width="match_parent"

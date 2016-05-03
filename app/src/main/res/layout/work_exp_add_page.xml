@@ -8,7 +8,7 @@
         android:layout_height="50dp"
         android:background="#23B7F5">
         <Button
-            android:id="@+id/back_button_work_exp_edit"
+            android:id="@+id/back_button_work_exp_add"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
@@ -22,7 +22,7 @@
             android:src="@drawable/work_exp_pic" />
 
         <Button
-            android:id="@+id/save_btn_we"
+            android:id="@+id/save_btn_wa"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
@@ -31,7 +31,7 @@
             android:background="@drawable/save" />
     </RelativeLayout>
     <LinearLayout
-        android:id="@+id/company_name_layout"
+        android:id="@+id/company_name_layout_wa"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -52,7 +52,7 @@
             <EditText
                 android:hint="输入公司名称"
                 android:singleLine="true"
-                android:id="@+id/company_name_view"
+                android:id="@+id/company_name_view_wa"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -61,7 +61,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/entry_time_layout"
+        android:id="@+id/entry_time_layout_wa"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -82,13 +82,13 @@
             <TextView
                 android:textSize="20dp"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/entry_time_btn"
-                android:id="@+id/entry_time_view"
+                android:layout_toLeftOf="@+id/entry_time_btn_wa"
+                android:id="@+id/entry_time_view_wa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/entry_time_btn"
+                android:id="@+id/entry_time_btn_wa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -100,7 +100,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/leave_time_layout"
+        android:id="@+id/leave_time_layout_wa"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -121,13 +121,13 @@
             <TextView
                 android:textSize="20dp"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/leave_time_btn"
-                android:id="@+id/leave_time_view"
+                android:layout_toLeftOf="@+id/leave_time_btn_wa"
+                android:id="@+id/leave_time_view_wa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/leave_time_btn"
+                android:id="@+id/leave_time_btn_wa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -139,7 +139,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/trade_name_layout"
+        android:id="@+id/trade_name_layout_wa"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -160,7 +160,7 @@
             <EditText
                 android:hint="输入行业名称"
                 android:singleLine="true"
-                android:id="@+id/trade_name_text"
+                android:id="@+id/trade_name_text_wa"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -169,7 +169,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/position_name_layout"
+        android:id="@+id/position_name_layout_wa"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -190,7 +190,7 @@
             <EditText
                 android:hint="输入岗位名称"
                 android:singleLine="true"
-                android:id="@+id/position_name_text"
+                android:id="@+id/position_name_text_wa"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -199,7 +199,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/job_desc_layout"
+        android:id="@+id/job_desc_layout_wa"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -222,13 +222,13 @@
                 android:singleLine="true"
                 android:textSize="20dp"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/job_desc_btn"
-                android:id="@+id/job_desc_view"
+                android:layout_toLeftOf="@+id/job_desc_btn_wa"
+                android:id="@+id/job_desc_view_wa"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/job_desc_btn"
+                android:id="@+id/job_desc_btn_wa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -238,20 +238,5 @@
                 android:textSize="20sp" />
         </RelativeLayout>
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
-        <Button
-            android:id="@+id/delete_button_work_edit"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:text="删  除"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:background="@drawable/searchbtn"/>
-    </RelativeLayout>
 
 </LinearLayout>

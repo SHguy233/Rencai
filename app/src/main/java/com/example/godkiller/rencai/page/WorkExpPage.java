@@ -1,10 +1,16 @@
 package com.example.godkiller.rencai.page;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -15,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
+import com.example.godkiller.rencai.db.DatabaseHelper;
 import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.db.WorkExp;
 
@@ -31,75 +38,72 @@ import java.util.Map;
 /**
  * Created by GodKiller on 2016/4/5.
  */
-public class EduBgdPage extends BaseActivity implements View.OnClickListener{
-    private Button addEduBgdBtn;
-    private ListView eduBgdLv;
+public class WorkExpPage extends BaseActivity implements View.OnClickListener {
+    private Button addWorkExpBtn;
+    private ListView workExpLv;
     private Button backBtn;
-    private SimpleAdapter eduAdapter;
+    private SimpleAdapter workExpAdapter;
     private List<Map<String, Object>> dataList;
     private String username;
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
-    private static  String url_view = "http://10.0.3.2:63342/htdocs/db/edu_bgd_view.php";
+    private static String url_view = "http://10.0.3.2:63342/htdocs/db/work_exp_view.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_INFO = "info";
-    private static final String TAG_COLLEGE = "college";
-    private static final String TAG_ENROLL = "enroll";
-    private static final String TAG_GRADUATE = "graduate";
-    private static final String TAG_MAJOR = "major";
-    private static final String TAG_DEGREE = "degree";
+    private static final String TAG_COMPANY = "company";
+    private static final String TAG_ENTRY = "entry";
+    private static final String TAG_LEAVE = "leave";
+    private static final String TAG_TRADE = "trade";
+    private static final String TAG_POSITION = "position";
+    private static final String TAG_DESC = "desc";
     private static final String TAG_ID = "id";
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.edu_background_page);
-
+        setContentView(R.layout.working_exp_page);
         SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
 
-        addEduBgdBtn = (Button) findViewById(R.id.add_edu_bgd_btn);
-        backBtn = (Button) findViewById(R.id.back_button_edu_bgd);
-        eduBgdLv = (ListView) findViewById(R.id.edu_bgd_lv);
+        workExpLv = (ListView) findViewById(R.id.working_exp_lv);
+        addWorkExpBtn = (Button) findViewById(R.id.add_working_exp_btn);
+        backBtn = (Button) findViewById(R.id.back_button_work_exp);
         backBtn.setOnClickListener(this);
-        addEduBgdBtn.setOnClickListener(this);
-        eduBgdLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        addWorkExpBtn.setOnClickListener(this);
+
+        workExpLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String cid = ((TextView)view.findViewById(R.id.id_no_edu_bgd)).getText().toString();
-                Intent intent = new Intent(getApplicationContext(), EduBgdEditPage.class);
+                String cid = ((TextView) view.findViewById(R.id.id_no_work_exp)).getText().toString();
+                Intent intent = new Intent(getApplicationContext(), WorkExpEditPage.class);
                 intent.putExtra("id", cid);
-                startActivityForResult(intent, 100);
+                startActivityForResult(intent, 300);
             }
         });
-        new LoadEduBgd().execute();
-
+        new LoadWorkExp().execute();
     }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_button_edu_bgd:
+            case R.id.back_button_work_exp:
                 finish();
                 break;
-            case R.id.add_edu_bgd_btn:
-                Intent intent = new Intent(getApplicationContext(), EduBgdAddPage.class);
-                startActivityForResult(intent, 100);
+            case R.id.add_working_exp_btn:
+                Intent intent = new Intent(getApplicationContext(), WorkExpAddPage.class);
+                startActivityForResult(intent, 300);
                 break;
             default:
                 break;
         }
     }
 
-    class LoadEduBgd extends AsyncTask<String, String, String> {
+    class LoadWorkExp extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(EduBgdPage.this);
+            dialog = new ProgressDialog(WorkExpPage.this);
             dialog.setMessage("loading...");
             dialog.setIndeterminate(false);
             dialog.setCancelable(true);
@@ -113,23 +117,24 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
             JSONObject jsonObject = jsonParser.makeHttpRequest(url_view, "GET", pairs);
             dataList = new ArrayList<Map<String, Object>>();
 
-            try{
+            try {
                 int success = jsonObject.getInt(TAG_SUCCESS);
                 if (success == 1) {
-                    JSONArray eduObj = jsonObject.getJSONArray(TAG_INFO);
-                    for (int i = 0; i<eduObj.length(); i++) {
-                        JSONObject info = eduObj.getJSONObject(i);
+                    JSONArray workObj = jsonObject.getJSONArray(TAG_INFO);
+                    for (int i = 0; i < workObj.length(); i++) {
+                        JSONObject info = workObj.getJSONObject(i);
                         Map<String, Object> infoMap = new HashMap<String, Object>();
                         infoMap.put("id", info.getString(TAG_ID));
-                        infoMap.put("college", info.getString(TAG_COLLEGE));
-                        infoMap.put("enroll", info.getString(TAG_ENROLL));
-                        infoMap.put("graduate", info.getString(TAG_GRADUATE));
-                        infoMap.put("major", info.getString(TAG_MAJOR));
-                        infoMap.put("degree", info.getString(TAG_DEGREE));
+                        infoMap.put("company", info.getString(TAG_COMPANY));
+                        infoMap.put("entry", info.getString(TAG_ENTRY));
+                        infoMap.put("leave", info.getString(TAG_LEAVE));
+                        infoMap.put("trade", info.getString(TAG_TRADE));
+                        infoMap.put("position", info.getString(TAG_POSITION));
+                        infoMap.put("desc", info.getString(TAG_DESC));
                         dataList.add(infoMap);
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return "success";
@@ -138,9 +143,9 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            eduAdapter = new SimpleAdapter(getApplicationContext(), dataList, R.layout.edu_bgd_item, new String[]{"enroll", "graduate", "college", "degree", "major","id"},
-                    new int[]{R.id.enroll_item_view, R.id.graduate_item_view, R.id.college_item_view, R.id.degree_item_view, R.id.major_item_view, R.id.id_no_edu_bgd});
-            eduBgdLv.setAdapter(eduAdapter);
+            workExpAdapter = new SimpleAdapter(getApplicationContext(), dataList, R.layout.work_exp_item, new String[]{"entry", "leave", "company", "trade", "position", "desc", "id"},
+                    new int[]{R.id.entry_item_view, R.id.leave_item_view, R.id.company_item_view, R.id.trade_item_view, R.id.position_item_view, R.id.desc_item_view, R.id.id_no_work_exp});
+            workExpLv.setAdapter(workExpAdapter);
 
         }
     }
@@ -148,7 +153,7 @@ public class EduBgdPage extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 100) {
+        if (resultCode == 300) {
             Intent intent = getIntent();
             finish();
             startActivity(intent);

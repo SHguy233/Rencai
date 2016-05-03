@@ -51,6 +51,7 @@ public class EduBgdAddPage extends BaseActivity implements View.OnClickListener{
     JSONParser jsonParser = new JSONParser();
     private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/edu_bgd_add.php";
     private static final String TAG_SUCCESS = "success";
+
     private String username;
     private String college;
     private String enroll;

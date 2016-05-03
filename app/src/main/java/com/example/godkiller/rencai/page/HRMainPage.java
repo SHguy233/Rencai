@@ -1,33 +1,21 @@
 package com.example.godkiller.rencai.page;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.ActivityCollector;
-import com.slidingmenu.lib.SlidingMenu;
 
 public class HRMainPage extends Activity {
     private ListView drawerLv;
@@ -67,7 +55,7 @@ public class HRMainPage extends Activity {
                 Intent intent = null;
                 switch (position) {
                     case 0:
-                        intent = new Intent(HRMainPage.this, MyPositionPage.class);
+                        intent = new Intent(HRMainPage.this, PositionPage.class);
                         startActivity(intent);
                         break;
                     case 2:

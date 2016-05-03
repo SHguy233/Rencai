@@ -32,6 +32,7 @@ public class PositionDetailPage extends BaseActivity implements View.OnClickList
 
     private Button positionBtn;
     private Button companyBtn;
+    private Button backBtn;
 
     private PositionDetailFragment positionDetailFragment;
     private CompanyDetailFragment companyDetailFragment;
@@ -52,8 +53,10 @@ public class PositionDetailPage extends BaseActivity implements View.OnClickList
     private void initView(){
         positionBtn = (Button) findViewById(R.id.position_detail_btn);
         companyBtn = (Button) findViewById(R.id.company_detail_btn);
+        backBtn = (Button) findViewById(R.id.back_button_position_detail);
         positionBtn.setOnClickListener(this);
         companyBtn.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
         setDefaultFragment();
 
 
@@ -84,6 +87,9 @@ public class PositionDetailPage extends BaseActivity implements View.OnClickList
                     companyDetailFragment = new CompanyDetailFragment();
                 }
                 transaction.replace(R.id.detail_frame, companyDetailFragment);
+                break;
+            case R.id.back_button_position_detail:
+                finish();
                 break;
         }
         transaction.commit();

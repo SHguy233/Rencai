@@ -1,8 +1,9 @@
 package com.example.godkiller.rencai.page;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,12 +13,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.city.CityListOfSearch;
+import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.position.PositionPageOfSearch;
 import com.example.godkiller.rencai.trade.TradeCategoryOfSearch;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GodKiller on 2016/3/7.
@@ -33,9 +45,19 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
     private EditText salaryText;
     private TextView positionCategoryView;
     private Button searchBtn;
+    private Button saveBtn;
     private String position;
     private String trade;
     private String city;
+    private String salary;
+
+    private ProgressDialog dialog;
+    JSONParser jsonParser = new JSONParser();
+    private static  String url_details = "http://10.0.3.2:63342/htdocs/db/job_intention_details.php";
+    private static  String url_update = "http://10.0.3.2:63342/htdocs/db/job_intention_update.php";
+    private static final String TAG_SUCCESS = "success";
+    private String username;
+    private JSONObject intentionObj;
 
 
 
@@ -45,6 +67,8 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.search_page);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
 
         searchbarText = (EditText) findViewById(R.id.seachbar_edittext);
         cancelView = (ImageView) findViewById(R.id.cancel_image);
@@ -58,13 +82,16 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
         workingCityLayout = (LinearLayout) findViewById(R.id.working_city_layout);
 
         searchBtn = (Button) findViewById(R.id.search_button);
+        saveBtn = (Button) findViewById(R.id.save_button_sp);
         searchBtn.setOnClickListener(this);
+        saveBtn.setOnClickListener(this);
 
         cancelView.setOnClickListener(this);
         tradeCategoryLayout.setOnClickListener(this);
         positionCategoryLayout.setOnClickListener(this);
         workingCityLayout.setOnClickListener(this);
 
+        new GetIntentionTask().execute();
 
     }
 
@@ -87,14 +114,18 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
                 startActivityForResult(cityIntent, 0);
                 break;
             case R.id.search_button:
-                searchEvent();
+                //new SearchTask.execute();
+                break;
+            case R.id.save_button_sp:
+                city = workingCityView.getText().toString();
+                trade = tradeCategoryView.getText().toString();
+                position = positionCategoryView.getText().toString();
+                salary = salaryText.getText().toString();
+                new SaveIntentionTask().execute();
                 break;
         }
     }
 
-    private void searchEvent() {
-        tradeCategoryView.getText();
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -131,6 +162,97 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
                 break;
 
         }
+    }
+    class GetIntentionTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(SearchPage.this);
+            dialog.setMessage("loading...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+                pairs.add(new BasicNameValuePair("username", username));
+                JSONObject jsonObject = jsonParser.makeHttpRequest(url_details, "GET", pairs);
+                int success = jsonObject.getInt("success");
+                if (success == 1) {
+                    JSONArray intentionAry = jsonObject.getJSONArray("info");
+                    intentionObj = intentionAry.getJSONObject(0);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                workingCityView.setText(intentionObj.getString("city"));
+                                tradeCategoryView.setText(intentionObj.getString("trade"));
+                                positionCategoryView.setText(intentionObj.getString("position"));
+                                salaryText.setText(intentionObj.getString("salary"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+        }
+
+    }
+
+    class SaveIntentionTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(SearchPage.this);
+            dialog.setMessage("saving...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+            pairs.add(new BasicNameValuePair("username", username));
+            pairs.add(new BasicNameValuePair("city", city));
+            pairs.add(new BasicNameValuePair("trade", trade));
+            pairs.add(new BasicNameValuePair("position", position));
+            pairs.add(new BasicNameValuePair("salary", salary));
+
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_update, "POST", pairs);
+
+            try{
+                int success = jsonObject.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    finish();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            Toast.makeText(SearchPage.this, "保存成功！", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void updateCity(String city) { workingCityView.setText(city);}

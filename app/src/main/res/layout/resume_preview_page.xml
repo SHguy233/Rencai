@@ -28,6 +28,16 @@
             android:layout_centerInParent="true"
             android:src="@drawable/resume_pre_pic" />
 
+        <Button
+            android:id="@+id/next_btn"
+            android:textSize="20dp"
+            android:layout_alignParentRight="true"
+            android:background="#23B7F5"
+            android:textColor="#ffffff"
+            android:text="下一步"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
     </RelativeLayout>
 
     <ListView
@@ -56,5 +66,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></ListView>
 
+
+
 </LinearLayout>
+
 </ScrollView>

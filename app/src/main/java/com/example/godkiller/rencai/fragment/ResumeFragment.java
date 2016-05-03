@@ -21,7 +21,7 @@ import com.example.godkiller.rencai.page.JobIntentionPage;
 import com.example.godkiller.rencai.page.PersonalInfoPage;
 import com.example.godkiller.rencai.page.ProjectExpPage;
 import com.example.godkiller.rencai.page.ResumePreviewPage;
-import com.example.godkiller.rencai.page.WorkingExpPage;
+import com.example.godkiller.rencai.page.WorkExpPage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +38,6 @@ public class ResumeFragment extends Fragment implements View.OnClickListener{
     private LinearLayout eduBgdLayout;
     private LinearLayout workExpLayout;
     private LinearLayout projectExpLayout;
-    private LinearLayout resumePreviewLayout;
     private ListView personalInfoLv;
     private SimpleAdapter infoAdapter;
     private List<Map<String, Object>> dataList;
@@ -53,7 +52,6 @@ public class ResumeFragment extends Fragment implements View.OnClickListener{
         eduBgdLayout = (LinearLayout) view.findViewById(R.id.edu_bgd_layout);
         workExpLayout = (LinearLayout) view.findViewById(R.id.working_exp_layout);
         projectExpLayout = (LinearLayout) view.findViewById(R.id.project_exp_layout);
-        resumePreviewLayout = (LinearLayout) view.findViewById(R.id.resume_preview_layout);
         personalInfoLv = (ListView) view.findViewById(R.id.personal_info_lv);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userinfo", Context.MODE_PRIVATE);
@@ -64,7 +62,6 @@ public class ResumeFragment extends Fragment implements View.OnClickListener{
         eduBgdLayout.setOnClickListener(this);
         workExpLayout.setOnClickListener(this);
         projectExpLayout.setOnClickListener(this);
-        resumePreviewLayout.setOnClickListener(this);
         setAdapter(getActivity());
         return view;
     }
@@ -129,13 +126,10 @@ public class ResumeFragment extends Fragment implements View.OnClickListener{
                 jumpIntent(getActivity(), EduBgdPage.class);
                 break;
             case R.id.working_exp_layout:
-                jumpIntent(getActivity(), WorkingExpPage.class);
+                jumpIntent(getActivity(), WorkExpPage.class);
                 break;
             case R.id.project_exp_layout:
                 jumpIntent(getActivity(), ProjectExpPage.class);
-                break;
-            case R.id.resume_preview_layout:
-                jumpIntent(getActivity(), ResumePreviewPage.class);
                 break;
             default:
                 break;

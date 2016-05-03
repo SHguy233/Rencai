@@ -5,10 +5,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -19,17 +18,14 @@ import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
-import com.example.godkiller.rencai.db.CompanyInfo;
-import com.example.godkiller.rencai.db.CompanyInfoService;
-import com.example.godkiller.rencai.db.DatabaseHelper;
-import com.example.godkiller.rencai.db.EduBgd;
-import com.example.godkiller.rencai.db.EdubgdService;
 import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.trade.TradeCategoryOfCompany;
 import com.example.godkiller.rencai.trade.TradeCategoryOfIntention;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -61,9 +57,11 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
     private String busDesc;
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
-    private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/company_info_edit.php";
+    private static  String url_details = "http://10.0.3.2:63342/htdocs/db/company_info_details.php";
+    private static  String url_update = "http://10.0.3.2:63342/htdocs/db/company_info_update.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
+    private JSONObject comObj;
 
 
     @Override
@@ -95,6 +93,7 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
         natureLayout.setOnClickListener(this);
         addressLayout.setOnClickListener(this);
         businessLayout.setOnClickListener(this);
+        new GetHRCompanyTask().execute();
     }
 
 
@@ -170,6 +169,56 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
         }
     }
 
+    class GetHRCompanyTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(CompanyInfoEditPage.this);
+            dialog.setMessage("loading...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+                Log.d("company obj", "do in back");
+                pairs.add(new BasicNameValuePair("username", username));
+                JSONObject jsonObject = jsonParser.makeHttpRequest(url_details, "GET", pairs);
+                JSONArray comAry = jsonObject.getJSONArray("info");
+                comObj = comAry.getJSONObject(0);
+                Log.d("pos obj", comObj.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        companyText.setText(comObj.getString("company"));
+                        tradeView.setText(comObj.getString("trade"));
+                        scaleText.setText(comObj.getString("scale"));
+                        addressView.setText(comObj.getString("address"));
+                        businessView.setText(comObj.getString("desc"));
+                        natureView.setText(comObj.getString("nature"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+        }
+
+    }
+
 
     class EditTask extends AsyncTask<String, String, String> {
 
@@ -194,18 +243,14 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
             pairs.add(new BasicNameValuePair("address", address));
             pairs.add(new BasicNameValuePair("business", busDesc));
 
-            JSONObject jsonObject = jsonParser.makeHttpRequest(url_insert, "POST", pairs);
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_details, "POST", pairs);
             //Log.d("insert user", jsonObject.toString());
             try{
                 int success = jsonObject.getInt(TAG_SUCCESS);
-                String message = jsonObject.getString(TAG_MESSAGE);
                 if (success == 1) {
-                    if (message.equals("update")) {
-                        return "update";
-                    } else if (message.equals("save")){
-                        return "save";
-                    }
-                        finish();
+                    Intent intent =getIntent();
+                    setResult(600, intent);
+                    finish();
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -216,14 +261,11 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            if (s.equals("update")) {
-                Toast.makeText(CompanyInfoEditPage.this, "修改成功！",Toast.LENGTH_SHORT).show();
-            } else if (s.equals("save")) {
-                Toast.makeText(CompanyInfoEditPage.this, "保存成功！",Toast.LENGTH_SHORT).show();
+            Toast.makeText(CompanyInfoEditPage.this, "保存成功！",Toast.LENGTH_SHORT).show();
             }
         }
 
-    }
+
 
     private void updateAddress(String address) {
         addressView.setText(address);

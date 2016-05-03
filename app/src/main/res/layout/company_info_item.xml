@@ -2,28 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
-    <ImageView
-        android:id="@+id/square6"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="#66ccff"
-        android:layout_width="90dp"
-        android:layout_height="25dp" />
-    <ImageView
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_alignTop="@+id/square6"
-        android:layout_alignLeft="@+id/square6"
-        android:id="@+id/person_info_bgd"
-        android:background="@drawable/company_info"
-        android:layout_width="80dp"
-        android:layout_height="18dp" />
-    <ImageView
-        android:id="@+id/splitline2"
-        android:layout_below="@+id/square6"
-        android:background="#66ccff"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
     <TextView
         android:id="@+id/company_name_ci_view"
         android:layout_marginLeft="10dp"

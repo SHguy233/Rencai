@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#23B7F5">
+
+        <Button
+            android:id="@+id/back_button_demand"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/back" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/demand_pic" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/condition_age_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_page_selector">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/condition_age_view"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="年龄："
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/condition_age_view"
+                android:layout_centerVertical="true"
+                android:textSize="20dp"
+                android:id="@+id/condition_age_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+
+            <Switch
+                android:layout_marginRight="10dp"
+                android:id="@+id/age_switch"
+                android:textOff="否"
+                android:textOn="是"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/condition_gender_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_page_selector">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/condition_gender_view"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="性别："
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/condition_gender_view"
+                android:layout_centerVertical="true"
+                android:textSize="20dp"
+                android:id="@+id/condition_gender_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+
+            <Switch
+                android:layout_marginRight="10dp"
+                android:id="@+id/gender_switch"
+                android:textOff="否"
+                android:textOn="是"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/condition_degree_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_page_selector">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/condition_degree_view"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="学历："
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/condition_degree_view"
+                android:layout_centerVertical="true"
+                android:textSize="20dp"
+                android:id="@+id/condition_degree_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+
+            <Switch
+                android:layout_marginRight="10dp"
+                android:id="@+id/degree_switch"
+                android:textOff="否"
+                android:textOn="是"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/condition_foreign_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_page_selector">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/condition_foreign_view"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="外语水平："
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/condition_foreign_view"
+                android:layout_centerVertical="true"
+                android:textSize="20dp"
+                android:id="@+id/condition_foreign_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+
+            <Switch
+                android:layout_marginRight="10dp"
+                android:id="@+id/foreign_switch"
+                android:textOff="否"
+                android:textOn="是"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/condition_computer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_page_selector">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/condition_computer_view"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="计算机水平："
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/condition_computer_view"
+                android:layout_centerVertical="true"
+                android:textSize="20dp"
+                android:id="@+id/condition_computer_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+
+            <Switch
+                android:layout_marginRight="10dp"
+                android:id="@+id/computer_switch"
+                android:textOff="否"
+                android:textOn="是"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/condition_workexp_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_page_selector">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/condition_workexp_view"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="工作经验："
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/condition_workexp_view"
+                android:layout_centerVertical="true"
+                android:textSize="20dp"
+                android:id="@+id/condition_workexp_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+
+            <Switch
+                android:layout_marginRight="10dp"
+                android:id="@+id/workexp_switch"
+                android:textOff="否"
+                android:textOn="是"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/condition_remote_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_page_selector">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/condition_remote_view"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="接受异地工作："
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/condition_remote_view"
+                android:layout_centerVertical="true"
+                android:textSize="20dp"
+                android:id="@+id/condition_remote_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+
+            <Switch
+                android:layout_marginRight="10dp"
+                android:id="@+id/remote_switch"
+                android:textOff="否"
+                android:textOn="是"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/send_button"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:text="投  递"
+        android:layout_marginTop="20dp"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:background="@drawable/searchbtn"/>
+
+
+</LinearLayout>

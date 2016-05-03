@@ -169,34 +169,4 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/resume_preview_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:background="@drawable/search_page_selector"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_centerVertical="true"
-                android:src="@drawable/resume_preview_pic"
-                android:layout_width="100dp"
-                android:layout_height="30dp" />
-            <TextView
-                android:id="@+id/resume_preview_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/reume_preview_btn"
-                android:layout_marginRight="20dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:text=">"
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-    </LinearLayout>
-
 </LinearLayout>

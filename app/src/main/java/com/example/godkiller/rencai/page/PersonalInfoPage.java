@@ -2,12 +2,15 @@ package com.example.godkiller.rencai.page;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -20,11 +23,20 @@ import android.widget.Toast;
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.db.DatabaseHelper;
+import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.db.PersonalInfo;
 import com.example.godkiller.rencai.db.PersonalInfoService;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -46,6 +58,20 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
     private Button saveBtn;
     private Button backBtn;
 
+    private ProgressDialog dialog;
+    JSONParser jsonParser = new JSONParser();
+    private static  String url_details = "http://10.0.3.2:63342/htdocs/db/person_info_details.php";
+    private static  String url_update = "http://10.0.3.2:63342/htdocs/db/person_info_update.php";
+    private static final String TAG_SUCCESS = "success";
+    private String username;
+    private String name;
+    private String gender;
+    private String birth;
+    private String workexp;
+    private String remote;
+    private String phone;
+    private JSONObject personObj;
+
     private int birthDay;
     private int birthMonth;
     private int birthYear;
@@ -56,6 +82,9 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.personal_info_page);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
 
         backBtn = (Button) findViewById(R.id.back_button_pi);
         saveBtn = (Button) findViewById(R.id.save_btn_pi);
@@ -80,6 +109,7 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
         remoteAcceptLayout.setOnClickListener(this);
         phoneLayout.setOnClickListener(this);
         initDateLayout();
+        new GetPersonTask().execute();
 
     }
 
@@ -170,40 +200,19 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
                 PersonalInfoPage.this.finish();
                 break;
             case R.id.save_btn_pi:
-                saveEvent();
+                name = nameText.getText().toString();
+                gender = genderView.getText().toString();
+                birth = birthView.getText().toString();
+                workexp = workingView.getText().toString();
+                remote = remoteAcceptView.getText().toString();
+                phone = phoneNumEditText.getText().toString();
+                new SavePersonTask().execute();
                 break;
             default:
                 break;
         }
     }
 
-    private void saveEvent() {
-        SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "");
-        PersonalInfo personalInfo = new PersonalInfo();
-        personalInfo.setUsername(username);
-        personalInfo.setName(nameText.getText().toString());
-        personalInfo.setGender(genderView.getText().toString());
-        personalInfo.setBirth(birthView.getText().toString());
-        personalInfo.setWorkExpTime(workingView.getText().toString());
-        personalInfo.setAcceptRemote(remoteAcceptView.getText().toString());
-        personalInfo.setPhone(phoneView.getText().toString());
-        PersonalInfoService service = new PersonalInfoService(this);
-        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
-        String sql =  "select * from personalinfo where username='" + username + "'";
-        if (exits("personalinfo")) {
-            Cursor cursor = db.rawQuery(sql, null);
-            if (cursor.getCount() == 0){
-                service.save(personalInfo);
-                Toast.makeText(PersonalInfoPage.this, "保存成功", Toast.LENGTH_SHORT).show();
-            } else {
-                service.update(personalInfo);
-                Toast.makeText(PersonalInfoPage.this, "修改成功", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        finish();
-    }
 
     private void updateRemote(String accept) {remoteAcceptView.setText(accept); }
     private void updateGender(String gender) {
@@ -214,15 +223,101 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
     }
     private  void updatePhone(String phone) { phoneView.setText(phone); }
 
-    public boolean exits(String table){
-        SQLiteDatabase db = new DatabaseHelper(this).getReadableDatabase();
-        boolean exits = false;
-        String sql = "select * from sqlite_master where name="+"'"+table+"'";
-        Cursor cursor = db.rawQuery(sql, null);
+    class GetPersonTask extends AsyncTask<String, String, String> {
 
-        if(cursor.getCount()!=0){
-            exits = true;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(PersonalInfoPage.this);
+            dialog.setMessage("loading...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
         }
-        return exits;
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+                pairs.add(new BasicNameValuePair("username", username));
+                JSONObject jsonObject = jsonParser.makeHttpRequest(url_details, "GET", pairs);
+                int success = jsonObject.getInt("success");
+                if (success == 1) {
+                    JSONArray personAry = jsonObject.getJSONArray("info");
+                    personObj = personAry.getJSONObject(0);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                nameText.setText(personObj.getString("name"));
+                                genderView.setText(personObj.getString("gender"));
+                                birthView.setText(personObj.getString("birth"));
+                                workingView.setText(personObj.getString("workexptime"));
+                                remoteAcceptView.setText(personObj.getString("remote"));
+                                phoneView.setText(personObj.getString("phone"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+        }
+
     }
+
+    class SavePersonTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(PersonalInfoPage.this);
+            dialog.setMessage("saving...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+            pairs.add(new BasicNameValuePair("username", username));
+            pairs.add(new BasicNameValuePair("name", name));
+            pairs.add(new BasicNameValuePair("gender", gender));
+            pairs.add(new BasicNameValuePair("birth", birth));
+            pairs.add(new BasicNameValuePair("workexptime", workexp));
+            pairs.add(new BasicNameValuePair("remote", remote));
+            pairs.add(new BasicNameValuePair("phone", phone));
+
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_update, "POST", pairs);
+
+            try{
+                int success = jsonObject.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    finish();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            Toast.makeText(PersonalInfoPage.this, "保存成功！", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
 }

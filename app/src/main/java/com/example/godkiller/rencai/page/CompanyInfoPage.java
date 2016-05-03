@@ -50,7 +50,6 @@ public class CompanyInfoPage extends BaseActivity implements View.OnClickListene
     JSONParser jsonParser = new JSONParser();
     private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/company_info_view.php";
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
     private static final String TAG_INFO = "info";
     private static final String TAG_COMPANY = "company";
     private static final String TAG_TRADE = "trade";
@@ -88,7 +87,7 @@ public class CompanyInfoPage extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.edit_company_info_btn:
                 Intent intent = new Intent(CompanyInfoPage.this, CompanyInfoEditPage.class);
-                startActivity(intent);
+                startActivityForResult(intent, 600);
                 break;
             default:
                 break;
@@ -142,6 +141,16 @@ public class CompanyInfoPage extends BaseActivity implements View.OnClickListene
                     new int[]{R.id.company_name_ci_text, R.id.trade_ci_text, R.id.company_category_ci_text, R.id.scale_ci_text, R.id.business_desc_ci_text,R.id.company_address_ci_text});
             companyInfoLv.setAdapter(companyInfoAdapter);
 
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 600) {
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
         }
     }
 }

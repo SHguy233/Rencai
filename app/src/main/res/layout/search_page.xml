@@ -40,6 +40,7 @@
             android:src="@drawable/cancel_image"
             android:textColor="#ffffff"
             android:layout_marginRight="20dp"/>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -169,13 +170,24 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="200dp">
         <Button
+            android:id="@+id/save_button_sp"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:text="保  存"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:background="@drawable/searchbtn"/>
+        <Button
+            android:layout_below="@id/save_button_sp"
             android:id="@+id/search_button"
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:text="搜  索"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:layout_width="350dp"
             android:layout_height="50dp"
