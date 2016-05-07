@@ -15,11 +15,7 @@
             />
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/personal_info_lv"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"></ListView>
-    <LinearLayout
+     <LinearLayout
         android:id="@+id/personal_info_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -29,6 +25,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/png_pi"
+                android:layout_centerVertical="true"
+                android:src="@drawable/personinfo_png"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+            <ImageView
+                android:layout_toRightOf="@+id/png_pi"
                 android:layout_centerVertical="true"
                 android:src="@drawable/personal_info"
                 android:layout_width="100dp"
@@ -50,36 +53,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/job_intention_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:background="@drawable/search_page_selector"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_centerVertical="true"
-                android:src="@drawable/job_intention"
-                android:layout_width="100dp"
-                android:layout_height="30dp" />
-            <TextView
-                android:id="@+id/job_intention_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/job_intention_btn"
-                android:layout_marginRight="20dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:text=">"
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/edu_bgd_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -89,6 +62,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/png_edu"
+                android:layout_centerVertical="true"
+                android:src="@drawable/edubgd_png"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+            <ImageView
+                android:layout_toRightOf="@id/png_edu"
                 android:layout_centerVertical="true"
                 android:src="@drawable/edu_bgd"
                 android:layout_width="100dp"
@@ -119,6 +99,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
+                    android:id="@+id/png_work"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/workexp_png"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+                <ImageView
+                    android:layout_toRightOf="@+id/png_work"
                     android:layout_centerVertical="true"
                     android:src="@drawable/working_experience"
                     android:layout_width="150dp"
@@ -149,6 +136,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/png_poj"
+                android:layout_centerVertical="true"
+                android:src="@drawable/project_png"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+            <ImageView
+                android:layout_toRightOf="@id/png_poj"
                 android:layout_centerVertical="true"
                 android:src="@drawable/project_exp"
                 android:layout_width="100dp"

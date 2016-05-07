@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#23B7F5">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/interview_pic" />
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/hvChannel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        >
+        <RadioGroup
+            android:orientation="horizontal"
+            android:id="@+id/rgChannel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></RadioGroup>
+    </HorizontalScrollView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight='1'
+        >
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

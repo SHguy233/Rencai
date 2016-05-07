@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class CompanyDetailFragment extends Fragment {
     private String username;
     private String company;
     private Button followBtn;
+    private RatingBar ratingBar;
 
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
@@ -75,6 +77,10 @@ public class CompanyDetailFragment extends Fragment {
             }
         });
         new GetSeekerCompanyTask().execute();
+        ratingBar = (RatingBar) view.findViewById(R.id.ratingbar_company);
+        ratingBar.setIsIndicator(true);
+        ratingBar.setStepSize(0.1f);
+
         return view;
     }
 
@@ -115,6 +121,9 @@ public class CompanyDetailFragment extends Fragment {
                         descView.setText(comObj.getString("desc"));
                         natureView.setText(comObj.getString("nature"));
                         idView.setText(comObj.getString("id"));
+                        String score = comObj.getString("score");
+                        float rate = Integer.valueOf(score) / 10;
+                        ratingBar.setRating(rate);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

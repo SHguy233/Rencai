@@ -1,5 +1,6 @@
 package com.example.godkiller.rencai.page;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.ActivityCollector;
+import com.example.godkiller.rencai.base.PollingUtils;
+import com.example.godkiller.rencai.db.PollingService;
 import com.example.godkiller.rencai.fragment.InfoFragment;
 import com.example.godkiller.rencai.fragment.InterviewFragment;
 import com.example.godkiller.rencai.fragment.PositionFragment;
@@ -22,6 +25,8 @@ import com.example.godkiller.rencai.fragment.ResumeFragment;
  * Created by GodKiller on 2016/3/6.
  */
 public class SeekerMainPage extends FragmentActivity{
+
+    private String username;
 
     //定义FragmentTabHost对象
     private FragmentTabHost mTabHost;
@@ -43,6 +48,10 @@ public class SeekerMainPage extends FragmentActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("userinfo", MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
+        System.out.println("Start polling service...");
+        PollingUtils.startPollingService(this, 200, PollingService.class, "com.example.godkiller.rencai.db.PollingService", username);
 
         initView();
     }
@@ -71,6 +80,13 @@ public class SeekerMainPage extends FragmentActivity{
             //mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.tab_button_selector);
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("Stop polling service...");
+        PollingUtils.stopPollingService(this, PollingService.class, PollingService.ACTION);
     }
 
     /**

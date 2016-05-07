@@ -227,6 +227,13 @@ public class PositionFragment extends Fragment{
             return "success";
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            positionAdapter = new SimpleAdapter(getActivity(), dataList, R.layout.position_item_seeker, new String[]{"position", "salary", "company", "city", "degree", "num", "id"},
+                    new int[]{R.id.position_item_position_seeker, R.id.salary_item_position_seeker, R.id.company_item_position_seeker, R.id.work_city_item_position_seeker, R.id.degree_item_position_seeker, R.id.num_item_position_seeker, R.id.id_no_position_seeker});
+            positionLv.setAdapter(positionAdapter);
+        }
     }
 
     class AddAttentionTask extends AsyncTask<String, String, String> {
@@ -244,9 +251,9 @@ public class PositionFragment extends Fragment{
         protected String doInBackground(String... params) {
             List<NameValuePair> pairs = new ArrayList<NameValuePair>();
             pairs.add(new BasicNameValuePair("id", cid));
-            //Log.d("id", cid);
+            Log.d("id", cid);
             JSONObject jsonObject = jsonParser.makeHttpRequest(url_add, "POST", pairs);
-            //Log.d("ADD ATTENTION", jsonObject.toString());
+            Log.d("ADD ATTENTION", jsonObject.toString());
             try {
                 int success = jsonObject.getInt(TAG_SUCCESS);
                 if (success == 1) {

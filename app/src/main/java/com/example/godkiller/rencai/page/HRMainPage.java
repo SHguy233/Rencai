@@ -45,7 +45,6 @@ public class HRMainPage extends Activity {
         menuList.add("我的职位");
         menuList.add("我的简历");
         menuList.add("公司信息");
-        menuList.add("我的消息");
         menuList.add("帐号信息");
         menuAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuList);
         drawerLv.setAdapter(menuAdapter);
@@ -58,11 +57,15 @@ public class HRMainPage extends Activity {
                         intent = new Intent(HRMainPage.this, PositionPage.class);
                         startActivity(intent);
                         break;
+                    case 1:
+                        intent = new Intent(HRMainPage.this, HRResumePage.class);
+                        startActivity(intent);
+                        break;
                     case 2:
                         intent = new Intent(HRMainPage.this, CompanyInfoPage.class);
                         startActivity(intent);
                         break;
-                    case 4:
+                    case 3:
                         intent = new Intent(HRMainPage.this, MyAccountPage.class);
                         startActivity(intent);
                         break;

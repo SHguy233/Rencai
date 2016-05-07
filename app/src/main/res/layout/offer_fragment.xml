@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/interview_lv"
+        android:id="@+id/offer_lv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></ListView>
 </LinearLayout>

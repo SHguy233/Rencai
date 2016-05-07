@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <RelativeLayout
+        android:id="@+id/title_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#23B7F5">
+        <Button
+            android:id="@+id/back_button_interview"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/back" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/my_interview_pic" />
+    </RelativeLayout>
+
+
+    <ImageView
+        android:layout_below="@+id/title_relative_layout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/position_img"
+        android:id="@+id/position_pic_fra"
+        android:layout_width="26dp"
+        android:layout_height="26dp" />
+    <TextView
+        android:layout_below="@+id/title_relative_layout"
+        android:layout_toRightOf="@+id/position_pic_fra"
+        android:layout_marginTop="10dp"
+        android:textSize="26dp"
+        android:text="职位"
+        android:id="@+id/position_item_interview_fra"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/title_relative_layout"
+        android:layout_toLeftOf="@+id/salary_item_interview_fra"
+        android:src="@drawable/img_salary"
+        android:id="@+id/salary_pic_fra"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:layout_below="@+id/title_relative_layout"
+        android:id="@+id/salary_item_interview_fra"
+        android:text="薪酬"
+        android:textSize="20dp"
+        android:textColor="#ff0099"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="100dp"
+        android:layout_height="30dp" />
+
+    <ImageView
+        android:layout_below="@+id/position_item_interview_fra"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/company_img"
+        android:id="@+id/company_pic_fra"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+
+    <TextView
+        android:layout_toRightOf="@+id/company_pic_fra"
+        android:textSize="20dp"
+        android:text="公司"
+        android:layout_below="@+id/position_item_interview_fra"
+        android:id="@+id/company_item_interview_fra"
+        android:layout_width="200dp"
+        android:layout_height="30dp" />
+
+    <ImageView
+        android:id="@+id/gps_view_fra"
+        android:layout_below="@id/company_item_interview_fra"
+        android:src="@drawable/gps"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:id="@+id/work_city_item_interview_fra"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:layout_below="@id/company_item_interview_fra"
+        android:layout_toRightOf="@+id/gps_view_fra"
+        android:text="城市"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_toRightOf="@id/work_city_item_interview_fra"
+        android:id="@+id/workexp_pic_fra"
+        android:layout_below="@id/company_item_interview_fra"
+        android:src="@drawable/workexp_pic"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:id="@+id/workexp_item_interview_fra"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:layout_below="@id/company_item_interview_fra"
+        android:layout_toRightOf="@+id/workexp_pic_fra"
+        android:text="经验"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/degree_view_pic_fra"
+        android:layout_toRightOf="@id/workexp_item_interview_fra"
+        android:layout_below="@id/company_item_interview_fra"
+        android:src="@drawable/degree_pic"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:id="@+id/degree_item_interview_fra"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:layout_below="@id/company_item_interview_fra"
+        android:layout_toRightOf="@+id/degree_view_pic_fra"
+        android:text="学历"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/num_view_fra"
+        android:layout_toRightOf="@+id/degree_item_interview_fra"
+        android:layout_below="@id/company_item_interview_fra"
+        android:src="@drawable/num_pic"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:id="@+id/num_item_interview_fra"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:layout_below="@id/company_item_interview_fra"
+        android:layout_toRightOf="@+id/num_view_fra"
+        android:text="人数"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/desc_view_fra"
+        android:layout_below="@id/num_view_fra"
+        android:src="@drawable/desc_img"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:layout_toRightOf="@+id/desc_view_fra"
+        android:id="@+id/interview_desc_fra"
+        android:textSize="20dp"
+        android:text="职位描述:"
+        android:layout_below="@+id/gps_view_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="18dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="描述"
+        android:layout_below="@+id/interview_desc_fra"
+        android:id="@+id/desc_interview_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@id/desc_interview_fra"
+        android:id="@+id/company_interview_fra"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/company_interview_fra"
+        android:text="行业："
+        android:id="@+id/trade_interview_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/trade_interview_fra"
+        android:textSize="20dp"
+        android:layout_below="@+id/company_interview_fra"
+        android:id="@+id/interview_trade_text_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/trade_interview_fra"
+        android:text="性质："
+        android:id="@+id/nature_interview_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/nature_interview_fra"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/trade_interview_fra"
+        android:id="@+id/interview_nature_text_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/nature_interview_fra"
+        android:text="规模："
+        android:id="@+id/scale_interview_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/scale_interview_fra"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/nature_interview_fra"
+        android:id="@+id/interview_scale_text_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/scale_interview_fra"
+        android:text="地址："
+        android:id="@+id/address_interview_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_toRightOf="@+id/address_interview_fra"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/scale_interview_fra"
+        android:id="@+id/interview_address_text_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/address_interview_fra"
+        android:text="公司介绍："
+        android:id="@+id/company_desc_interview_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/company_desc_interview_fra"
+        android:id="@+id/interview_company_desc_text_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RatingBar
+        android:id="@+id/ratingbar_interview"
+        android:numStars="5"
+        android:layout_below="@+id/interview_company_desc_text_fra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/id_no_company_interview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/assess_btn"
+        android:textSize="20dp"
+        android:textColor="#ffffff"
+        android:text="评价公司"
+        android:background="#23B7F5"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+
+</RelativeLayout>

@@ -4,8 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/interview_lv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></ListView>
+
+
+  <ListView
+      android:id="@+id/hr_offer_lv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"></ListView>
+
+
+
+
+
 </LinearLayout>

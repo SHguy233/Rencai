@@ -36,6 +36,7 @@
                 android:src="@drawable/send_record" />
 
             <TextView
+                android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -45,44 +46,6 @@
 
             <TextView
                 android:id="@+id/send_record_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:text=">"
-                android:textSize="20sp" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:background="@drawable/search_page_selector"
-        android:id="@+id/position_invitation_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/invitation_pic"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/position_invitation" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/invitation_pic"
-                android:text="我的职位邀请"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/positon_invitation_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -113,6 +76,7 @@
                 android:src="@drawable/collection" />
 
             <TextView
+                android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -152,6 +116,7 @@
                 android:src="@drawable/follow" />
 
             <TextView
+                android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -191,6 +156,7 @@
                 android:src="@drawable/setttings" />
 
             <TextView
+                android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

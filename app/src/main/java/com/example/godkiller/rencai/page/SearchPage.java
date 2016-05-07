@@ -114,7 +114,12 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
                 startActivityForResult(cityIntent, 0);
                 break;
             case R.id.search_button:
-                //new SearchTask.execute();
+                Intent searchIntent = new Intent(SearchPage.this, SearchResultPage.class);
+                searchIntent.putExtra("trade", tradeCategoryView.getText().toString());
+                searchIntent.putExtra("position", positionCategoryView.getText().toString());
+                searchIntent.putExtra("salary", salaryText.getText().toString());
+                searchIntent.putExtra("city", workingCityView.getText().toString());
+                startActivity(searchIntent);
                 break;
             case R.id.save_button_sp:
                 city = workingCityView.getText().toString();

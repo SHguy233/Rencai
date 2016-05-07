@@ -8,7 +8,7 @@
         android:layout_height="50dp"
         android:background="#23B7F5">
         <Button
-            android:id="@+id/back_button_mr"
+            android:id="@+id/back_button_mrp"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
@@ -25,7 +25,7 @@
 
 
     <ListView
-        android:id="@+id/my_resume_lv"
+        android:id="@+id/my_resume_position_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></ListView>
 </LinearLayout>
