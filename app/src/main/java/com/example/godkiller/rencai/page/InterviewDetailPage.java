@@ -60,6 +60,7 @@ public class InterviewDetailPage extends BaseActivity {
     private String id;
     private JSONObject posObj;
     private JSONObject comObj;
+    private Button detailBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class InterviewDetailPage extends BaseActivity {
 
         id = getIntent().getStringExtra("id");
         assessBtn = (Button) findViewById(R.id.assess_btn);
+        detailBtn = (Button) findViewById(R.id.interview_detail_btn);
         positionView = (TextView) findViewById(R.id.position_item_interview_fra);
         salaryView = (TextView) findViewById(R.id.salary_item_interview_fra);
         companyView = (TextView) findViewById(R.id.company_item_interview_fra);
@@ -100,6 +102,14 @@ public class InterviewDetailPage extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(InterviewDetailPage.this, CompanyAssessmentPage.class);
                 intent.putExtra("companyId", cidView.getText().toString());
+                startActivity(intent);
+            }
+        });
+        detailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InterviewDetailPage.this, InterviewDetailInfoPage.class);
+                intent.putExtra("interviewId", getIntent().getStringExtra("interviewId"));
                 startActivity(intent);
             }
         });

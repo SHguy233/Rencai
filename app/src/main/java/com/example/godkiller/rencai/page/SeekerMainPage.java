@@ -27,6 +27,7 @@ import com.example.godkiller.rencai.fragment.ResumeFragment;
 public class SeekerMainPage extends FragmentActivity{
 
     private String username;
+    private String identity;
 
     //定义FragmentTabHost对象
     private FragmentTabHost mTabHost;
@@ -50,9 +51,11 @@ public class SeekerMainPage extends FragmentActivity{
         setContentView(R.layout.main_page);
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("userinfo", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
+        identity = sharedPreferences.getString("identity", "");
         System.out.println("Start polling service...");
-        PollingUtils.startPollingService(this, 200, PollingService.class, "com.example.godkiller.rencai.db.PollingService", username);
-
+        if (identity.equals("seeker")) {
+            PollingUtils.startPollingService(this, 200, PollingService.class, "com.example.godkiller.rencai.db.PollingService", username);
+        }
         initView();
     }
 

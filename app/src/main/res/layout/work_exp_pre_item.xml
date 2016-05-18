@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp" />
     <TextView
+        android:textColor="#000000"
         android:id="@+id/company_text_pre"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -33,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="#000000"
         android:id="@+id/trade_text_pre"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -41,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="#000000"
         android:id="@+id/position_text_pre"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -49,6 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="#000000"
         android:id="@+id/entry_text_pre"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -57,6 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="#000000"
         android:id="@+id/leave_text_pre"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -65,6 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="#000000"
         android:id="@+id/work_desc_text_pre"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -73,6 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="#000000"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="160dp"
         android:id="@+id/company_view_pre"
@@ -81,6 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="#000000"
         android:id="@+id/trade_view_pre"
         android:layout_marginLeft="160dp"
         android:layout_marginTop="10dp"
@@ -89,6 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="#000000"
         android:id="@+id/position_view_pre"
         android:layout_marginLeft="160dp"
         android:layout_marginTop="10dp"
@@ -97,6 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="#000000"
         android:id="@+id/entry_view_pre"
         android:layout_marginLeft="160dp"
         android:layout_marginTop="10dp"
@@ -106,6 +116,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="#000000"
         android:id="@+id/leave_view_pre"
         android:layout_marginLeft="160dp"
         android:layout_marginTop="10dp"
@@ -115,6 +126,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="#000000"
         android:id="@+id/work_desc_view_pre"
         android:layout_marginLeft="160dp"
         android:layout_marginTop="10dp"

@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class CompanyInfoEditPage extends BaseActivity implements View.OnClickListener{
     private Button backBtn;
-    private Button saveBtn;
+    private Button commitBtn;
     private EditText companyText;
     private EditText scaleText;
     private EditText addressText;
@@ -58,7 +58,7 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
     private static  String url_details = "http://10.0.3.2:63342/htdocs/db/company_info_details.php";
-    private static  String url_update = "http://10.0.3.2:63342/htdocs/db/company_info_update.php";
+    private static  String url_check = "http://10.0.3.2:63342/htdocs/db/company_info_commit.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
     private JSONObject comObj;
@@ -74,7 +74,7 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
         username = sharedPreferences.getString("username", "");
 
         backBtn = (Button) findViewById(R.id.back_button_company_info_edit);
-        saveBtn = (Button) findViewById(R.id.save_btn_ci);
+        commitBtn = (Button) findViewById(R.id.commit_check_button);
         companyText = (EditText) findViewById(R.id.company_name_edit_text);
         scaleText = (EditText) findViewById(R.id.scale_edit_text);
         tradeLayout = (LinearLayout) findViewById(R.id.trade_category_layout_ci);
@@ -88,7 +88,7 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
         addressText = new EditText(this);
 
         backBtn.setOnClickListener(this);
-        saveBtn.setOnClickListener(this);
+        commitBtn.setOnClickListener(this);
         tradeLayout.setOnClickListener(this);
         natureLayout.setOnClickListener(this);
         addressLayout.setOnClickListener(this);
@@ -103,7 +103,7 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
             case R.id.back_button_company_info_edit:
                 finish();
                 break;
-            case R.id.save_btn_ci:
+            case R.id.commit_check_button:
                 company = companyText.getText().toString();
                 trade = tradeView.getText().toString();
                 nature = natureView.getText().toString();
@@ -185,30 +185,32 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
         protected String doInBackground(String... params) {
             try {
                 List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-                Log.d("company obj", "do in back");
                 pairs.add(new BasicNameValuePair("username", username));
                 JSONObject jsonObject = jsonParser.makeHttpRequest(url_details, "GET", pairs);
-                JSONArray comAry = jsonObject.getJSONArray("info");
-                comObj = comAry.getJSONObject(0);
-                Log.d("pos obj", comObj.toString());
+                int success = jsonObject.getInt("success");
+                if (success == 1) {
+                    JSONArray comAry = jsonObject.getJSONArray("info");
+                    comObj = comAry.getJSONObject(0);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                companyText.setText(comObj.getString("company"));
+                                tradeView.setText(comObj.getString("trade"));
+                                scaleText.setText(comObj.getString("scale"));
+                                addressView.setText(comObj.getString("address"));
+                                businessView.setText(comObj.getString("desc"));
+                                natureView.setText(comObj.getString("nature"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        companyText.setText(comObj.getString("company"));
-                        tradeView.setText(comObj.getString("trade"));
-                        scaleText.setText(comObj.getString("scale"));
-                        addressView.setText(comObj.getString("address"));
-                        businessView.setText(comObj.getString("desc"));
-                        natureView.setText(comObj.getString("nature"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+
             return null;
         }
 
@@ -243,7 +245,7 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
             pairs.add(new BasicNameValuePair("address", address));
             pairs.add(new BasicNameValuePair("business", busDesc));
 
-            JSONObject jsonObject = jsonParser.makeHttpRequest(url_details, "POST", pairs);
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_check, "POST", pairs);
             //Log.d("insert user", jsonObject.toString());
             try{
                 int success = jsonObject.getInt(TAG_SUCCESS);
@@ -261,7 +263,7 @@ public class CompanyInfoEditPage extends BaseActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            Toast.makeText(CompanyInfoEditPage.this, "保存成功！",Toast.LENGTH_SHORT).show();
+            Toast.makeText(CompanyInfoEditPage.this, "提交成功！",Toast.LENGTH_SHORT).show();
             }
         }
 

@@ -23,6 +23,13 @@
             android:layout_height="30dp"
             android:layout_centerInParent="true"
             android:src="@drawable/my_interview_pic" />
+
+        <Button
+            android:id="@+id/interview_detail_btn"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/interview_detail_png"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
     </RelativeLayout>
 
 
@@ -281,6 +288,7 @@
 
 
     <TextView
+        android:visibility="invisible"
         android:layout_marginTop="50dp"
         android:layout_alignParentRight="true"
         android:id="@+id/id_no_company_interview"

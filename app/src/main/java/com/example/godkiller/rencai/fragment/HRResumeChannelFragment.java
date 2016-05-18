@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.page.HRResumeViewPage;
+import com.example.godkiller.rencai.page.HRSendInterviewPage;
 import com.example.godkiller.rencai.page.InterviewDetailPage;
 
 import org.apache.http.NameValuePair;
@@ -38,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.godkiller.rencai.R.id.interview_item_salary;
 import static com.example.godkiller.rencai.R.id.workexp_checkbox;
 
 /**
@@ -71,7 +73,6 @@ public class HRResumeChannelFragment extends Fragment implements CompoundButton.
     JSONParser jsonParser = new JSONParser();
     private static String url_view = "http://10.0.3.2:63342/htdocs/db/hr_resume_view.php";
     private static String url_filter = "http://10.0.3.2:63342/htdocs/db/hr_resume_filter_view.php";
-    private static String url_send = "http://10.0.3.2:63342/htdocs/db/hr_send_interview.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_INFO = "info";
 
@@ -110,6 +111,7 @@ public class HRResumeChannelFragment extends Fragment implements CompoundButton.
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     seekerUsername = ((TextView) view.findViewById(R.id.resume_item_username)).getText().toString();
                     Intent intent = new Intent(getActivity(), HRResumeViewPage.class);
+                    intent.putExtra("seekerUsername", seekerUsername);
                     startActivity(intent);
                 }
             });
@@ -187,7 +189,10 @@ public class HRResumeChannelFragment extends Fragment implements CompoundButton.
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                new SendInterviewTask().execute();
+                Intent intent = new Intent(getActivity(), HRSendInterviewPage.class);
+                intent.putExtra("seekerUsername", seekerUsername);
+                intent.putExtra("positionId", cid);
+                startActivityForResult(intent, 111);
             }
         });
 
@@ -306,39 +311,9 @@ public class HRResumeChannelFragment extends Fragment implements CompoundButton.
         }
     }
 
-    class SendInterviewTask extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(getActivity());
-            dialog.setMessage("sending...");
-            dialog.setIndeterminate(false);
-            dialog.setCancelable(true);
-            dialog.show();
-        }
 
-        @Override
-        protected String doInBackground(String... params) {
-            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-            pairs.add(new BasicNameValuePair("seekerUsername", seekerUsername));
-            pairs.add(new BasicNameValuePair("positionId", cid));
-            JSONObject jsonObject = jsonParser.makeHttpRequest(url_send, "POST", pairs);
-            try {
-                int success = jsonObject.getInt(TAG_SUCCESS);
-                if (success == 1) {
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "success";
-        }
 
-        @Override
-        protected void onPostExecute(String s) {
-            dialog.dismiss();
-            Toast.makeText(getActivity(), "发送成功", Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
 
 }

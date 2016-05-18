@@ -1,28 +1,19 @@
 package com.example.godkiller.rencai.page;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
-import com.example.godkiller.rencai.db.CompanyInfo;
-import com.example.godkiller.rencai.db.DatabaseHelper;
 import com.example.godkiller.rencai.db.JSONParser;
 
 import org.apache.http.NameValuePair;
@@ -34,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.godkiller.rencai.R.id.checking_view;
 
 /**
  * Created by GodKiller on 2016/4/5.
@@ -47,8 +40,9 @@ public class CompanyInfoPage extends BaseActivity implements View.OnClickListene
     private List<Map<String, Object>> dataList;
     private String username;
     private ProgressDialog dialog;
+    private TextView checkingView;
     JSONParser jsonParser = new JSONParser();
-    private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/company_info_view.php";
+    private static  String url_view = "http://10.0.3.2:63342/htdocs/db/company_info_view.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_INFO = "info";
     private static final String TAG_COMPANY = "company";
@@ -71,6 +65,7 @@ public class CompanyInfoPage extends BaseActivity implements View.OnClickListene
 
         editCompanyInfoBtn = (Button) findViewById(R.id.edit_company_info_btn);
         backBtn = (Button) findViewById(R.id.back_button_company_info);
+        checkingView = (TextView) findViewById(checking_view);
         companyInfoLv = (ListView) findViewById(R.id.company_info_lv);
         backBtn.setOnClickListener(this);
         editCompanyInfoBtn.setOnClickListener(this);
@@ -108,39 +103,55 @@ public class CompanyInfoPage extends BaseActivity implements View.OnClickListene
 
         @Override
         protected String doInBackground(String... params) {
+            String result ="";
             List<NameValuePair> pairs = new ArrayList<NameValuePair>();
             pairs.add(new BasicNameValuePair("username", username));
-            JSONObject jsonObject = jsonParser.makeHttpRequest(url_insert, "GET", pairs);
-            Log.d("company info", jsonObject.toString());
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_view, "GET", pairs);
 
             try{
                 int success = jsonObject.getInt(TAG_SUCCESS);
+                String message = jsonObject.getString("message");
                 if (success == 1) {
-                    JSONArray companyObj = jsonObject.getJSONArray(TAG_INFO);
-                    JSONObject info = companyObj.getJSONObject(0);
-                    Map<String, Object> infoMap = new HashMap<String, Object>();
-                    infoMap.put("company", info.getString(TAG_COMPANY));
-                    infoMap.put("trade", info.getString(TAG_TRADE));
-                    infoMap.put("nature", info.getString(TAG_NATURE));
-                    infoMap.put("scale", info.getString(TAG_SCALE));
-                    infoMap.put("address", info.getString(TAG_ADDRESS));
-                    infoMap.put("business", info.getString(TAG_BUSINESS));
-                    dataList = new ArrayList<Map<String, Object>>();
-                    dataList.add(infoMap);
+                    if (message.equals("checking")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                checkingView.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        result = "checking";
+                    }else {
+                        JSONArray companyObj = jsonObject.getJSONArray(TAG_INFO);
+                        JSONObject info = companyObj.getJSONObject(0);
+                        Map<String, Object> infoMap = new HashMap<String, Object>();
+                        infoMap.put("company", info.getString(TAG_COMPANY));
+                        infoMap.put("trade", info.getString(TAG_TRADE));
+                        infoMap.put("nature", info.getString(TAG_NATURE));
+                        infoMap.put("scale", info.getString(TAG_SCALE));
+                        infoMap.put("address", info.getString(TAG_ADDRESS));
+                        infoMap.put("business", info.getString(TAG_BUSINESS));
+                        dataList = new ArrayList<Map<String, Object>>();
+                        dataList.add(infoMap);
+                        result = "success";
+                    }
+                } else {
+                    result = "fail";
                 }
             }catch (Exception e){
                 e.printStackTrace();
             }
-            return "success";
+            return result;
         }
 
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            companyInfoAdapter = new SimpleAdapter(getApplicationContext(), dataList, R.layout.company_info_item, new String[]{"company", "trade", "nature", "scale", "business","address"},
-                    new int[]{R.id.company_name_ci_text, R.id.trade_ci_text, R.id.company_category_ci_text, R.id.scale_ci_text, R.id.business_desc_ci_text,R.id.company_address_ci_text});
-            companyInfoLv.setAdapter(companyInfoAdapter);
+            if (s.equals("success")) {
+                companyInfoAdapter = new SimpleAdapter(getApplicationContext(), dataList, R.layout.company_info_item, new String[]{"company", "trade", "nature", "scale", "business", "address"},
+                        new int[]{R.id.company_name_ci_text, R.id.trade_ci_text, R.id.company_category_ci_text, R.id.scale_ci_text, R.id.business_desc_ci_text, R.id.company_address_ci_text});
+                companyInfoLv.setAdapter(companyInfoAdapter);
 
+            }
         }
     }
 

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -19,12 +18,9 @@ import android.widget.Toast;
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.db.JSONParser;
-import com.example.godkiller.rencai.db.ProjectExp;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

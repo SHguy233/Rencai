@@ -19,8 +19,6 @@ import android.widget.Toast;
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.db.JSONParser;
-import com.example.godkiller.rencai.db.WorkExp;
-import com.example.godkiller.rencai.db.WorkExpService;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

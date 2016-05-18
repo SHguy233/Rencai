@@ -3,30 +3,18 @@ package com.example.godkiller.rencai.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.example.godkiller.rencai.R;
-import com.example.godkiller.rencai.db.DatabaseHelper;
 import com.example.godkiller.rencai.page.EduBgdPage;
-import com.example.godkiller.rencai.page.JobIntentionPage;
 import com.example.godkiller.rencai.page.PersonalInfoPage;
 import com.example.godkiller.rencai.page.ProjectExpPage;
-import com.example.godkiller.rencai.page.ResumePreviewPage;
 import com.example.godkiller.rencai.page.WorkExpPage;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by GodKiller on 2016/3/6.

@@ -54,7 +54,6 @@ public class HRResumeViewPage extends BaseActivity implements View.OnClickListen
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
     private static String url_view = "http://10.0.3.2:63342/htdocs/db/seeker_resume_preview.php";
-    private static String url_send = "http://10.0.3.2:63342/htdocs/db/hr_send_interview.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_INFO = "info";
 

@@ -44,6 +44,7 @@ public class SearchResultPage extends BaseActivity implements View.OnClickListen
     private String salary;
     private String trade;
     private String position;
+    private String keywords;
     private String city;
     private SimpleAdapter positionAdapter;
     private List<Map<String, Object>> dataList;
@@ -70,6 +71,8 @@ public class SearchResultPage extends BaseActivity implements View.OnClickListen
         city = getIntent().getStringExtra("city");
         position = getIntent().getStringExtra("position");
         trade = getIntent().getStringExtra("trade");
+        keywords = getIntent().getStringExtra("keywords");
+
 
         backBtn = (Button) findViewById(R.id.back_button_search_result);
         positionLv = (ListView) findViewById(R.id.position_lv_seeker_result);
@@ -155,6 +158,7 @@ public class SearchResultPage extends BaseActivity implements View.OnClickListen
             pairs.add(new BasicNameValuePair("position", position));
             pairs.add(new BasicNameValuePair("salary", salary));
             pairs.add(new BasicNameValuePair("city", city));
+            pairs.add(new BasicNameValuePair("keywords", keywords));
             pairs.add(new BasicNameValuePair("order", order));
             JSONObject jsonObject = jsonParser.makeHttpRequest(url_order, "GET", pairs);
             dataList = new ArrayList<Map<String, Object>>();
@@ -247,6 +251,7 @@ public class SearchResultPage extends BaseActivity implements View.OnClickListen
             pairs.add(new BasicNameValuePair("position", position));
             pairs.add(new BasicNameValuePair("salary", salary));
             pairs.add(new BasicNameValuePair("city", city));
+            pairs.add(new BasicNameValuePair("keywords", keywords));
             JSONObject jsonObject = jsonParser.makeHttpRequest(url_view, "GET", pairs);
             dataList = new ArrayList<Map<String, Object>>();
 

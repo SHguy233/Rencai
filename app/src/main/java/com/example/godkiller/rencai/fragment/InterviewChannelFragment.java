@@ -44,6 +44,7 @@ import java.util.Map;
 public class InterviewChannelFragment extends Fragment{
     private String cid;
     private String company;
+    private String interviewId;
     private ListView interviewLv;
     private SimpleAdapter interviewAdapter;
     private List<Map<String, Object>> dataList;
@@ -73,9 +74,11 @@ public class InterviewChannelFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 cid = ((TextView) view.findViewById(R.id.id_no_positionid)).getText().toString();
                 company = ((TextView) view.findViewById(R.id.interview_item_company)).getText().toString();
+                interviewId = ((TextView)view.findViewById(R.id.id_no_interviewid)).getText().toString();
                 Intent intent = new Intent(getActivity(), InterviewDetailPage.class);
                 intent.putExtra("id", cid);
                 intent.putExtra("company", company);
+                intent.putExtra("interviewId", interviewId);
                 startActivity(intent);
             }
         });
@@ -125,6 +128,7 @@ public class InterviewChannelFragment extends Fragment{
                         infoMap.put("position", info.getString("position"));
                         infoMap.put("salary", info.getString("salary"));
                         infoMap.put("id", info.getString("id"));
+                        infoMap.put("interviewId", info.getString("interviewId"));
                         dataList.add(infoMap);
                     }
                 }
@@ -137,8 +141,8 @@ public class InterviewChannelFragment extends Fragment{
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            interviewAdapter = new SimpleAdapter(getActivity(), dataList, R.layout.interview_item_seeker, new String[]{"position", "company", "city", "salary", "id"},
-                    new int[]{R.id.interview_item_position, R.id.interview_item_company, R.id.interview_item_city, R.id.interview_item_salary, R.id.id_no_positionid});
+            interviewAdapter = new SimpleAdapter(getActivity(), dataList, R.layout.interview_item_seeker, new String[]{"position", "company", "city", "salary", "id", "interviewId"},
+                    new int[]{R.id.interview_item_position, R.id.interview_item_company, R.id.interview_item_city, R.id.interview_item_salary, R.id.id_no_positionid, R.id.id_no_interviewid});
             interviewLv.setAdapter(interviewAdapter);
 
         }

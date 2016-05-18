@@ -1,10 +1,8 @@
 package com.example.godkiller.rencai.page;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -15,9 +13,7 @@ import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
-import com.example.godkiller.rencai.db.DatabaseHelper;
 import com.example.godkiller.rencai.db.JSONParser;
-import com.example.godkiller.rencai.db.UserService;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

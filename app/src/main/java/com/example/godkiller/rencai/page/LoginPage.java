@@ -1,12 +1,10 @@
 package com.example.godkiller.rencai.page;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +19,6 @@ import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.ActivityCollector;
 import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.db.JSONParser;
-import com.example.godkiller.rencai.db.UserService;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -142,6 +139,8 @@ public class LoginPage extends BaseActivity {
                         intent = new Intent(getApplicationContext(), SeekerMainPage.class);
                     } else if (identity.equals("hr")) {
                         intent = new Intent(getApplicationContext(),HRMainPage.class);
+                    } else if (identity.equals("admin")) {
+                        intent = new Intent(getApplicationContext(),AdminPage.class);
                     }
                     startActivity(intent);
                     SharedPreferences preferences = getSharedPreferences("userinfo", MODE_PRIVATE);

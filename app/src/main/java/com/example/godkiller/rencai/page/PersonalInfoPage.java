@@ -4,13 +4,9 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -22,10 +18,7 @@ import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.BaseActivity;
-import com.example.godkiller.rencai.db.DatabaseHelper;
 import com.example.godkiller.rencai.db.JSONParser;
-import com.example.godkiller.rencai.db.PersonalInfo;
-import com.example.godkiller.rencai.db.PersonalInfoService;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

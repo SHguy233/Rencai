@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <RelativeLayout
+        android:id="@+id/title_relative_layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#23B7F5">
+        <Button
+            android:id="@+id/back_button_interview_info_detail"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/back" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/my_interview_pic" />
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:layout_below="@+id/title_relative_layout_info"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/interview_hrname"
+        android:id="@+id/hrname_pic_fra"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_below="@+id/title_relative_layout_info"
+        android:layout_toRightOf="@+id/hrname_pic_fra"
+        android:layout_marginTop="10dp"
+        android:textSize="26dp"
+        android:id="@+id/interview_item_hrname"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@+id/interview_item_hrname"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/interview_date"
+        android:id="@+id/date_pic_fra"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_below="@+id/interview_item_hrname"
+        android:layout_toRightOf="@+id/date_pic_fra"
+        android:layout_marginTop="10dp"
+        android:textSize="26dp"
+        android:id="@+id/interview_item_date"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@+id/interview_item_date"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/interview_place"
+        android:id="@+id/place_pic_fra"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_below="@+id/interview_item_date"
+        android:layout_toRightOf="@+id/place_pic_fra"
+        android:layout_marginTop="10dp"
+        android:textSize="26dp"
+        android:id="@+id/interview_item_address"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@+id/interview_item_address"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/interview_contact"
+        android:id="@+id/contact_pic_fra"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_below="@+id/interview_item_address"
+        android:layout_toRightOf="@+id/contact_pic_fra"
+        android:layout_marginTop="10dp"
+        android:textSize="26dp"
+        android:id="@+id/interview_item_phone"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@+id/interview_item_phone"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/desc_img"
+        android:id="@+id/remark_pic_fra"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_below="@+id/interview_item_phone"
+        android:layout_toRightOf="@+id/remark_pic_fra"
+        android:layout_marginTop="10dp"
+        android:textSize="26dp"
+        android:id="@+id/interview_item_remark"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

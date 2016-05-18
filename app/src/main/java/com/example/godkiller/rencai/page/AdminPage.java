@@ -17,10 +17,9 @@ import android.widget.RadioGroup;
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.base.Channel;
 import com.example.godkiller.rencai.base.InterviewPageFragmentAdapter;
-import com.example.godkiller.rencai.db.ChannelDb2;
-import com.example.godkiller.rencai.fragment.HRInterviewChannelFragment;
-import com.example.godkiller.rencai.fragment.HROfferChannelFragment;
-import com.example.godkiller.rencai.fragment.HRResumeChannelFragment;
+import com.example.godkiller.rencai.db.ChannelDb3;
+import com.example.godkiller.rencai.fragment.AdminAfterChannelFragment;
+import com.example.godkiller.rencai.fragment.AdminBeforeChannelFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,30 +27,22 @@ import java.util.List;
 /**
  * Created by GodKiller on 2016/5/7.
  */
-public class ResumeInterViewOfferPage  extends FragmentActivity implements OnPageChangeListener{
+public class AdminPage extends FragmentActivity implements OnPageChangeListener{
     private ViewPager viewPager;
     private RadioGroup rgChannel=null;
     private HorizontalScrollView hvChannel;
     private InterviewPageFragmentAdapter adapter=null;
     private List<Fragment> fragmentList=new ArrayList<Fragment>();
-    private Button backBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.intertview_resume_page);
-        backBtn = (Button) findViewById(R.id.back_button_mrr);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setContentView(R.layout.company_check_page);
         initView();
     }
     private void initView(){
-        rgChannel=(RadioGroup)super.findViewById(R.id.rgChannel2);
-        viewPager=(ViewPager)super.findViewById(R.id.vpNewsList2);
-        hvChannel=(HorizontalScrollView)super.findViewById(R.id.hvChannel2);
+        rgChannel=(RadioGroup)super.findViewById(R.id.rgChannel3);
+        viewPager=(ViewPager)super.findViewById(R.id.vpNewsList3);
+        hvChannel=(HorizontalScrollView)super.findViewById(R.id.hvChannel3);
         rgChannel.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
                     @Override
@@ -66,27 +57,25 @@ public class ResumeInterViewOfferPage  extends FragmentActivity implements OnPag
         rgChannel.check(0);
     }
     private void initTab(){
-        List<Channel> channelList= ChannelDb2.getSelectedChannel();
+        List<Channel> channelList= ChannelDb3.getSelectedChannel();
         for(int i=0;i<channelList.size();i++){
             RadioButton rb=(RadioButton) LayoutInflater.from(this).
                     inflate(R.layout.tab_rb, null);
             rb.setId(i);
             rb.setText(channelList.get(i).getName());
             RadioGroup.LayoutParams params=new
-                    RadioGroup.LayoutParams(400,
+                    RadioGroup.LayoutParams(600,
                     RadioGroup.LayoutParams.WRAP_CONTENT);
             rgChannel.addView(rb,params);
         }
 
     }
     private void initViewPager(){
-        HRInterviewChannelFragment interviewFragment = new HRInterviewChannelFragment();
-        HRResumeChannelFragment resumeFragment = new HRResumeChannelFragment();
-        HROfferChannelFragment offerFragment = new HROfferChannelFragment();
+        AdminAfterChannelFragment fragment2 = new AdminAfterChannelFragment();
+        AdminBeforeChannelFragment fragment1 = new AdminBeforeChannelFragment();
 
-        fragmentList.add(resumeFragment);
-        fragmentList.add(interviewFragment);
-        fragmentList.add(offerFragment);
+        fragmentList.add(fragment1);
+        fragmentList.add(fragment2);
         adapter=new InterviewPageFragmentAdapter(super.getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);
@@ -125,7 +114,7 @@ public class ResumeInterViewOfferPage  extends FragmentActivity implements OnPag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 111) {
+        if (resultCode == 900) {
             Intent intent = getIntent();
             finish();
             startActivity(intent);

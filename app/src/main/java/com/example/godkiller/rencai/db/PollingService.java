@@ -30,7 +30,6 @@ public class PollingService extends Service{
     String username;
     private static  String url_query = "http://10.0.3.2:63342/htdocs/db/query_positions.php";
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_INFO = "info";
     JSONParser jsonParser = new JSONParser();
 
     private Notification mNotification;
@@ -50,7 +49,9 @@ public class PollingService extends Service{
     @Override
     public void onStart(Intent intent, int startId) {
         username = intent.getStringExtra("username");
-        new PollingThread(username).start();
+        if (username != null) {
+            new PollingThread(username).start();
+        }
     }
 
     //初始化通知栏配置

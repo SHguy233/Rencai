@@ -21,14 +21,6 @@
             android:layout_centerInParent="true"
             android:src="@drawable/company_info" />
 
-        <Button
-            android:id="@+id/save_btn_ci"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/save" />
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/company_name_layout"
@@ -251,5 +243,20 @@
                 android:textSize="20sp" />
         </RelativeLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <Button
+            android:id="@+id/commit_check_button"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:text="提交审核"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:background="@drawable/searchbtn"/>
+    </RelativeLayout>
 
 </LinearLayout>

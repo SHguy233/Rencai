@@ -1,22 +1,30 @@
-package com.example.godkiller.rencai.page;
+package com.example.godkiller.rencai.fragment;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.godkiller.rencai.R;
-import com.example.godkiller.rencai.base.ActivityCollector;
-import com.example.godkiller.rencai.base.BaseActivity;
 import com.example.godkiller.rencai.db.JSONParser;
+import com.example.godkiller.rencai.page.CompanyDetailPage;
+import com.example.godkiller.rencai.page.HRResumeViewPage;
+import com.example.godkiller.rencai.page.HRSendInterviewPage;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -28,54 +36,55 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.godkiller.rencai.R.id.workexp_checkbox;
+
 /**
  * Created by GodKiller on 2016/3/6.
  */
-public class AdminMainPage extends BaseActivity {
-
-    private long exitTime = 0;
+public class AdminBeforeChannelFragment extends Fragment {
+    private View view;
     private ListView companyLv;
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
-    private String username;
     private String cid;
     private static  String url_view = "http://10.0.3.2:63342/htdocs/db/company_info_commit_view.php";
     private SimpleAdapter companyAdapter;
     private List<Map<String, Object>> dataList;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.admin_main_page);
-        companyLv = (ListView) findViewById(R.id.admin_company_lv);
-        companyLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                cid = ((TextView)findViewById(R.id.id_no_admin_company)).getText().toString();
-                Intent intent = new Intent(AdminMainPage.this, CompanyDetailPage.class);
-                intent.putExtra("companyid", cid);
-                startActivityForResult(intent, 900);
-            }
-        });
-        new GetAdminCompanyTask().execute();
-
+    public void onAttach(Activity activity) {
+        // TODO Auto-generated method stub
+        super.onAttach(activity);
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-            } else {
-                ActivityCollector.finishAll();
-                System.exit(0);
-            }
-            return false;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if (view == null) {
+            view = inflater.inflate(R.layout.admin_before_fragment, null);
+            companyLv = (ListView) view.findViewById(R.id.admin_company_lv_before);
+            companyLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    cid = ((TextView) view.findViewById(R.id.id_no_admin_company)).getText().toString();
+                    Intent intent = new Intent(getActivity(), CompanyDetailPage.class);
+                    intent.putExtra("companyid", cid);
+                    startActivityForResult(intent, 900);
+                }
+            });
+            new GetAdminCompanyTask().execute();
+
         }
-        return super.onKeyDown(keyCode, event);
+        ViewGroup parent=(ViewGroup)view.getParent();
+        if(parent!=null){
+            parent.removeView(view);
+        }
+        return view;
+    }
+    @Override
+    public void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
     }
 
     class GetAdminCompanyTask extends AsyncTask<String, String, String> {
@@ -83,7 +92,7 @@ public class AdminMainPage extends BaseActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(AdminMainPage.this);
+            dialog = new ProgressDialog(getActivity());
             dialog.setMessage("loading...");
             dialog.setIndeterminate(false);
             dialog.setCancelable(true);
@@ -121,7 +130,7 @@ public class AdminMainPage extends BaseActivity {
         protected void onPostExecute(String s) {
             dialog.dismiss();
             if (s.equals("success")) {
-                companyAdapter = new SimpleAdapter(AdminMainPage.this, dataList, R.layout.admin_company_item, new String[]{"id", "company", "username"},
+                companyAdapter = new SimpleAdapter(getActivity(), dataList, R.layout.admin_company_item, new String[]{"id", "company", "username"},
                         new int[]{R.id.id_no_admin_company, R.id.admin_company_view, R.id.admin_username_view});
                 companyLv.setAdapter(companyAdapter);
             }
@@ -129,13 +138,4 @@ public class AdminMainPage extends BaseActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 900) {
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
-        }
-    }
 }

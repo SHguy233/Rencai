@@ -119,6 +119,7 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
                 searchIntent.putExtra("position", positionCategoryView.getText().toString());
                 searchIntent.putExtra("salary", salaryText.getText().toString());
                 searchIntent.putExtra("city", workingCityView.getText().toString());
+                searchIntent.putExtra("keywords", searchbarText.getText().toString());
                 startActivity(searchIntent);
                 break;
             case R.id.save_button_sp:
