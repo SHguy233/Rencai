@@ -70,6 +70,9 @@
         <activity android:name=".page.InterviewDetailInfoPage"></activity>
         <activity android:name=".page.HRSendInterviewPage"></activity>
         <activity android:name=".page.AdminPage"></activity>
+        <activity android:name=".page.OfferDetailInfoPage"></activity>
+        <activity android:name=".page.OfferDetailPage"></activity>
+        <activity android:name=".page.HRSendOfferPage"></activity>
         <service
             android:name="com.example.godkiller.rencai.db.PollingService"
             android:enabled="true"

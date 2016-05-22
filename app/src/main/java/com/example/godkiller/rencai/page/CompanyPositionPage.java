@@ -54,7 +54,6 @@ public class CompanyPositionPage extends BaseActivity implements View.OnClickLis
         username = sharedPreferences.getString("username", "");
 
         company = getIntent().getStringExtra("company");
-        Toast.makeText(CompanyPositionPage.this, company, Toast.LENGTH_SHORT).show();
 
 
         backBtn = (Button) findViewById(R.id.back_button_cp);

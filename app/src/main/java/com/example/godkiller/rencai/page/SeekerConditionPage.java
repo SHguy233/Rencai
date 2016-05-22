@@ -45,6 +45,7 @@ public class SeekerConditionPage extends BaseActivity implements CompoundButton.
     private TextView remoteView;
     private TextView workView;
     private Button sendBtn;
+    private Button backBtn;
     private int age;
     private int gender;
     private int computer;
@@ -83,6 +84,13 @@ public class SeekerConditionPage extends BaseActivity implements CompoundButton.
         degreeSwitch = (Switch) findViewById(R.id.degree_switch);
         workSwitch = (Switch) findViewById(R.id.workexp_switch);
         sendBtn = (Button) findViewById(R.id.send_button);
+        backBtn = (Button) findViewById(R.id.back_button_demand);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

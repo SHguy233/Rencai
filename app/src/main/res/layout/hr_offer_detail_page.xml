@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <RelativeLayout
+        android:id="@+id/title_relative_layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#23B7F5">
+        <Button
+            android:id="@+id/back_button_hr_offer_detail"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/back" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/offer_detail" />
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:layout_below="@+id/title_relative_layout_info"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/interview_hrname"
+        android:id="@+id/hrname_pic_fra"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <EditText
+        android:hint="联系人"
+        android:layout_below="@+id/title_relative_layout_info"
+        android:layout_toRightOf="@+id/hrname_pic_fra"
+        android:layout_marginTop="10dp"
+        android:id="@+id/offer_item_hrname_hr"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@+id/offer_item_hrname_hr"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/interview_date"
+        android:id="@+id/date_pic_fra"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <EditText
+        android:hint="签约日期及时间"
+        android:layout_below="@+id/offer_item_hrname_hr"
+        android:layout_toRightOf="@+id/date_pic_fra"
+        android:layout_marginTop="10dp"
+        android:id="@+id/offer_item_date_hr"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@+id/offer_item_date_hr"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/interview_place"
+        android:id="@+id/place_pic_fra_hr"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <EditText
+        android:hint="签约地址"
+        android:layout_below="@+id/offer_item_date_hr"
+        android:layout_toRightOf="@+id/place_pic_fra_hr"
+        android:layout_marginTop="10dp"
+        android:id="@+id/offer_item_address_hr"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@+id/offer_item_address_hr"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/interview_contact"
+        android:id="@+id/contact_pic_fra"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <EditText
+        android:hint="联系方式"
+        android:layout_below="@+id/offer_item_address_hr"
+        android:layout_toRightOf="@+id/contact_pic_fra"
+        android:layout_marginTop="10dp"
+        android:id="@+id/offer_item_phone_hr"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@+id/offer_item_phone_hr"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/desc_img"
+        android:id="@+id/remark_pic_fra"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <EditText
+        android:hint="备注"
+        android:layout_below="@+id/offer_item_phone_hr"
+        android:layout_toRightOf="@+id/remark_pic_fra"
+        android:layout_marginTop="10dp"
+        android:id="@+id/offer_item_remark_hr"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_below="@+id/offer_item_remark_hr"
+        android:id="@+id/send_offer_btn"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:text="发  送"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:background="@drawable/searchbtn"/>
+
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

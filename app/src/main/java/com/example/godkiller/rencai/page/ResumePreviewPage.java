@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -74,6 +75,35 @@ public class ResumePreviewPage extends BaseActivity implements View.OnClickListe
         id = intent.getStringExtra("id");
         Toast.makeText(ResumePreviewPage.this, id, Toast.LENGTH_SHORT).show();
 
+        personInfoLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(ResumePreviewPage.this, PersonalInfoPage.class));
+            }
+        });
+        eduLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(ResumePreviewPage.this, EduBgdPage.class));
+            }
+        });
+        workInfoLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(ResumePreviewPage.this, WorkExpPage.class));
+            }
+        });
+        projectLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(ResumePreviewPage.this, ProjectExpPage.class));
+            }
+        });
+
+
+
+
+
 
         backBtn = (Button) findViewById(R.id.back_button_rp);
         nextBtn = (Button) findViewById(R.id.next_btn);
@@ -81,6 +111,8 @@ public class ResumePreviewPage extends BaseActivity implements View.OnClickListe
         nextBtn.setOnClickListener(this);
         new LoadDataTask().execute();
     }
+
+
 
     class LoadDataTask extends AsyncTask<String, String, String> {
         @Override
@@ -236,6 +268,14 @@ public class ResumePreviewPage extends BaseActivity implements View.OnClickListe
         }
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != 0) {
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        }
+    }
 
 }

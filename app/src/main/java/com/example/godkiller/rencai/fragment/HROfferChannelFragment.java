@@ -62,7 +62,6 @@ public class HROfferChannelFragment extends Fragment{
         if (view == null) {
             view = inflater.inflate(R.layout.hr_offer_fragment, null);
             cid = getActivity().getIntent().getStringExtra("id");
-            Toast.makeText(getActivity(), cid, Toast.LENGTH_SHORT).show();
 
             offerLv = (ListView) view.findViewById(R.id.hr_offer_lv);
             offerLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

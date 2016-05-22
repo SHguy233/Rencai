@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HRSendInterviewPage extends BaseActivity implements View.OnClickListener {
+public class HRSendOfferPage extends BaseActivity implements View.OnClickListener {
     private Button backBtn;
     private Button sendBtn;
     private EditText hrnameText;
@@ -40,7 +40,7 @@ public class HRSendInterviewPage extends BaseActivity implements View.OnClickLis
     private String remark;
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
-    private static String url_send = "http://10.0.3.2:63342/htdocs/db/hr_send_interview.php";
+    private static String url_send = "http://10.0.3.2:63342/htdocs/db/hr_send_offer.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_INFO = "info";
 
@@ -48,20 +48,20 @@ public class HRSendInterviewPage extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.hr_interview_detail_page);
+        setContentView(R.layout.hr_offer_detail_page);
 
-        hrnameText = (EditText) findViewById(R.id.interview_item_hrname_hr);
-        addressText = (EditText) findViewById(R.id.interview_item_address_hr);
-        phoneText = (EditText) findViewById(R.id.interview_item_phone_hr);
-        remarkText = (EditText) findViewById(R.id.interview_item_remark_hr);
-        dateText = (EditText) findViewById(R.id.interview_item_date_hr);
+        hrnameText = (EditText) findViewById(R.id.offer_item_hrname_hr);
+        addressText = (EditText) findViewById(R.id.offer_item_address_hr);
+        phoneText = (EditText) findViewById(R.id.offer_item_phone_hr);
+        remarkText = (EditText) findViewById(R.id.offer_item_remark_hr);
+        dateText = (EditText) findViewById(R.id.offer_item_date_hr);
 
         SharedPreferences sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
         cid = getIntent().getStringExtra("positionId");
         seekerUsername = getIntent().getStringExtra("seekerUsername");
-        sendBtn = (Button) findViewById(R.id.send_interview_btn);
-        backBtn = (Button) findViewById(R.id.back_button_hr_interview_detail);
+        sendBtn = (Button) findViewById(R.id.send_offer_btn);
+        backBtn = (Button) findViewById(R.id.back_button_hr_offer_detail);
         backBtn.setOnClickListener(this);
         sendBtn.setOnClickListener(this);
     }
@@ -69,26 +69,26 @@ public class HRSendInterviewPage extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_button_hr_interview_detail:
+            case R.id.back_button_hr_offer_detail:
                 finish();
                 break;
-            case R.id.send_interview_btn:
+            case R.id.send_offer_btn:
                 hrname = hrnameText.getText().toString();
                 address = addressText.getText().toString();
                 phone = phoneText.getText().toString();
                 remark = remarkText.getText().toString();
                 date = dateText.getText().toString();
-                new SendInterviewTask().execute();
+                new SendofferTask().execute();
                 break;
 
         }
     }
 
-    class SendInterviewTask extends AsyncTask<String, String, String> {
+    class SendofferTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(HRSendInterviewPage.this);
+            dialog = new ProgressDialog(HRSendOfferPage.this);
             dialog.setMessage("sending...");
             dialog.setIndeterminate(false);
             dialog.setCancelable(true);
@@ -122,7 +122,7 @@ public class HRSendInterviewPage extends BaseActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            Toast.makeText(HRSendInterviewPage.this, "发送成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(HRSendOfferPage.this, "发送成功", Toast.LENGTH_SHORT).show();
         }
     }
 

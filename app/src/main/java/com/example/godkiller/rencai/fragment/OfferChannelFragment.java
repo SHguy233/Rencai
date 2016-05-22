@@ -3,6 +3,7 @@ package com.example.godkiller.rencai.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,11 +11,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.db.JSONParser;
+import com.example.godkiller.rencai.page.InterviewDetailPage;
+import com.example.godkiller.rencai.page.OfferDetailPage;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -35,6 +40,9 @@ public class OfferChannelFragment extends Fragment {
     private List<Map<String, Object>> dataList;
     private ProgressDialog dialog;
     private String username;
+    private String cid;
+    private String company;
+    private String offerId;
     JSONParser jsonParser = new JSONParser();
     private static String url_view = "http://10.0.3.2:63342/htdocs/db/seeker_offer_view.php";
     private static final String TAG_SUCCESS = "success";
@@ -54,6 +62,19 @@ public class OfferChannelFragment extends Fragment {
         username = sharedPreferences.getString("username", "");
 
         offerLv = (ListView) view.findViewById(R.id.offer_lv);
+        offerLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                cid = ((TextView) view.findViewById(R.id.id_no_positionid2)).getText().toString();
+                company = ((TextView) view.findViewById(R.id.offer_item_company)).getText().toString();
+                offerId = ((TextView)view.findViewById(R.id.id_no_offerid)).getText().toString();
+                Intent intent = new Intent(getActivity(), OfferDetailPage.class);
+                intent.putExtra("id", cid);
+                intent.putExtra("company", company);
+                intent.putExtra("offerId", offerId);
+                startActivity(intent);
+            }
+        });
         if (dataList == null) {
             new LoadOfferTask().execute();
         }
@@ -100,6 +121,7 @@ public class OfferChannelFragment extends Fragment {
                         infoMap.put("position", info.getString("position"));
                         infoMap.put("salary", info.getString("salary"));
                         infoMap.put("id", info.getString("id"));
+                        infoMap.put("offerId", info.getString("offerId"));
                         dataList.add(infoMap);
                     }
                 }
@@ -112,8 +134,8 @@ public class OfferChannelFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            offerAdapter = new SimpleAdapter(getActivity(), dataList, R.layout.interview_item_seeker, new String[]{"position", "company", "city", "salary", "id"},
-                    new int[]{R.id.interview_item_position, R.id.interview_item_company, R.id.interview_item_city, R.id.interview_item_salary, R.id.id_no_positionid});
+            offerAdapter = new SimpleAdapter(getActivity(), dataList, R.layout.offer_item_seeker, new String[]{"position", "company", "city", "salary", "id", "offerId"},
+                    new int[]{R.id.offer_item_position, R.id.offer_item_company, R.id.offer_item_city, R.id.offer_item_salary, R.id.id_no_positionid2, R.id.id_no_offerid});
             offerLv.setAdapter(offerAdapter);
 
         }

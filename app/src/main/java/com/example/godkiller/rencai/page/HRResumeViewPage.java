@@ -73,7 +73,6 @@ public class HRResumeViewPage extends BaseActivity implements View.OnClickListen
         username = sharedPreferences.getString("username", "");
         seekerUsername = getIntent().getStringExtra("seekerUsername");
         positionId = getIntent().getStringExtra("positionId");
-        Toast.makeText(HRResumeViewPage.this, seekerUsername, Toast.LENGTH_SHORT).show();
 
 
         backBtn = (Button) findViewById(R.id.back_button_rv);

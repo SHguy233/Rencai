@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.example.godkiller.rencai.R;
 import com.example.godkiller.rencai.db.JSONParser;
 import com.example.godkiller.rencai.page.HRResumeViewPage;
+import com.example.godkiller.rencai.page.HRSendInterviewPage;
+import com.example.godkiller.rencai.page.HRSendOfferPage;
 import com.example.godkiller.rencai.page.InterviewDetailPage;
 
 import org.apache.http.NameValuePair;
@@ -64,7 +66,6 @@ public class HRInterviewChannelFragment extends Fragment{
         if (view == null) {
             view = inflater.inflate(R.layout.hr_interview_fragment, null);
             cid = getActivity().getIntent().getStringExtra("id");
-            Toast.makeText(getActivity(), cid, Toast.LENGTH_SHORT).show();
 
             interviewLv = (ListView) view.findViewById(R.id.hr_interview_lv);
             interviewLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -107,7 +108,10 @@ public class HRInterviewChannelFragment extends Fragment{
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                new SendOfferTask().execute();
+                Intent intent = new Intent(getActivity(), HRSendOfferPage.class);
+                intent.putExtra("seekerUsername", seekerUsername);
+                intent.putExtra("positionId", cid);
+                startActivityForResult(intent, 111);
             }
         });
 
@@ -179,41 +183,6 @@ public class HRInterviewChannelFragment extends Fragment{
         }
     }
 
-    class SendOfferTask extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(getActivity());
-            dialog.setMessage("sending...");
-            dialog.setIndeterminate(false);
-            dialog.setCancelable(true);
-            dialog.show();
-        }
 
-        @Override
-        protected String doInBackground(String... params) {
-            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-            pairs.add(new BasicNameValuePair("positionId", cid));
-            pairs.add(new BasicNameValuePair("seekerUsername", seekerUsername));
-            JSONObject jsonObject = jsonParser.makeHttpRequest(url_offer, "POST", pairs);
-            Log.d("interviewlist", jsonObject.toString());
-            dataList = new ArrayList<Map<String, Object>>();
 
-            try {
-                int success = jsonObject.getInt(TAG_SUCCESS);
-                if (success == 1) {
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "success";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            dialog.dismiss();
-            Toast.makeText(getActivity(), "发送成功！", Toast.LENGTH_SHORT).show();
-
-        }
-    }
 }

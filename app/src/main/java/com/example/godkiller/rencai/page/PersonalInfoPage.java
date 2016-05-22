@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -296,6 +297,8 @@ public class PersonalInfoPage extends BaseActivity implements View.OnClickListen
             try{
                 int success = jsonObject.getInt(TAG_SUCCESS);
                 if (success == 1) {
+                    Intent intent =getIntent();
+                    setResult(110, intent);
                     finish();
                 }
             }catch (Exception e){

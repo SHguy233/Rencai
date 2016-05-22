@@ -285,15 +285,16 @@ public class HRResumeChannelFragment extends Fragment implements CompoundButton.
                 int success = jsonObject.getInt(TAG_SUCCESS);
                 if (success == 1) {
                     JSONArray resAry = jsonObject.getJSONArray(TAG_INFO);
-                    JSONObject info = resAry.getJSONObject(0);
-                    Log.d("resume data", info.toString());
-                    Map<String, Object> infoMap = new HashMap<String, Object>();
-                    infoMap.put("name", info.getString("name"));
-                    infoMap.put("username", info.getString("username"));
-                    infoMap.put("gender", info.getString("gender"));
-                    infoMap.put("workexp", info.getString("workexp"));
-                    infoMap.put("birth", info.getString("birth"));
-                    dataList.add(infoMap);
+                    for (int i=0; i<resAry.length(); i++) {
+                        JSONObject info = resAry.getJSONObject(i);
+                        Map<String, Object> infoMap = new HashMap<String, Object>();
+                        infoMap.put("name", info.getString("name"));
+                        infoMap.put("username", info.getString("username"));
+                        infoMap.put("gender", info.getString("gender"));
+                        infoMap.put("workexp", info.getString("workexp"));
+                        infoMap.put("birth", info.getString("birth"));
+                        dataList.add(infoMap);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

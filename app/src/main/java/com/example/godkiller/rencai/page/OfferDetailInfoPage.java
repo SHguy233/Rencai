@@ -3,7 +3,6 @@ package com.example.godkiller.rencai.page;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -26,7 +25,7 @@ import java.util.List;
 /**
  * Created by GodKiller on 2016/5/6.
  */
-public class InterviewDetailInfoPage extends BaseActivity {
+public class OfferDetailInfoPage extends BaseActivity {
     private TextView hrnameView;
     private TextView dateView;
     private TextView addressView;
@@ -36,7 +35,7 @@ public class InterviewDetailInfoPage extends BaseActivity {
 
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
-    private static  String url_interviewDetails = "http://10.0.3.2:63342/htdocs/db/seeker_interview_details.php";
+    private static  String url_offerDetails = "http://10.0.3.2:63342/htdocs/db/seeker_offer_details.php";
 
 
     private static final String TAG_SUCCESS = "success";
@@ -48,16 +47,16 @@ public class InterviewDetailInfoPage extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.interview_detail_info_page);
+        setContentView(R.layout.offer_detail_info_page);
 
-        id = getIntent().getStringExtra("interviewId");
-        hrnameView = (TextView) findViewById(R.id.interview_item_hrname);
-        dateView = (TextView) findViewById(R.id.interview_item_date);
-        addressView = (TextView) findViewById(R.id.interview_item_address);
-        phoneView = (TextView) findViewById(R.id.interview_item_phone);
-        remarkView = (TextView) findViewById(R.id.interview_item_remark);
+        id = getIntent().getStringExtra("offerId");
+        hrnameView = (TextView) findViewById(R.id.offer_item_hrname);
+        dateView = (TextView) findViewById(R.id.offer_item_date);
+        addressView = (TextView) findViewById(R.id.offer_item_address);
+        phoneView = (TextView) findViewById(R.id.offer_item_phone);
+        remarkView = (TextView) findViewById(R.id.offer_item_remark);
 
-        backBtn = (Button) findViewById(R.id.back_button_interview_info_detail);
+        backBtn = (Button) findViewById(R.id.back_button_offer_info_detail);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +74,7 @@ public class InterviewDetailInfoPage extends BaseActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(InterviewDetailInfoPage.this);
+            dialog = new ProgressDialog(OfferDetailInfoPage.this);
             dialog.setMessage("loading...");
             dialog.setIndeterminate(false);
             dialog.setCancelable(true);
@@ -87,7 +86,7 @@ public class InterviewDetailInfoPage extends BaseActivity {
             try {
                 List<NameValuePair> pairs = new ArrayList<NameValuePair>();
                 pairs.add(new BasicNameValuePair("id", id));
-                JSONObject jsonObject = jsonParser.makeHttpRequest(url_interviewDetails, "GET", pairs);
+                JSONObject jsonObject = jsonParser.makeHttpRequest(url_offerDetails, "GET", pairs);
                 JSONArray interviewAry = jsonObject.getJSONArray("info");
                 interviewObject = interviewAry.getJSONObject(0);
                     runOnUiThread(new Runnable() {
