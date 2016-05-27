@@ -30,6 +30,7 @@ import java.util.List;
 public class RegisterPage extends BaseActivity implements View.OnClickListener{
     private EditText usernameText;
     private EditText passwordText;
+    private EditText passwordConfirmText;
     private RadioGroup identityGroup;
     private Button saveBtn;
     private RadioButton hrBtn;
@@ -37,6 +38,7 @@ public class RegisterPage extends BaseActivity implements View.OnClickListener{
     private String identity;
     private String username;
     private String password;
+    private String passwordConfirm;
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
     private static  String url_insert = "http://10.0.3.2:63342/htdocs/db/register.php";
@@ -51,6 +53,7 @@ public class RegisterPage extends BaseActivity implements View.OnClickListener{
 
         usernameText = (EditText) findViewById(R.id.account_reg);
         passwordText = (EditText) findViewById(R.id.password_reg);
+        passwordConfirmText = (EditText) findViewById(R.id.password_reg_confirm);
         saveBtn = (Button) findViewById(R.id.save_button_reg);
         hrBtn = (RadioButton) findViewById(R.id.hr_reg);
         seekerBtn = (RadioButton) findViewById(R.id.jobhunter_reg);
@@ -85,11 +88,15 @@ public class RegisterPage extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         username = usernameText.getText().toString();
         password = passwordText.getText().toString();
+        passwordConfirm = passwordConfirmText.getText().toString();
+
         if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(RegisterPage.this, "用户名或密码不能为空！", Toast.LENGTH_SHORT).show();
+        } else if (!password.equals(passwordConfirm)){
+            Toast.makeText(RegisterPage.this, "两次密码不一致！", Toast.LENGTH_SHORT).show();
+        } else {
+            new RegisterTask().execute();
         }
-        new RegisterTask().execute();
-
     }
 
     class RegisterTask extends AsyncTask<String, String, String> {
@@ -98,7 +105,7 @@ public class RegisterPage extends BaseActivity implements View.OnClickListener{
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(RegisterPage.this);
-            dialog.setMessage("logining...");
+            dialog.setMessage("registering...");
             dialog.setIndeterminate(false);
             dialog.setCancelable(true);
             dialog.show();

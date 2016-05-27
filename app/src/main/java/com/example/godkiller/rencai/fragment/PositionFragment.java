@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -23,8 +24,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.godkiller.rencai.R;
+import com.example.godkiller.rencai.base.BadgeView;
 import com.example.godkiller.rencai.db.DatabaseHelper;
 import com.example.godkiller.rencai.db.JSONParser;
+import com.example.godkiller.rencai.page.MessagePage;
 import com.example.godkiller.rencai.page.PositionDetailPage;
 import com.example.godkiller.rencai.page.SearchPage;
 import com.example.godkiller.rencai.page.WorkExpEditPage;
@@ -49,7 +52,7 @@ public class PositionFragment extends Fragment{
     private RadioButton numBtn;
     private RadioButton assessmentBtn;
     private RadioButton defaultBtn;
-    private Button msgBtn;
+    private ImageView msgIv;
     private ImageView searchbarView;
     private ListView positionLv;
     private SimpleAdapter positionAdapter;
@@ -57,11 +60,13 @@ public class PositionFragment extends Fragment{
     private String cid;
     private String company;
     private String order;
+    private String username;
     private ProgressDialog dialog;
     JSONParser jsonParser = new JSONParser();
     private static String url_view = "http://10.0.3.2:63342/htdocs/db/seeker_position_view.php";
     private static String url_order = "http://10.0.3.2:63342/htdocs/db/seeker_position_order.php";
     private static String url_add = "http://10.0.3.2:63342/htdocs/db/seeker_position_attention.php";
+    private static String url_msg = "http://10.0.3.2:63342/htdocs/db/follow_position_view.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_INFO = "info";
 
@@ -71,6 +76,10 @@ public class PositionFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.position_fragment, null);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
+
         final Intent searchIntent = new Intent(getActivity(), SearchPage.class);
         orderGroup = (RadioGroup) view.findViewById(R.id.order_group);
         attentionBtn = (RadioButton) view.findViewById(R.id.attention_btn);
@@ -78,6 +87,14 @@ public class PositionFragment extends Fragment{
         numBtn = (RadioButton) view.findViewById(R.id.demand_num_btn);
         defaultBtn = (RadioButton) view.findViewById(R.id.default_btn);
         assessmentBtn = (RadioButton) view.findViewById(R.id.assessment_btn);
+        msgIv = (ImageView) view.findViewById(R.id.msg_iv);
+        msgIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MessagePage.class));
+            }
+        });
+
         final int attId = attentionBtn.getId();
         final int popId = popularityBtn.getId();
         final int numId = numBtn.getId();
@@ -106,7 +123,6 @@ public class PositionFragment extends Fragment{
         });
 
 
-        msgBtn = (Button) view.findViewById(R.id.msg_btn);
         searchbarView = (ImageView) view.findViewById(R.id.searchbar_view);
         searchbarView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +144,7 @@ public class PositionFragment extends Fragment{
             }
         });
         new LoadSeekerPosition().execute();
+        new LoadMessage().execute();
         return view;
 
     }
@@ -251,7 +268,7 @@ public class PositionFragment extends Fragment{
         protected String doInBackground(String... params) {
             List<NameValuePair> pairs = new ArrayList<NameValuePair>();
             pairs.add(new BasicNameValuePair("id", cid));
-            Log.d("id", cid);
+            pairs.add(new BasicNameValuePair("username", username));
             JSONObject jsonObject = jsonParser.makeHttpRequest(url_add, "POST", pairs);
             Log.d("ADD ATTENTION", jsonObject.toString());
             try {
@@ -267,6 +284,48 @@ public class PositionFragment extends Fragment{
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
+        }
+    }
+
+    class LoadMessage extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+            pairs.add(new BasicNameValuePair("username", username));
+            JSONObject jsonObject = jsonParser.makeHttpRequest(url_msg, "GET", pairs);
+            dataList = new ArrayList<Map<String, Object>>();
+
+            try {
+                final int success = jsonObject.getInt(TAG_SUCCESS);
+                final int message = jsonObject.getInt("message");
+                if (success == 1) {
+                    if (message > 0) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                BadgeView badgeView = new BadgeView(getActivity(), msgIv);
+                                badgeView.setText(message + "");
+                                badgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+                                badgeView.setBadgeMargin(0, 5);
+                                badgeView.show();
+                            }
+                        });
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "success";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
         }
     }
 }

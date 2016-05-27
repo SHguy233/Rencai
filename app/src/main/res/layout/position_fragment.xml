@@ -23,14 +23,14 @@
             android:layout_centerInParent="true"
             android:src="@drawable/searchbar" />
 
-        <Button
-            android:id="@+id/msg_btn"
-            android:layout_width="30dp"
-            android:layout_height="25dp"
+        <ImageView
+            android:id="@+id/msg_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:background="@drawable/message" />
+            android:src="@drawable/message" />
 
     </RelativeLayout>
     <RadioGroup

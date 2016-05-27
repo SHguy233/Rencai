@@ -4,7 +4,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:id="@+id/username_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,6 +40,28 @@
         <EditText
             android:id="@+id/password_reg"
             android:hint="请输入密码"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:id="@+id/password_layout_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/password2_confirm"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/password"/>
+        <EditText
+            android:id="@+id/password_reg_confirm"
+            android:hint="确认密码"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"

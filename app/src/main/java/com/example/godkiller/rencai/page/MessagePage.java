@@ -94,6 +94,7 @@ public class MessagePage extends BaseActivity{
         protected String doInBackground(String... params) {
             List<NameValuePair> pairs = new ArrayList<NameValuePair>();
             pairs.add(new BasicNameValuePair("id", cid));
+            pairs.add(new BasicNameValuePair("username", username));
             Log.d("id", cid);
             JSONObject jsonObject = jsonParser.makeHttpRequest(url_add, "POST", pairs);
             Log.d("ADD ATTENTION", jsonObject.toString());
