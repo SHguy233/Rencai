@@ -1,6 +1,8 @@
 package com.example.godkiller.rencai.page;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -34,7 +36,7 @@ import java.util.List;
 /**
  * Created by GodKiller on 2016/3/7.
  */
-public class SearchPage extends BaseActivity implements View.OnClickListener{
+public class SearchPage extends BaseActivity implements View.OnClickListener,View.OnLongClickListener{
     private EditText searchbarText;
     private ImageView cancelView;
     private LinearLayout tradeCategoryLayout;
@@ -90,6 +92,10 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
         tradeCategoryLayout.setOnClickListener(this);
         positionCategoryLayout.setOnClickListener(this);
         workingCityLayout.setOnClickListener(this);
+        tradeCategoryLayout.setOnLongClickListener(this);
+        positionCategoryLayout.setOnLongClickListener(this);
+        workingCityLayout.setOnLongClickListener(this);
+
 
         new GetIntentionTask().execute();
 
@@ -169,6 +175,53 @@ public class SearchPage extends BaseActivity implements View.OnClickListener{
 
         }
     }
+
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            case R.id.trade_category_layout:
+                AlertDialog.Builder tradeBuilder = new AlertDialog.Builder(SearchPage.this);
+                tradeBuilder.setTitle("行业类别");
+                final String[] trade = {"不限"};
+                tradeBuilder.setSingleChoiceItems(trade, 1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateTrade("不限");
+                        dialog.dismiss();
+                    }
+                });
+                tradeBuilder.show();
+                break;
+            case R.id.position_category_layout:
+                AlertDialog.Builder positionBuilder = new AlertDialog.Builder(SearchPage.this);
+                positionBuilder.setTitle("职业类别");
+                final String[] position = {"不限"};
+                positionBuilder.setSingleChoiceItems(position, 1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updatePosition("不限");
+                        dialog.dismiss();
+                    }
+                });
+                positionBuilder.show();
+                break;
+            case R.id.working_city_layout:
+                AlertDialog.Builder cityBuilder = new AlertDialog.Builder(SearchPage.this);
+                cityBuilder.setTitle("工作地点");
+                final String[] city = {"不限"};
+                cityBuilder.setSingleChoiceItems(city, 1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateCity("不限");
+                        dialog.dismiss();
+                    }
+                });
+                cityBuilder.show();
+                break;
+        }
+        return false;
+    }
+
     class GetIntentionTask extends AsyncTask<String, String, String> {
 
         @Override
